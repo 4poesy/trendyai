@@ -1,0 +1,13 @@
+User-agent: *
+Allow: /
+
+# Sitemap
+Sitemap: https://trendyai.com/sitemap.xml
+
+# Disallow admin areas (if needed)
+Disallow: /admin/
+Disallow: /api/
+Disallow: /private/
+
+# Crawl delay
+Crawl-delay: 1 

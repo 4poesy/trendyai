@@ -1,0 +1,825 @@
+/*
+MASTER CURSOR.COM PROMPT FOR: TrendyAI.com
+ 
+PURPOSE: Develop a private, internal-use AI Productivity
+Platform named TrendyAI (https://trendyai.com) for Trendtactics Digital
+(https://trendtacticsdigital.com). This platform will serve as the central
+creative engine and operational core, automating digital marketing services for
+clients globally.
+ 
+OWNER: Akinola Olujobi, CEO of Trendtactics Digital.
+ 
+RELATIONSHIP TO TRENDTACTICSDIGITAL.COM:
+- trendtacticsdigital.com is the client-facing marketing
+site where clients discover services and submit requests (via forms, direct
+emails, etc.).
+- trendyai.com is the internal, AI-powered "engine
+room" that receives these requests, processes them using specialized AI
+agents, and manages the execution and delivery of services.
+- The 'TrendyAI Core' agent acts as the intelligent
+link/orchestrator between the two domains, managing all incoming and outgoing
+data, and dispatching tasks to specialized agents.
+ 
+CORE REQUIREMENTS:
+1.  **25 specialized
+AI agents** operating **24/7** to automate digital marketing services.
+2.  Handle client
+requests originating from:
+    * Website
+purchases/form submissions (from trendtacticsdigital.com).
+    * Direct client
+requests (manual admin input, email inquiries, social media DMs, word-of-mouth
+referrals).
+    *
+In-person/traditional marketing interactions.
+3.  **Automatically
+process client data** including URLs, social media handles, and keywords.
+Implement intelligent **natural language parsing** for manual client briefings.
+4.  Implement
+**service-specific intelligent task routing** and robust workflow
+orchestration, including **human-in-the-loop approval gates**.
+5.  Provide a
+**central Puter.js-based Admin Dashboard** for monitoring, management, human
+oversight, and direct client onboarding/briefing.
+6. **Cost-Effectiveness:** Achieve a "totally free" operational
+model for Trendtactics Digital as an agency, leveraging Puter.js's "User
+Pays" model for AI compute (OpenAI, Claude, OpenRouter). Clients will
+cover actual ad spend on external platforms.
+ 
+*/
+ 
+/* ------------------------------------------------------ 🔧
+DEVELOPMENT PHILOSOPHY
+------------------------------------------------------ */
+ 
+- Write **clean, scalable, human-readable** code adhering to
+ES6+ JavaScript standards.
+- Prioritize **modular and reusable** components and
+functions following the **Single Responsibility Principle**.
+- Build with a **mobile-first, responsive-first** mindset,
+ensuring seamless experience across all devices.
+- Adopt **design-first thinking**, aligning with UI/UX best
+practices for a modern, intuitive interface.
+- Implement **dark mode-friendly** styling by default.
+- Prioritize **performance, accessibility, and speed** in
+all code.
+- Focus on building **robust "Tools" for AI
+agents** (API wrappers, data parsers, external service integrations) that are
+well-documented.
+- **Phased & Iterative Development Strategy:**
+    1.  **Phase 1: Core Infrastructure &
+Foundational Agents (MVP - Minimum Viable Platform)**
+        * **`TrendyAI
+Core` (Master Orchestrator):** Get its core routing, task decomposition, and
+`puter.kv` state management functional.
+        *
+**`ClientFlow` & `ONBOARDING AGENT`:** Essential for client intake.
+        * **Admin
+Dashboard:** Build the core UI for client management, project status, and
+manual input/triggering.
+        * **Basic
+`puter.js` Integrations:** Ensure `puter.kv`, `puter.fs`, `puter.auth`,
+`puter.ai.chat` (basic usage), `puter.on` (for webhooks/email), and
+`puter.email.send` are working.
+        * **Key
+Security Components:** Authentication, audit logging.
+        * **Goal:** Be
+able to onboard a client manually, have `TrendyAI Core` identify a service, and
+trigger one or two simple agents to completion (e.g., `BlogSmith` for a basic
+post, or `PixelWitch` for an image).
+    2.  **Phase 2: Agent Group Development &
+Integration (Iterative Expansion)**
+        * Group Agents
+by Service (e.g., SEO Suite, Content Suite, Paid Ads Suite, Media Suite).
+        * Build and
+rigorously unit-test each agent as a standalone module.
+        * Integrate
+and perform end-to-end testing for specific service pipelines.
+        * Prioritize
+agents for services to be offered first or those with simpler logic.
+    3.  **Phase 3: Advanced Features &
+Refinement**
+        * "Studio
+Mode" (Drag-and-drop Workflows).
+        * Advanced
+feedback loops and agent self-correction.
+        * Performance
+optimizations and advanced data modeling.
+ 
+/* ------------------------------------------------------ 🧱
+TECHNOLOGY STACK
+------------------------------------------------------ */
+ 
+**Frontend (Client-side for TrendyAI.com):**
+-   **HTML5:**
+Semantic markup.
+-   **TailwindCSS:**
+Main utility-first CSS framework for rapid UI development and responsive
+design.
+-   **CSS3:** For
+custom animations, glassmorphic effects, and fallback styles.
+-   **JavaScript
+(ES6+):** Core logic and interactivity.
+-   **React.js:** For
+building modular UI components and managing application state.
+ 
+**Backend (Serverless - primarily via Puter.js):**
+-   **Puter.js:** The
+core serverless backbone.
+    -   **Authentication (`puter.auth`):** Secure
+user sessions for the internal platform.
+    -   **Cloud Storage (`puter.fs`):** For storing
+files (reports, generated media, agent memories, client assets), including
+**versioning of creative outputs**.
+    -   **Cloud Key-Value Store (`puter.kv`):**
+Central `agency_clients` database, agent configurations, project metadata.
+Implement **efficient data modeling** for scalable data access, minimizing
+reads/writes, and avoiding "fat" entries.
+    -   **AI Features (`puter.ai.chat`,
+`puter.ai.txt2img`):** Direct access to AI models (OpenAI, Claude, OpenRouter)
+for all agent AI computations. **Crucially, this operates on the "User
+Pays" model, making AI compute free for the agency.**
+    -   **Event Handling (`puter.on`):** For
+triggering workflows from external events (e.g., Stripe webhooks, incoming
+emails) and internal agent events (`agent:error`, `agent:approval_needed`).
+    -   **Scheduling (`puter.cron`):** For automated
+recurring tasks (e.g., monthly SEO reports, weekly course content delivery).
+    -   **App/Agent Execution
+(`puter.apps.get().run()`):** For orchestrating and running individual agents.
+-   **Node.js
+(Minimal/Optional, for specific serverless functions):** Only if highly
+complex, non-Puter.js-native server-side logic is absolutely required.
+Prioritize Puter.js native capabilities first.
+-   **JSON:** For
+local data handling, agent memory, and configuration.
+-   **REST APIs:** For
+internal inter-agent communication and integration with 3rd party services.
+ 
+**API Integrations (Abstracted as "Tools" for
+Agents):**
+-   **Puter.js AI:**
+(Already covered) Gateway to OpenAI, Claude, OpenRouter models.
+-   **Stripe:** For
+payment success webhooks (`stripe:payment_success`, `stripe:ebook_purchase`).
+-   **Email:**
+`puter.email` for sending, `puter.on('email:incoming')` for receiving client
+inquiries.
+-   **Social Media
+APIs:** Meta Graph API (Facebook/Instagram), TikTok Ads API, X (Twitter) API,
+LinkedIn Marketing API. **Crucially, this will include the YouTube Data API for
+video uploads and management.**
+-   **Google APIs:**
+Google Ads API, Google Analytics API, Google Search Console API.
+-   **Email Marketing
+Platforms:** Mailchimp API, SendGrid API, etc.
+-   **Image/Video
+Generation APIs:** Beyond `puter.ai.txt2img`, if specialized capabilities are
+needed (e.g., specific video rendering services).
+-   **Web
+Scraping/Auditing Tools:** For SEO analysis, website content extraction (e.g.,
+Lighthouse API).
+-   **CMS APIs:**
+WordPress REST API (for content deployment).
+-   **Music/Audio
+APIs:** Mubert, AIVA (for `SonicVibe`).
+-   **Bible API:** For
+`BibleAI`.
+ 
+**Deployment:**
+-   **Frontend:**
+Vercel / Netlify (leveraging their generous free tiers for React app hosting).
+-   **Puter.js
+components:** Handled by Puter.com's serverless infrastructure.
+ 
+/* ------------------------------------------------------ 🧾
+FILE & FOLDER STRUCTURE RULES
+------------------------------------------------------ */
+ 
+-   **`/public`**:
+Static assets (index.html, robots.txt, favicon).
+-   **`/src`**: Main
+application source code.
+    -   **`/src/agents`**: Each AI agent as a
+modular React component or Puter.js script (`AgentName.jsx` or `AgentName.js`).
+        -   Naming convention: `PascalCase` for React
+components (`AdGenie.jsx`), `kebab-case` for simple Puter.js scripts if not a
+React component (`client-flow.js`).
+    -   **`/src/components`**: Reusable UI pieces
+(Navbar, Modals, Buttons, Forms, Dashboard Widgets).
+        -   Naming convention: `PascalCase`
+(`ClientCard.jsx`).
+    -   **`/src/utils`**: Helper functions, API
+handlers, data parsing utilities, AI prompt templates, **external API
+wrappers**.
+        -   Naming convention: `camelCase`
+(`apiHandlers.js`, `promptBuilders.js`).
+    -   **`/src/assets`**: Static assets (images,
+icons, media files).
+    -   **`/src/styles`**: Tailwind configuration,
+custom CSS, animations.
+    -   **`/src/data`**: Local JSON files for
+configurations, shared agent memory schemas (if not in KV).
+    -   **`/src/hooks`**: Custom React hooks for
+shared logic.
+    -   **`/src/contexts`**: React Contexts for
+global state management.
+ 
+**Naming conventions across the project:**
+-   **camelCase:**
+JavaScript variables and functions.
+-   **PascalCase:**
+React components and JSX files.
+-   **kebab-case:**
+Folder and general file names (e.g., `ad-genie-agent.js`).
+-   Avoid `snake_case`
+unless explicitly required by third-party packages.
+ 
+/* ------------------------------------------------------ 🖼️
+DESIGN & UI STANDARDS
+------------------------------------------------------ */
+ 
+-   **Style:**
+Glassmorphic, futuristic, clean, intuitive.
+-   **Color Palette:**
+    * **Primary
+Accent:** Cyan (`#00FFFF`)
+    * **Dark
+Base/Gradient End:** Deep Navy (`#0A1E3F`) - used in gradients from White
+(`#FFFFFF`).
+    * **Secondary
+Accent (Fidelity Bank Green):** A vibrant Mint Green, specifically `#00B342`
+(similar to Fidelity Bank of Nigeria's green). This color should be used for
+highlights, success indicators, or specific interactive elements.
+-   **Fonts:** IBM
+Plex Sans, Inter, Raleway, Sora, Lato (use a consistent primary and secondary
+font).
+-   **Dark Mode:**
+Must support dark mode by default, ensuring all UI elements and text are
+legible.
+-   **Layout:**
+Grid-based layouts, split-screen interfaces for multi-tasking, dashboard-first
+approach for central management.
+-   **Agent
+Interfaces:** Each agent should have a **chat-style interface** for interaction
+and progress display.
+-  **Responsiveness:** Full compatibility across Mobile (360px+), Tablet,
+and Desktop resolutions.
+ 
+/* ------------------------------------------------------ 🔐
+SECURITY ENFORCEMENT (Mandatory) & DATA GOVERNANCE
+------------------------------------------------------ */
+ 
+-  **Authentication:** Use **JWT** (JSON Web Tokens) for secure user
+sessions within `trendyAI.com`. Puter.js `puter.auth` will manage the
+underlying authentication process.
+-   **Sensitive
+Operations:** Implement **API key + JWT** for critical, sensitive agent
+operations (e.g., `ClientFlow`, direct modifications to external ad campaigns).
+Store API keys securely (e.g., Puter.js environment variables, or encrypted in
+`puter.kv`).
+-   **Data
+Encryption:** Apply **AES encryption** to any highly sensitive client data
+stored persistently (e.g., specific URLs, handles, or project details) within
+`puter.kv` or `puter.fs`.
+-   **Vault Locking:**
+Implement a **"Vault Locking"** option on the dashboard to
+temporarily freeze sensitive projects or agent access to prevent unintended
+modifications.
+-   **Rate Limiting:**
+Apply **rate limiting** (middleware or Puter.js-based) to internal API
+endpoints and agent triggers to prevent abuse and manage resource consumption.
+-   **Auto Logout:**
+Implement **auto logout** after inactivity (10–30 minutes) for security.
+-   **Audit Logging:**
+All actions performed by agents or users must be **audit-logged** to
+`puter.files` (e.g., `/logs/audit.log`) for accountability and debugging.
+-   **Hallucination
+Prevention:** Design agent prompts and workflows to **strictly avoid
+hallucinations**; agents must not generate made-up data, false testimonials, or
+unverified claims. Implement verification steps and human review points where
+critical.
+-   **File Upload
+Security:** Block unsafe file uploads and untrusted MIME types to prevent
+malicious content.
+-   **Data
+Governance:** Implement principles of data minimization and purpose limitation.
+Ensure client data is handled in compliance with relevant data privacy
+regulations (e.g., GDPR, CCPA principles) by design.
+ 
+/* ------------------------------------------------------ 🧠
+AI & ORCHESTRATION RULES
+------------------------------------------------------ */
+ 
+-   All AI agents must
+be **modular** components/scripts located in `/src/agents`.
+-   **Memory
+Management:** Shared memory and project state will be managed via a central
+"Project Vault" utilizing `puter.kv` and `puter.fs` for persistence.
+Agents will access and update this shared state.
+-   **Agent
+Chaining/Workflows:** Agents can initiate and chain workflows (e.g.,
+`BookSmith` -> `EbookStylist` -> `MailMage`). This implies clear
+input/output schemas for agents.
+-   **Studio Mode:**
+Design a UI component for "Studio Mode" on the dashboard that allows
+for **drag-and-drop visualization and configuration of agent
+pipelines/workflows**.
+-   **Inter-agent
+Communication:** Allowed via internal API calls (e.g.,
+`puter.apps.get('agent-name').run(data)`), shared `puter.kv` entries, or
+structured outputs passed as prompts.
+-   **LLM Access:**
+All agents will primarily use `puter.ai.chat()` and `puter.ai.txt2img()` to
+access various LLMs from **OpenAI, Claude, and OpenRouter**. Agents should be
+able to specify the desired model (e.g., `gpt-4o`, `claude-opus-4`, specific
+OpenRouter models) based on task complexity and **cost efficiency**.
+-   **Agent
+Performance & Cost Metrics:** `TrendyAI Core` will track and log (in
+`puter.fs` or `puter.kv`): which AI model each agent utilizes for a task, and
+its estimated token consumption (input/output) per task. This data will provide
+insights into AI compute efficiency for internal optimization.
+-   **Multilingual
+Capabilities:** All agents, particularly those involved in content generation,
+client communication, and briefing interpretation, **MUST be able to interpret
+and generate content in multiple languages**, including but not limited to
+French, Portuguese, and Spanish, in addition to English. This ensures full
+multilingual support for global clients.
+-   **Strict Adherence
+to Rules (The Cursor-Rule):** All AI agents and the `TrendyAI Core` must
+**strictly and comprehensively adhere to all rules, guidelines, and
+specifications detailed in this prompt**. No instruction or requirement is to
+be omitted or loosely interpreted. This prompt serves as the foundational
+"constitution" for TrendyAI's operation.
+-   **Autonomous Yet
+Controlled Decision-Making:** Agents are granted the **autonomy to make the
+right decisions** within their defined roles to achieve optimal results, as if
+"feeling the pulse" of the task. However, this autonomy is always
+bounded by:
+    * **Utmost Best
+Performance:** Agents must consistently strive for the highest quality outputs
+and operational efficiency.
+    * **Zero
+Hallucination Tolerance:** Agents must **NEVER hallucinate or generate
+factually incorrect, misleading, or unfounded information**. All generated
+content must be verifiable or clearly marked as creative ideation. This is a
+critical failure point if violated.
+    * **Non-Generic
+Outputs:** Agents must **avoid generic, bland, or uninspired content**. All
+outputs should be creative, specific, tailored to the client's brief, and
+reflect a deep understanding of the context.
+    *
+**Human-in-the-Loop Gates:** For critical decisions or outputs, human approval
+gates (as defined) must always be respected.
+ 
+---
+ 
+## **Key Operational Workflows & Enhancements**
+ 
+### **1. Human-in-the-Loop (HIL) Orchestration &
+Approval Workflows:**
+ 
+* **Explicit Approval Gates:** For critical outputs or
+actions, the workflow *must* pause and require human approval via the Admin
+Dashboard. Examples include:
+    * **Ad Campaign
+Launch/Major Budget Changes:** `AdGenie` drafts, but human must approve before
+live.
+    * **Website
+Design/Code Deployment:** `WebWiz` output requires human review and explicit
+deployment trigger.
+    * **Long-form
+Content/Ebooks:** `ContentCrafter`, `BlogSmith`, `BookSmith` outputs require
+human editing/approval before final delivery.
+    * **Strategic
+Plans:** `StratoBoss` plans require human sign-off.
+* **Dashboard Queue:** The Admin Dashboard will feature an
+"Approval Queue" or "Tasks Awaiting Review" section.
+* **Agent Signaling:** Agents will signal `TrendyAI Core`
+(e.g., `puter.emit('agent:approval_needed', { taskId, clientEmail, agentName,
+outputId })`) when an output requires human review.
+* **Workflow Resumption:** Upon human approval, `TrendyAI
+Core` will resume the paused workflow, instructing the next agent to proceed.
+ 
+### **2. Ad Spend Management & Reporting:**
+ 
+* **Ad Spend Tracking:** `PulseTrack` agent must integrate
+with Google Ads API, Meta Graph API, TikTok Ads API to **fetch and continuously
+monitor client ad spend** against allocated budgets in real-time.
+* **Budget Alerts:** Implement automated alerts
+(email/dashboard notification) when a campaign approaches predefined thresholds
+(e.g., 50%, 80% of budget), and a final alert at 100%.
+* **Automated Pausing/Halting:** Provide options for
+`AdGenie` or `TrendyAI Core` to automatically pause/halt campaigns when budget
+is fully consumed, or flag for immediate human review for budget increases.
+* **Comprehensive Reporting:** `PulseTrack` will generate
+client-friendly reports detailing ad spend, performance metrics, and ROI,
+accessible via the Admin Dashboard for agency staff to share.
+ 
+### **3. Intelligent Client Onboarding & Briefing (for
+Traditional/Manual Clients):**
+ 
+* **Enhanced "Add Direct Client" Form:** The Admin
+Dashboard's manual client addition form will include a **"Client Briefing
+(Natural Language)" text area**.
+* **AI-Powered Briefing Parsing:** The `ClientFlow` agent
+(or a specialized sub-agent it triggers) will leverage `puter.ai.chat` (e.g.,
+with a powerful, accurate model like GPT-4o for complex parsing) to:
+    * Parse the
+natural language brief.
+    * Intelligently
+extract structured data: business name, goals, target audience, brand voice,
+initial keywords, existing assets (URLs, social handles implicitly mentioned),
+specific preferences.
+    * Populate or
+update the client's record in `puter.kv` with this detailed information.
+* **Human Review of Parsed Brief:** The parsed and
+structured client data must be presented on the dashboard for **human review
+and correction** by agency staff before being finalized and initiating further
+automated workflows. This ensures accuracy and avoids AI misinterpretations.
+* **Data Validation & Normalization:** Implement
+automated validation for client-provided data (e.g., URL formats, email
+formats) and normalize data (e.g., convert social media URLs to consistent
+handle formats).
+ 
+### **4. Feedback Loop & Agent Continuous Improvement:**
+ 
+* **Direct Feedback Mechanism:** On the Admin Dashboard, for
+every agent-generated output (e.g., ad copy, blog post, image), provide a clear
+mechanism for agency staff to provide **structured feedback** (e.g., "Too
+generic," "Needs more detail," "Perfect,"
+"Incorrect data").
+* **Feedback Storage:** This feedback will be stored in
+`puter.kv` or `puter.fs` alongside the agent's output and linked to the
+specific task/agent.
+* **Agent Learning:** The `Promptify` agent will regularly
+analyze this human feedback to:
+    * **Refine
+prompts** for specific agents or task types.
+    * Identify
+patterns of successful/unsuccessful outputs.
+    * Potentially
+inform **dynamic model selection** (e.g., if a certain model consistently
+performs better for "poetic tone" content).
+* **Iterative Improvement:** Agents should be designed to
+learn and improve their outputs over time based on this feedback.
+ 
+### **5. Creative Asset Versioning:**
+ 
+* For all creative outputs (website code, ad creatives,
+long-form content, designs, videos):
+    * `puter.fs` will
+be used to store multiple versions of these assets.
+    * Each iteration
+will be saved with a timestamp or version identifier.
+    * The Admin
+Dashboard will allow agency staff to easily browse, preview, and revert to
+previous versions of creative assets.
+ 
+### **6. Proactive Client Communication:**
+ 
+* Beyond initial onboarding, `TrendyAI Core` or specific
+agents will trigger **personalized client updates** via `puter.email.send` (or
+integrated WhatsApp API if implemented). Examples:
+    * "Your ad
+campaign has launched!"
+    * "Your
+monthly SEO report is ready for review."
+    * "We need
+your approval on the new website design."
+* These updates will be configurable and tied to key
+workflow milestones.
+ 
+### **7. Resilience & Fallback Strategies:**
+ 
+* **External API Retries:** Implement robust retry
+mechanisms with exponential backoff for transient failures when interacting
+with external APIs (Google Ads, Meta, TikTok, etc.).
+* **Graceful Degradation/Fallback:** For critical services
+dependent on external APIs, design agents to:
+    * Flag for human
+intervention if an API is persistently down.
+    * Potentially use
+a less preferred (but available) AI model from OpenRouter if a primary one is
+unavailable.
+ 
+---
+ 
+## **ADMIN DASHBOARD (UI/UX & Functionality)**
+**File: `public/admin-dashboard.html` & Corresponding React Component in `/src/components/AdminDashboard.jsx`**
+ 
+The Admin Dashboard will be the central hub for agency staff.
+ 
+**Dashboard Overview:**
+* Real-time metrics on active projects, client statuses, agent performance, pending tasks.
+ 
+**Client Management:**
+* **"Add Direct Client" Form:**
+    * Fields: Client Name, Contact Email, Phone, Company, Service of Interest.
+    * **Client Briefing (Natural Language) Text Area:** A large text area where agency staff can paste conversations or detailed notes from traditional client interactions. This input will be parsed by `ClientFlow`.
+* **View/Edit Client Details:** Data pulled from `puter.kv`.
+* **View Project History:** Access to all generated assets and historical project data from `puter.fs`.
+ 
+**Project Management:**
+* List of all active/completed projects.
+* Detailed project view: current agent active, next steps, progress percentage, associated files/outputs.
+ 
+**Approval Queue / Tasks Awaiting Review:**
+* A dedicated section listing all tasks requiring human approval (e.g., ad campaign drafts, website designs, content pieces).
+* Each item links to a detailed view of the agent's output for review.
+* "Approve" / "Reject" / "Request Revisions" buttons.
+ 
+**Agent Status & Control:**
+* Real-time status of all 25 agents (Active, Idle, Error).
+* Ability to manually trigger specific agents for a client/task.
+* Logs view for individual agents.
+ 
+**Audit Logs:**
+* Searchable and filterable logs of all agent and user actions (stored in `puter.fs`).
+ 
+**Vault Locking:**
+* UI control to activate/deactivate "Vault Locking" for sensitive projects.
+ 
+**Studio Mode (Future Phase):**
+* Drag-and-drop interface for building and visualizing agent workflows.
+ 
+**Feedback Submission:**
+* UI elements adjacent to agent outputs allowing agency staff to provide structured feedback for agent improvement.
+ 
+---
+ 
+## **DETAILED AI AGENTS (25 Total)**
+ 
+Each agent will be a distinct modular unit, responsible for
+specific tasks. Their outputs will be stored in `puter.fs` or `puter.kv` and
+managed by `TrendyAI Core`.
+ 
+1.  **TrendyAI Core
+(Master Orchestrator / Project Manager Agent)**
+    * **Role:** The
+central brain. Receives client requests (from `trendtacticsdigital.com`
+webhooks, emails, admin input). Performs intention recognition and detailed
+task decomposition. Assigns tasks to appropriate specialized agents. Monitors
+overall project progress and state in `puter.kv`. Integrates outputs from
+various agents. Facilitates human review points and collects feedback. Updates
+client status on the dashboard. Handles overall error routing and ensures 24/7
+operation. Acts as the central collector and dispatcher of all human
+interaction data (approvals, feedback, manual inputs, error reports) back into
+the AI system for agent learning and workflow adjustment.
+    * **Triggers:**
+`puter.on('email:incoming')`, `puter.on('webhook:stripe_payment_success')`,
+`puter.on('admin:manual_client_add')`, `puter.on('admin:manual_task_trigger')`,
+internal agent signals.
+    * **Key
+Functions:** `processIncomingRequest()`, `decomposeTask()`, `assignAgent()`,
+`monitorProgress()`, `integrateOutputs()`, `manageProjectState()`,
+`routeToHumanReview()`, `handleAgentFeedback()`, `dispatchNotifications()`.
+2.  **ClientFlow
+(Smart Client Acquisition & Follow-up)**
+    * **Role:**
+Manages the entire client acquisition funnel. From initial inquiry (webhook,
+email, manual input) to lead qualification and automated follow-ups.
+Coordinates with `ONBOARDING AGENT`.
+    * **Triggers:**
+`puter.on('webhook:client_inquiry')`, `puter.on('email:incoming_lead')`,
+`puter.on('admin:add_direct_client')`.
+    * **Key
+Functions:** `qualifyLead()`, `sendAutomatedFollowup()`,
+`assignToOnboardingAgent()`, `parseClientBriefing()`.
+3.  **ONBOARDING
+AGENT**
+    * **Role:** Once a
+lead is qualified, this agent initiates the formal onboarding process. Collects
+necessary client information (via guided chat, email, or direct input), sets up
+their initial project in `puter.kv`, and prepares for service delivery.
+    * **Triggers:**
+`ClientFlow.assignToOnboardingAgent()`.
+    * **Key
+Functions:** `collectClientInfo()`, `createClientProject()`,
+`assignInitialServices()`, `sendWelcomePack()`.
+4.  **WebWiz (Web
+Design & Development)**
+    * **Role:**
+Designs and develops websites based on client briefs. Can create wireframes,
+mockups, code (HTML, CSS, JavaScript), and deploy websites. Integrates with CMS
+(e.g., WordPress API) for content population if required.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('web_design')`.
+    * **Key
+Functions:** `generateWireframes()`, `createMockups()`, `writeCode()`,
+`deployWebsite()`, `integrateCMS()`.
+5.  **RankRover (SEO
+Optimization)**
+    * **Role:**
+Performs comprehensive SEO audits, keyword research, on-page and technical SEO
+recommendations, and generates content briefs for `ContentCrafter`. Monitors
+search rankings.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('seo_optimization')`,
+`puter.cron('monthly_seo_audit')`.
+    * **Key
+Functions:** `performSeoAudit()`, `researchKeywords()`,
+`generateSeoRecommendations()`, `createContentBrief()`, `monitorRankings()`.
+6.  **StratoBoss
+(Strategy Consultant)**
+    * **Role:**
+Develops overarching digital marketing strategies based on client goals, market
+analysis, and competitive intelligence. Creates detailed strategic roadmaps.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('strategy_consulting')`.
+    * **Key
+Functions:** `analyzeMarket()`, `developStrategy()`, `createRoadmap()`,
+`conductCompetitorAnalysis()`.
+7.  **Promptify
+(Prompt Engineer)**
+    * **Role:**
+Dynamically generates and refines prompts for all other AI agents to ensure
+optimal outputs from `puter.ai.chat` and `puter.ai.txt2img`. Learns from human
+feedback to improve prompt effectiveness.
+    * **Triggers:**
+`TrendyAI Core.requestPrompt()`, `FeedbackLoop.newFeedback()`.
+    * **Key
+Functions:** `generatePrompt()`, `refinePrompt()`, `learnFromFeedback()`,
+`optimizeModelSelection()`.
+8.  **AdGenie (Ad
+Copywriter & Campaign Manager)**
+    * **Role:** Writes
+engaging ad copy, generates creative variations, and manages ad campaigns on
+platforms like Google Ads, Meta (Facebook/Instagram), and TikTok. Integrates
+with `PixelWitch` for visuals.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('ad_campaign')`.
+    * **Key
+Functions:** `writeAdCopy()`, `generateCreatives()`, `setupCampaign()`,
+`monitorCampaignPerformance()`, `adjustBids()`.
+9.  **MailMage (Email
+Marketer)**
+    * **Role:** Crafts
+compelling email marketing campaigns, including newsletters, drip sequences,
+and promotional emails. Manages contact lists and sends emails via third-party
+APIs (e.g., Mailchimp, SendGrid).
+    * **Triggers:**
+`TrendyAI Core.assignAgent('email_marketing')`.
+    * **Key
+Functions:** `designEmailCampaign()`, `writeEmailCopy()`,
+`manageContactList()`, `sendEmails()`.
+10. **PostPilot (Social Media Manager & Video
+Publisher)**
+    * **Role:** Plans,
+schedules, and publishes social media content across various platforms
+(X/Twitter, LinkedIn, Instagram, Facebook, TikTok). Generates captions,
+hashtags, and integrates with `PixelWitch` for visuals. **Crucially, also
+handles the upload and management of video content on platforms like YouTube.**
+    * **Triggers:**
+`TrendyAI Core.assignAgent('social_media_management')`,
+`Trendywood.videoReadyForPublish()`.
+    * **Key
+Functions:** `planContentCalendar()`, `writeSocialCaptions()`,
+`publishPosts()`, `engageAudience()`, **`uploadVideoToYouTube()`**,
+**`manageVideoMetadata()`**.
+11. **PulseTrack (Performance Analytics)**
+    * **Role:**
+Collects, analyzes, and visualizes data from all marketing channels (website
+analytics, ad platforms, social media). Generates performance reports and
+identifies key trends and insights. **Crucially, tracks and reports client ad
+spend vs. budget.**
+    * **Triggers:**
+`TrendyAI Core.assignAgent('analytics_reporting')`,
+`puter.cron('daily_performance_check')`, `puter.cron('weekly_reporting')`.
+    * **Key
+Functions:** `collectData()`, `analyzePerformance()`, `generateReports()`,
+`identifyTrends()`, `monitorAdSpend()`, `generateBudgetAlerts()`.
+12. **ContentCrafter (Long-form Content Writer)**
+    * **Role:**
+Generates high-quality, long-form content such as articles, whitepapers, case
+studies, and website copy. Adapts tone and style based on client brief.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('long_form_content')`,
+`RankRover.createContentBrief()`.
+    * **Key
+Functions:** `researchTopic()`, `writeContent()`, `formatContent()`,
+`optimizeForSEO()`.
+13. **BlogSmith (Blog Writer)**
+    * **Role:**
+Specializes in writing engaging and SEO-friendly blog posts. Manages blog
+calendars and can publish directly to client CMS platforms (e.g., WordPress).
+    * **Triggers:**
+`TrendyAI Core.assignAgent('blog_writing')`, `puter.cron('weekly_blog_post')`.
+    * **Key
+Functions:** `generateBlogIdeas()`, `writeBlogPost()`, `addImages()`,
+`publishToCMS()`.
+14. **BookSmith (Book Writing AI)**
+    * **Role:**
+Assists in writing full-length books, from outlining chapters to drafting
+content. Coordinates with `EbookStylist`.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('book_writing')`.
+    * **Key
+Functions:** `outlineBook()`, `draftChapters()`, `refineNarrative()`.
+15. **CourseCraft (Course Generator AI)**
+    * **Role:**
+Creates online course content, including lesson plans, video scripts, quizzes,
+and supplementary materials. Can structure entire educational programs.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('course_creation')`.
+    * **Key
+Functions:** `designCurriculum()`, `writeLessonContent()`, `generateQuizzes()`,
+`createVideoScripts()`.
+16. **PixelWitch (AI Image Generator)**
+    * **Role:**
+Generates unique, high-quality images and graphics based on textual prompts or
+existing assets. Supports various styles (realistic, artistic, abstract).
+    * **Triggers:**
+`AdGenie.requestImage()`, `PostPilot.requestImage()`, `WebWiz.requestImage()`,
+`DesignDex.requestImage()`.
+    * **Key
+Functions:** `generateImageFromPrompt()`, `upscaleImage()`, `editImage()`,
+`applyStyle()`.
+17. **DesignDex (Graphic Designer)**
+    * **Role:**
+Focuses on creating professional graphic designs for branding, marketing
+materials, social media, and web elements. Utilizes `PixelWitch` and integrates
+design principles.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('graphic_design')`.
+    * **Key
+Functions:** `designLogo()`, `createBrandingGuidelines()`,
+`designMarketingCollateral()`, `createUIElements()`.
+18. **ClipCrafter (Video Editor)**
+    * **Role:** Edits
+raw video footage, adds transitions, effects, text overlays, and audio.
+Optimizes videos for various platforms.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('video_editing')`, `Trendywood.editRawFootage()`.
+    * **Key
+Functions:** `trimVideo()`, `addTransitions()`, `applyEffects()`,
+`overlayText()`, `syncAudio()`.
+19. **Trendywood (Full Video Production AI)**
+    * **Role:**
+Manages end-to-end video production, from scriptwriting and storyboarding to
+generating animated scenes, voiceovers, and final video rendering. Utilizes
+`ClipCrafter` and `SonicVibe`. **Once a video is ready, signals `PostPilot` for
+publishing.**
+    * **Triggers:**
+`TrendyAI Core.assignAgent('video_production')`.
+    * **Key
+Functions:** `writeVideoScript()`, `createStoryboard()`,
+`generateAnimations()`, `produceVoiceovers()`, `renderFinalVideo()`,
+`videoReadyForPublish()`.
+20. **SonicVibe (Music Generator)**
+    * **Role:**
+Composes original music, soundtracks, and sound effects for videos, podcasts,
+and other media. Can adapt to various genres and moods.
+    * **Triggers:**
+`Trendywood.requestMusic()`, `ClipCrafter.requestSoundEffects()`.
+    * **Key
+Functions:** `composeMusic()`, `generateSoundEffects()`, `adaptGenre()`.
+21. **PoeticAI (Poem & Spoken Word Creator)**
+    * **Role:** Crafts
+original poems, spoken word pieces, and lyrical content for marketing
+campaigns, artistic projects, or unique brand messaging.
+    * **Triggers:**
+`TrendyAI Core.assignAgent('poetic_content')`.
+22. **BizDevStrategist (Business Development Strategist)**
+    * **Role:** Identifies new market opportunities, potential partnerships, and analyzes industry trends to propose strategies for agency growth and service expansion.
+    * **Triggers:** `TrendyAI Core.assignAgent('business_development')`, `puter.cron('quarterly_market_analysis')`.
+    * **Key Functions:** `identifyMarketOpportunities()`, `proposePartnerships()`, `analyzeIndustryTrends()`, `developGrowthStrategies()`.
+23. **EbookStylist (Ebook Formatting & Design)**
+    * **Role:** Takes raw book content from `BookSmith` and formats it into professional, visually appealing ebooks, ensuring cross-device compatibility and publishing readiness.
+    * **Triggers:** `BookSmith.ebookContentReady()`, `TrendyAI Core.assignAgent('ebook_formatting')`.
+    * **Key Functions:** `formatEbookLayout()`, `designEbookCover()`, `optimizeForReaders()`, `generatePublishingFiles()`.
+24. **TrendScout (Trend Analysis & Forecasting)**
+    * **Role:** Continuously monitors digital marketing trends, consumer behavior shifts, and technological advancements. Provides forecasts and actionable insights to `StratoBoss` and other agents.
+    * **Triggers:** `puter.cron('weekly_trend_scan')`, `StratoBoss.requestTrendData()`.
+    * **Key Functions:** `monitorTrends()`, `analyzeConsumerBehavior()`, `forecastFutureTrends()`, `provideActionableInsights()`.
+25. **FeedbackLoop (Human Feedback Processor)**
+    * **Role:** Dedicated agent to process and structure human feedback from the dashboard. Ensures feedback is properly logged, categorized, and made actionable for `Promptify` and other agents' continuous improvement. (This was implicitly part of `TrendyAI Core` and `Promptify`, but making it explicit for clarity and dedicated processing).
+    * **Triggers:** `puter.on('dashboard:feedback_submitted')`.
+    * **Key Functions:** `logFeedback()`, `categorizeFeedback()`, `routeFeedbackForLearning()`, `trackAgentImprovement()`.
+
+---
+
+## **DEPLOYMENT STEPS (Consolidated)**
+
+This section outlines the consolidated steps for deploying the TrendyAI platform.
+
+1.  **Frontend Deployment:**
+    * Deploy the React application (built with Vite/Webpack/Parcel) to a static site hosting service like **Vercel** or **Netlify**, leveraging their generous free tiers.
+
+2.  **Puter.js Integration:**
+    * Ensure the `https://js.puter.com/v2/` script tag is correctly included in your `public/index.html` file.
+
+3.  **Puter.js App Configuration:**
+    * On the **Puter.com dashboard**, define all **25 agents as separate Puter.js apps/scripts**. Each agent (e.g., `ad-genie.js`, `client-flow.js`) corresponds to a Puter.js application.
+    * Configure **`puter.on` event listeners** for external webhooks (e.g., Stripe payment success, client inquiry forms) and incoming emails (e.g., `email:incoming`) within your Puter.js app settings or main orchestrator script.
+    * Set up **`puter.cron` schedules** on the Puter.com dashboard for automated recurring tasks (e.g., monthly SEO reports, weekly performance checks).
+    * Securely store **API keys** for third-party integrations (Stripe, Google, Meta, TikTok, YouTube, OpenRouter, etc.) as **Puter.js environment variables (secrets)** on the Puter.com dashboard. Your agents' code will then access these securely.
+
+4.  **Database & Storage:**
+    * `puter.kv` and `puter.fs` are inherently serverless and managed by Puter.js, requiring no separate deployment steps. Their usage will be defined within your agent and core application code.
+
+5.  **DNS Configuration:**
+    * Configure your domain (`trendyAI.com`) to point to your deployed frontend application (on Vercel/Netlify).
+
+6.  **External Webhook Setup:**
+    * Configure webhooks in external services (e.g., **Stripe**, your **email service provider**, `trendtacticsdigital.com`'s form submissions) to point to the specific `puter.on` endpoints provided by Puter.js for receiving data and triggering workflows.
+

@@ -1,0 +1,47 @@
+**PROMPT FOR CURSOR:**
+
+**Objective:** Design and implement the frontend user interface for the TrendyAI.com "Studio Mode" dashboard, specifically focusing on the visual display of the 25 specialized AI agents. The design should adhere to the specified aesthetic principles (glassmorphic, futuristic, dark mode friendly) and the following grid layout requirements.
+
+**Context:** The Studio Mode will allow users to interact with and manage the individual AI agents. A clear, intuitive, and visually appealing representation of each agent is crucial for usability.
+
+---
+
+**Website Grid Layout Concept for TrendyAI Agents:**
+
+**Overall Structure:**
+Implement a responsive grid layout for displaying all 25 agents. The grid should adapt fluidly to different screen sizes, ideally showing 4 agents across a row on larger desktop displays, and gracefully collapsing to 2 or 1 agent per row on smaller devices (tablets, mobile phones) to maintain optimal viewing and usability.
+
+**Color Grouping and Thematic Categorization:**
+To visually group agents and enhance clarity, categorize the 25 agents into thematic groups. Each group should be assigned a distinct background color from the approved TrendyAI color palette (Cyan, Deep Navy, Fidelity Bank Green).
+
+* **Implement a "4 agents per color" visual rule where possible.** Given 25 agents, this will likely result in 6-7 distinct groups. Most groups should contain 4 agents, with one group potentially containing 5, or some groups having 1-3 to balance the total.
+    * *Example Categorization for Cursor's reference (adjust as needed during implementation):*
+        * **Group 1: Core & Client Management** (e.g., TrendyAI Core, ClientFlow, ONBOARDING AGENT, BizDevStrategist) - *Assigned Background Color (e.g., Deep Navy)*
+        * **Group 2: Content & SEO** (e.g., ContentCrafter, BlogSmith, BookSmith, RankRover) - *Assigned Background Color (e.g., Fidelity Bank Green)*
+        * **Group 3: Ads & Email** (e.g., AdGenie, MailMage, PostPilot, PixelWitch) - *Assigned Background Color (e.g., Cyan)*
+        * **Group 4: Design & Video** (e.g., DesignDex, ClipCrafter, Trendywood, SonicVibe) - *Assigned Background Color (re-use Deep Navy with subtle variation/shade)*
+        * **Group 5: Strategy & Analytics** (e.g., StratoBoss, PulseTrack, TrendScout, Promptify) - *Assigned Background Color (re-use Fidelity Bank Green with subtle variation/shade)*
+        * **Group 6: Specialized Content & Feedback** (e.g., CourseCraft, EbookStylist, PoeticAI, FeedbackLoop) - *Assigned Background Color (re-use Cyan with subtle variation/shade)*
+        * *(If any agents remain, create a final group or distribute them to maintain the "4 per color" principle as closely as possible.)*
+
+**Visual Elements for Each Agent Card:**
+Each individual agent within the grid should be represented by a distinct, interactive "card." Each card must feature the following elements:
+
+1.  **Icon/Small Graphic:** A unique, stylized icon relevant to the agent's specific function.
+2.  **Agent Name:** The full name of the agent (e.g., "AdGenie"), displayed prominently.
+3.  **Brief Role Description:** A concise, one-line summary of the agent's core function, easily digestible.
+4.  **Status Indicator (Optional but Recommended):** A subtle visual cue (e.g., a small color-coded light or text) indicating the agent's current status (e.g., "Active," "Idle," "Busy," "Error").
+5.  **Interactive Elements:**
+    * **Hover Effect:** Implement a subtle hover effect (e.g., slight lift, gentle glow, or soft highlight) to indicate interactivity.
+    * **Clickable Area:** The entire card should be clickable, leading to a dedicated detail page for that agent or initiating a specific "Studio Mode" interaction for agent configuration/monitoring.
+
+**Styling and Aesthetic Principles:**
+Adhere strictly to the TrendyAI design standards previously established:
+
+* **Glassmorphism:** Apply a frosted glass effect to the agent cards, allowing the background color of their respective group to subtly blur through, creating a sense of depth and modernity.
+* **Futuristic Design:** Employ clean lines, minimalist design elements, subtle dynamic animations, and a modern, tech-inspired typography.
+* **Dark Mode Compatibility:** Ensure all colors, text, and interactive elements are highly legible and maintain their aesthetic appeal in a dark mode environment.
+* **Grid Lines (Optional):** Consider subtle, fine grid lines to define the boundaries between agent cards, reinforcing the structured grid layout.
+
+**Instruction to Cursor:**
+Utilize HTML5, TailwindCSS, CSS3, JavaScript, and React.js to implement this grid layout. Prioritize responsiveness, performance, and adherence to the specified design principles. Ensure smooth transitions and user-friendly interactions for the agent cards.

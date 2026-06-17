@@ -1,0 +1,308 @@
+import React, { useState } from 'react';
+import { FaCheck, FaEdit, FaFileAlt, FaRobot, FaExternalLinkAlt, FaTimes } from 'react-icons/fa';
+import { useToast } from './Toast';
+
+export default function ClientDeliverables() {
+  const { showSuccess, showInfo } = useToast();
+  const [selectedAssetId, setSelectedAssetId] = useState(1);
+  const [showModModal, setShowModModal] = useState(false);
+  const [modificationText, setModificationText] = useState('');
+
+  // Mock assets
+  const [assets, setAssets] = useState([
+    {
+      id: 1,
+      name: 'Blog Post: "Intro to Agentic AI"',
+      type: 'content',
+      project: 'SaaS Launch SEO',
+      status: 'pending',
+      creator: 'BlogSmith',
+      content: `<h1>Getting Started with Agentic AI: The Next Frontier of Automation</h1>
+
+<p>For the past decade, AI has primarily been predictive or conversational. We asked questions, and it gave us answers. We fed it data, and it drew charts. However, a major shift is happening in 2026: the rise of <strong>Agentic AI</strong>.</p>
+
+<h3>What is Agentic AI?</h3>
+<p>Unlike standard chatbots, Agentic AI refers to autonomous systems capable of planning, executing multi-step tasks, utilizing tools, and collaborating with other agents to accomplish a specific business goal. They don't just draft text; they inspect websites, verify links, check SEO metadata, and post content autonomously.</p>
+
+<h3>Why it Matters for Modern SEO</h3>
+<ul>
+  <li><strong>Continuous Optimization:</strong> Agents scan Google search trends and update your copy in real-time.</li>
+  <li><strong>Multi-Agent Teamwork:</strong> One agent drafts content, another audits the headers, and a third verifies index status.</li>
+  <li><strong>Reduced Latency:</strong> Zero-delay deployment from draft to live content.</li>
+</ul>
+
+<p>By leveraging platforms like TrendyAI, agencies and marketing teams can scale their output by a factor of 10 while maintaining strict editorial quality control.</p>`,
+      seoData: {
+        title: 'Getting Started with Agentic AI | TrendyAI',
+        description: 'Discover how agentic AI and autonomous multi-agent systems are redefining content marketing, website creation, and SEO workflows in 2026.',
+        density: 'Agentic AI (2.4%), SEO (1.8%), Automation (1.2%)'
+      }
+    },
+    {
+      id: 2,
+      name: 'Landing Page HTML Layout Mockup',
+      type: 'design',
+      project: 'Social Lead Campaign',
+      status: 'pending',
+      creator: 'WebWiz',
+      content: `<div class="hero-section text-center py-20 bg-slate-900 text-white rounded-lg">
+  <h1 class="text-4xl md:text-6xl font-extrabold mb-4">Build AI Agents in Seconds</h1>
+  <p class="text-xl text-slate-300 mb-8 max-w-2xl mx-auto">
+    Deploy autonomous workflows that handle customer acquisition, content production, and SEO validation while you sleep.
+  </p>
+  <div class="flex justify-center gap-4">
+    <a href="#" class="btn btn-primary px-8 py-3 bg-indigo-600 rounded font-bold">Get Started Free</a>
+    <a href="#" class="btn btn-secondary px-8 py-3 bg-slate-800 rounded font-bold border border-slate-700">Watch Demo</a>
+  </div>
+</div>`
+    },
+    {
+      id: 3,
+      name: 'Keywords & Competitor Research Pack',
+      type: 'seo',
+      project: 'SaaS Launch SEO',
+      status: 'approved',
+      creator: 'RankRover',
+      content: `### Focus Keywords Report for SaaS Launch
+
+| Keyword | Search Volume | Difficulty | Intent | Recommended URL Path |
+|---------|---------------|------------|--------|----------------------|
+| agentic ai automation | 8,400 / mo | Medium (42) | Commercial | /solutions/agentic-ai |
+| best multi agent framework | 2,100 / mo | Low (28) | Informational | /blog/multi-agent-frameworks |
+| n8n docker setup guide | 3,600 / mo | High (68) | Transactional | /docs/n8n-docker-setup |
+| automated seo checker tool | 1,200 / mo | Low (19) | Commercial | /tools/seo-checker |`
+    }
+  ]);
+
+  const selectedAsset = assets.find(a => a.id === selectedAssetId) || assets[0];
+
+  const handleApprove = (id) => {
+    setAssets(prev =>
+      prev.map(asset =>
+        asset.id === id ? { ...asset, status: 'approved' } : asset
+      )
+    );
+    showSuccess('Asset approved! Sending to distribution webhook.');
+  };
+
+  const handleRequestMod = (e) => {
+    e.preventDefault();
+    if (!modificationText.trim()) return;
+
+    setAssets(prev =>
+      prev.map(asset =>
+        asset.id === selectedAssetId ? { ...asset, status: 'mod_requested', feedback: modificationText } : asset
+      )
+    );
+    showInfo('Modifications requested. AI agents will adjust the copy.');
+    setShowModModal(false);
+    setModificationText('');
+  };
+
+  return (
+    <div className="space-y-8 max-w-7xl mx-auto">
+      {/* Header */}
+      <div>
+        <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Asset Review Center</h1>
+        <p className="text-text-sub mt-1 text-sm md:text-base">Review, edit, and approve content and code assets generated by your AI workforce.</p>
+      </div>
+
+      <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
+        {/* Left Side: Asset list */}
+        <div className="lg:col-span-1 space-y-3">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-text-sub mb-2">Deliverables</h3>
+          {assets.map(asset => (
+            <button
+              key={asset.id}
+              onClick={() => setSelectedAssetId(asset.id)}
+              className={`w-full text-left p-4 rounded-lg border transition-all text-sm block ${
+                selectedAssetId === asset.id
+                  ? 'border-primary bg-bg-card ring-1 ring-primary'
+                  : 'border-border-main bg-bg-panel hover:bg-bg-card'
+              }`}
+            >
+              <div className="font-semibold text-text-main truncate">{asset.name}</div>
+              <div className="flex justify-between items-center mt-3 text-xs">
+                <span className="text-text-muted capitalize">{asset.type} • {asset.creator}</span>
+                <span className={`badge ${
+                  asset.status === 'approved' 
+                    ? 'badge-success' 
+                    : asset.status === 'mod_requested' 
+                    ? 'badge-danger' 
+                    : 'badge-warning'
+                }`}>
+                  {asset.status === 'mod_requested' ? 'Mod Requested' : asset.status}
+                </span>
+              </div>
+            </button>
+          ))}
+        </div>
+
+        {/* Right Side: Detailed preview and action panel */}
+        <div className="lg:col-span-3 space-y-6">
+          <div className="crm-card">
+            <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border-main pb-5 mb-6">
+              <div>
+                <h2 className="text-xl font-bold text-text-main">{selectedAsset.name}</h2>
+                <p className="text-xs text-text-sub mt-1">
+                  Project: <span className="font-semibold">{selectedAsset.project}</span> | Generated by: <span className="font-semibold text-primary">{selectedAsset.creator}</span>
+                </p>
+              </div>
+
+              {/* Action buttons */}
+              {selectedAsset.status !== 'approved' && (
+                <div className="flex gap-2">
+                  <button
+                    onClick={() => handleApprove(selectedAsset.id)}
+                    className="crm-btn crm-btn-primary py-1.5 px-3 text-xs"
+                  >
+                    <FaCheck /> Approve & Publish
+                  </button>
+                  <button
+                    onClick={() => setShowModModal(true)}
+                    className="crm-btn crm-btn-secondary py-1.5 px-3 text-xs"
+                  >
+                    <FaEdit /> Request Edit
+                  </button>
+                </div>
+              )}
+            </div>
+
+            {/* Content view area */}
+            <div className="bg-bg-panel border border-border-main rounded-lg p-5 font-mono text-xs md:text-sm overflow-x-auto max-h-[500px]">
+              {selectedAsset.type === 'seo' ? (
+                // Markdown rendering simulation
+                <div className="prose prose-sm dark:prose-invert max-w-none text-text-main font-sans">
+                  <h3 className="text-lg font-bold mb-4">Focus Keywords & Targets</h3>
+                  <table className="min-w-full border-collapse border border-border-main text-left text-xs md:text-sm">
+                    <thead>
+                      <tr className="bg-bg-card">
+                        <th className="border border-border-main p-2">Keyword</th>
+                        <th className="border border-border-main p-2">Volume</th>
+                        <th className="border border-border-main p-2">Difficulty</th>
+                        <th className="border border-border-main p-2">Intent</th>
+                        <th className="border border-border-main p-2">Recommended Path</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td className="border border-border-main p-2">agentic ai automation</td>
+                        <td className="border border-border-main p-2">8,400/mo</td>
+                        <td className="border border-border-main p-2">Medium (42)</td>
+                        <td className="border border-border-main p-2">Commercial</td>
+                        <td className="border border-border-main p-2">/solutions/agentic-ai</td>
+                      </tr>
+                      <tr className="bg-bg-card/50">
+                        <td className="border border-border-main p-2">best multi agent framework</td>
+                        <td className="border border-border-main p-2">2,100/mo</td>
+                        <td className="border border-border-main p-2">Low (28)</td>
+                        <td className="border border-border-main p-2">Informational</td>
+                        <td className="border border-border-main p-2">/blog/multi-agent-frameworks</td>
+                      </tr>
+                      <tr>
+                        <td className="border border-border-main p-2">n8n docker setup guide</td>
+                        <td className="border border-border-main p-2">3,600/mo</td>
+                        <td className="border border-border-main p-2">High (68)</td>
+                        <td className="border border-border-main p-2">Transactional</td>
+                        <td className="border border-border-main p-2">/docs/n8n-docker-setup</td>
+                      </tr>
+                      <tr className="bg-bg-card/50">
+                        <td className="border border-border-main p-2">automated seo checker tool</td>
+                        <td className="border border-border-main p-2">1,200/mo</td>
+                        <td className="border border-border-main p-2">Low (19)</td>
+                        <td className="border border-border-main p-2">Commercial</td>
+                        <td className="border border-border-main p-2">/tools/seo-checker</td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              ) : selectedAsset.type === 'content' ? (
+                // HTML render simulation
+                <div className="font-sans text-text-main space-y-4 prose prose-indigo max-w-none" dangerouslySetInnerHTML={{ __html: selectedAsset.content }} />
+              ) : (
+                // Code view
+                <pre className="text-text-main whitespace-pre-wrap">{selectedAsset.content}</pre>
+              )}
+            </div>
+
+            {/* Meta SEO panel for Content type */}
+            {selectedAsset.type === 'content' && selectedAsset.seoData && (
+              <div className="mt-6 p-4 bg-bg-panel border border-border-main rounded-lg space-y-3">
+                <h4 className="text-sm font-bold text-text-main">Simulated SEO Analytics (RankRover)</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 gap-4 text-xs">
+                  <div>
+                    <span className="text-text-muted font-medium">Meta Title:</span>
+                    <p className="text-text-main font-medium mt-0.5">{selectedAsset.seoData.title}</p>
+                  </div>
+                  <div>
+                    <span className="text-text-muted font-medium">Meta Description:</span>
+                    <p className="text-text-main font-medium mt-0.5">{selectedAsset.seoData.description}</p>
+                  </div>
+                  <div className="md:col-span-2">
+                    <span className="text-text-muted font-medium">Keyword Densities:</span>
+                    <p className="text-text-main font-medium mt-0.5">{selectedAsset.seoData.density}</p>
+                  </div>
+                </div>
+              </div>
+            )}
+
+            {/* Show revision notes if any */}
+            {selectedAsset.status === 'mod_requested' && selectedAsset.feedback && (
+              <div className="mt-6 p-4 bg-red-500/10 border border-red-500/30 rounded-lg">
+                <h4 className="text-sm font-bold text-red-500">Your Modification Request Notes:</h4>
+                <p className="text-xs text-text-main mt-1 italic">"{selectedAsset.feedback}"</p>
+              </div>
+            )}
+          </div>
+        </div>
+      </div>
+
+      {/* Revision Modal */}
+      {showModModal && (
+        <div className="fixed inset-0 bg-black/50 flex items-center justify-center z-50 p-4">
+          <div className="bg-bg-card border border-border-main rounded-lg w-full max-w-md p-6 shadow-xl">
+            <div className="flex justify-between items-center mb-4">
+              <h3 className="text-lg font-bold text-text-main">Request Modifications</h3>
+              <button 
+                onClick={() => setShowModModal(false)}
+                className="text-text-muted hover:text-text-main"
+              >
+                <FaTimes />
+              </button>
+            </div>
+            <form onSubmit={handleRequestMod} className="space-y-4">
+              <div>
+                <label className="block text-xs font-semibold text-text-sub mb-2">
+                  What should the AI Agents edit or adjust?
+                </label>
+                <textarea
+                  required
+                  rows={4}
+                  value={modificationText}
+                  onChange={(e) => setModificationText(e.target.value)}
+                  placeholder="e.g. Please change the tone to be more technical, and integrate the keyword 'n8n integration guide' at least twice."
+                  className="crm-input resize-none"
+                />
+              </div>
+              <div className="flex justify-end gap-2 pt-2">
+                <button
+                  type="submit"
+                  className="crm-btn crm-btn-primary py-1.5 px-3 text-xs"
+                >
+                  Send to Agents
+                </button>
+                <button
+                  type="button"
+                  onClick={() => setShowModModal(false)}
+                  className="crm-btn crm-btn-secondary py-1.5 px-3 text-xs"
+                >
+                  Cancel
+                </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
