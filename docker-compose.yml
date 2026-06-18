@@ -89,5 +89,7 @@ volumes:
     name: trendyai_postgres_data
   activepieces_data:
     name: trendyai_activepieces_data
+  flowise_data:
+    name: trendyai_flowise_data
   redis_data:
     name: trendyai_redis_data
