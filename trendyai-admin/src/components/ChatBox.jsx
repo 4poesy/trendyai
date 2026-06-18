@@ -11,7 +11,7 @@ const agentAvatars = {
   // Add more agent avatars as needed
 };
 
-const ChatBox = ({ agentFlow = ['TrendyAI Core', 'PromptWizard', 'Target Agent'], onClose, sourceAgentId = null }) => {
+const ChatBox = ({ agentFlow = ['TrendyAI Core', 'PromptWizard', 'Target Agent'], onClose, sourceAgentId = null, isInline = false }) => {
   const [messages, setMessages] = useState([
     {
       sender: agentFlow[0],
@@ -330,25 +330,125 @@ Falling back to direct AI response...`,
     }
   };
 
-  return (
-    <div className="fixed bottom-4 right-4 z-50 bg-white shadow-lg rounded-xl flex flex-col w-80 max-w-full h-[420px] border-2 border-cyan-500">
-      {/* Header */}
-      <div className="flex items-center justify-between px-4 py-2 bg-navy-900 text-white rounded-t-xl">
-        <div className="flex items-center gap-2">
-          <span className="text-xl">{agentAvatars[agentFlow[0]]}</span>
-          <span className="font-bold text-base">{agentFlow[0]}</span>
+  if (isInline) {
+    return (
+      <div className="w-full h-full flex flex-col bg-bg-card rounded-xl overflow-hidden shadow-inner">
+        {/* Routing Status Indicator */}
+        {routingStatus && (
+          <div className="px-4 py-2.5 bg-primary/10 border-b border-border-main text-text-main text-xs font-mono">
+            {routingStatus === 'analyzing' && '🔍 Analyzing complexity...'}
+            {routingStatus === 'routing' && '⚡ Routing to StudioMode...'}
+            {routingStatus === 'error' && '❌ Routing failed'}
+          </div>
+        )}
+        
+        {/* Chat area */}
+        <div className="flex-1 overflow-y-auto custom-scrollbar px-4 py-4 bg-bg-panel space-y-4" style={{ minHeight: 0 }}>
+          {messages.map((msg, idx) => (
+            <div key={idx} className={`flex ${msg.sender === 'You' ? 'justify-end' : 'justify-start'}`}> 
+              <div className={`rounded-2xl px-4 py-3 max-w-[85%] text-sm shadow-sm border ${
+                msg.sender === 'You' 
+                  ? 'bg-primary border-primary text-white font-medium' 
+                  : 'bg-bg-card border-border-main text-text-main'
+              }`}
+                aria-label={`${msg.sender} message`}
+              >
+                <div className="font-bold text-[10px] mb-1.5 opacity-70 uppercase tracking-wider">{msg.sender}</div>
+                <div className="whitespace-pre-wrap leading-relaxed">{msg.text}</div>
+                {msg.mediaUrl && (
+                  <div className="mt-3">
+                    {msg.mediaUrl.includes('image') || msg.mediaUrl.includes('placeholder') ? (
+                      <img 
+                        src={msg.mediaUrl} 
+                        alt="Generated content" 
+                        className="w-full h-auto rounded-xl max-h-64 object-cover border border-border-main"
+                      />
+                    ) : msg.mediaUrl.includes('video') ? (
+                      <video 
+                        src={msg.mediaUrl} 
+                        controls 
+                        className="w-full h-auto rounded-xl max-h-64 border border-border-main"
+                      />
+                    ) : msg.mediaUrl.includes('audio') ? (
+                      <audio 
+                        src={msg.mediaUrl} 
+                        controls 
+                        className="w-full"
+                      />
+                    ) : null}
+                  </div>
+                )}
+              </div>
+            </div>
+          ))}
+          {isTyping && (
+            <div className="flex justify-start">
+              <div className="bg-bg-card border border-border-main text-text-main rounded-2xl px-4 py-3 text-sm shadow-sm">
+                <div className="font-bold text-[10px] mb-1 opacity-70 uppercase tracking-wider">{currentAgent}</div>
+                <div className="flex items-center gap-1.5 font-medium text-text-sub">
+                  <span>Thinking</span>
+                  <div className="flex gap-1">
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce"></div>
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                    <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          )}
+          <div ref={chatEndRef} />
+        </div>
+        
+        {/* Input area */}
+        <div className="p-4 border-t border-border-main bg-bg-card">
+          <div className="flex gap-2">
+            <input
+              type="text"
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              onKeyDown={handleKeyDown}
+              placeholder={canRouteToStudioMode ? "Type your message (will route to StudioMode)..." : "Type your message..."}
+              className="flex-1 px-4 py-2.5 border border-border-main bg-bg-panel text-text-main rounded-lg focus:border-primary focus:ring-2 focus:ring-primary/20 focus:outline-none text-sm transition-all"
+              disabled={isTyping}
+            />
+            <button
+              onClick={handleSend}
+              disabled={!input.trim() || isTyping}
+              className="px-5 py-2.5 bg-primary hover:bg-primary-hover disabled:bg-bg-panel disabled:text-text-muted text-white rounded-lg transition-all duration-200 flex items-center justify-center cursor-pointer font-semibold text-sm border border-transparent shadow-sm hover:shadow"
+            >
+              <FaPaperPlane className="text-xs" />
+            </button>
+          </div>
           {canRouteToStudioMode && (
-            <FaExchangeAlt className="text-xs text-cyan-400" title="Can route to StudioMode" />
+            <div className="text-[11px] text-text-sub mt-2 flex items-center gap-1.5 font-mono">
+              <span className="inline-block w-1.5 h-1.5 rounded-full bg-green-500 animate-pulse"></span>
+              <span>Connected to StudioMode routing system</span>
+            </div>
           )}
         </div>
-        <button onClick={onClose} aria-label="Close chat" className="hover:text-red-400">
-          <svg width="18" height="18" fill="currentColor"><line x1="4" y1="4" x2="14" y2="14" stroke="currentColor" strokeWidth="2"/><line x1="14" y1="4" x2="4" y2="14" stroke="currentColor" strokeWidth="2"/></svg>
+      </div>
+    );
+  }
+
+  return (
+    <div className="fixed bottom-4 right-4 z-50 bg-white dark:bg-bg-card shadow-2xl rounded-2xl flex flex-col w-80 max-w-full h-[420px] border-2 border-primary overflow-hidden">
+      {/* Header */}
+      <div className="flex items-center justify-between px-4 py-3 bg-primary text-white">
+        <div className="flex items-center gap-2">
+          <span className="text-xl">{agentAvatars[agentFlow[0]]}</span>
+          <span className="font-bold text-sm tracking-tight">{agentFlow[0]}</span>
+          {canRouteToStudioMode && (
+            <FaExchangeAlt className="text-xs text-white/80" title="Can route to StudioMode" />
+          )}
+        </div>
+        <button onClick={onClose} aria-label="Close chat" className="hover:text-red-400 cursor-pointer p-1">
+          <FaTimes />
         </button>
       </div>
       
       {/* Routing Status Indicator */}
       {routingStatus && (
-        <div className="px-4 py-2 bg-cyan-500 text-navy-900 text-xs font-mono">
+        <div className="px-4 py-1.5 bg-primary/20 text-text-main text-xs font-mono border-b border-border-main">
           {routingStatus === 'analyzing' && '🔍 Analyzing complexity...'}
           {routingStatus === 'routing' && '⚡ Routing to StudioMode...'}
           {routingStatus === 'error' && '❌ Routing failed'}
@@ -356,27 +456,31 @@ Falling back to direct AI response...`,
       )}
       
       {/* Chat area */}
-      <div className="flex-1 overflow-y-auto custom-scrollbar px-3 py-2 bg-slate-50" style={{ minHeight: 0 }}>
+      <div className="flex-1 overflow-y-auto custom-scrollbar px-3 py-3 bg-bg-panel space-y-3" style={{ minHeight: 0 }}>
         {messages.map((msg, idx) => (
-          <div key={idx} className={`mb-2 flex ${msg.sender === 'You' ? 'justify-end' : 'justify-start'}`}> 
-            <div className={`rounded-lg px-3 py-2 max-w-[80%] text-sm shadow ${msg.sender === 'You' ? 'bg-cyan-500 text-navy-900' : 'bg-white text-navy-900'}`}
+          <div key={idx} className={`flex ${msg.sender === 'You' ? 'justify-end' : 'justify-start'}`}> 
+            <div className={`rounded-xl px-3 py-2 max-w-[80%] text-sm shadow-sm border ${
+              msg.sender === 'You' 
+                ? 'bg-primary border-primary text-white font-medium' 
+                : 'bg-bg-card border-border-main text-text-main'
+            }`}
               aria-label={`${msg.sender} message`}
             >
-              <div className="font-semibold mb-1">{msg.sender}</div>
-              <div>{msg.text}</div>
+              <div className="font-bold text-[9px] mb-1 opacity-70 uppercase">{msg.sender}</div>
+              <div className="whitespace-pre-wrap">{msg.text}</div>
               {msg.mediaUrl && (
                 <div className="mt-2">
                   {msg.mediaUrl.includes('image') || msg.mediaUrl.includes('placeholder') ? (
                     <img 
                       src={msg.mediaUrl} 
                       alt="Generated content" 
-                      className="w-full h-auto rounded-lg max-h-48 object-cover"
+                      className="w-full h-auto rounded-lg max-h-40 object-cover border border-border-main"
                     />
                   ) : msg.mediaUrl.includes('video') ? (
                     <video 
                       src={msg.mediaUrl} 
                       controls 
-                      className="w-full h-auto rounded-lg max-h-48"
+                      className="w-full h-auto rounded-lg max-h-40 border border-border-main"
                     />
                   ) : msg.mediaUrl.includes('audio') ? (
                     <audio 
@@ -391,15 +495,15 @@ Falling back to direct AI response...`,
           </div>
         ))}
         {isTyping && (
-          <div className="flex justify-start mb-2">
-            <div className="bg-white text-navy-900 rounded-lg px-3 py-2 text-sm shadow">
-              <div className="font-semibold mb-1">{currentAgent}</div>
-              <div className="flex items-center gap-1">
+          <div className="flex justify-start">
+            <div className="bg-bg-card border border-border-main text-text-main rounded-xl px-3 py-2 text-sm shadow-sm">
+              <div className="font-bold text-[9px] mb-1 opacity-70 uppercase">{currentAgent}</div>
+              <div className="flex items-center gap-1 text-text-sub font-medium">
                 <span>Typing</span>
                 <div className="flex gap-1">
-                  <div className="w-2 h-2 bg-cyan-500 rounded-full animate-bounce"></div>
-                  <div className="w-2 h-2 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
-                  <div className="w-2 h-2 bg-cyan-500 rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce"></div>
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.1s' }}></div>
+                  <div className="w-1.5 h-1.5 bg-primary rounded-full animate-bounce" style={{ animationDelay: '0.2s' }}></div>
                 </div>
               </div>
             </div>
@@ -409,31 +513,25 @@ Falling back to direct AI response...`,
       </div>
       
       {/* Input area */}
-      <div className="p-3 border-t border-cyan-500 bg-white rounded-b-xl">
+      <div className="p-3 border-t border-border-main bg-bg-card">
         <div className="flex gap-2">
           <input
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
-            placeholder={canRouteToStudioMode ? "Type your message (will route to StudioMode)..." : "Type your message..."}
-            className="flex-1 px-3 py-2 border-2 border-cyan-500 rounded-lg focus:border-cyan-400 focus:outline-none text-sm bg-white text-navy-900"
+            placeholder={canRouteToStudioMode ? "Type message (routes to Studio)..." : "Type message..."}
+            className="flex-1 px-3 py-1.5 border border-border-main bg-bg-panel text-text-main rounded-lg focus:border-primary focus:outline-none text-xs"
             disabled={isTyping}
           />
           <button
             onClick={handleSend}
             disabled={!input.trim() || isTyping}
-            className="px-4 py-2 bg-cyan-500 hover:bg-cyan-400 disabled:bg-gray-400 text-navy-900 rounded-lg transition-colors flex items-center gap-2"
+            className="px-3 py-1.5 bg-primary hover:bg-primary-hover disabled:bg-bg-panel disabled:text-text-muted text-white rounded-lg transition-colors flex items-center justify-center cursor-pointer"
           >
-            <FaPaperPlane className="text-sm" />
+            <FaPaperPlane className="text-xs" />
           </button>
         </div>
-        {canRouteToStudioMode && (
-          <div className="text-xs text-cyan-600 mt-2 flex items-center gap-1">
-            <FaExchangeAlt />
-            <span>Connected to StudioMode routing system</span>
-          </div>
-        )}
       </div>
     </div>
   );
