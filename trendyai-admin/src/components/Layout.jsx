@@ -82,20 +82,22 @@ const Layout = () => {
         
         {/* Brand Header */}
         <div>
-          <div className="h-16 flex items-center px-6 border-b border-border-main/10 gap-3">
-            <div className="w-8 h-8 rounded-lg bg-primary text-white flex items-center justify-center font-black text-lg shadow-sm">
+          <div className="h-16 flex items-center px-6 border-b border-white/5 gap-3">
+            <div className="w-8 h-8 rounded-lg bg-primary text-black flex items-center justify-center font-black text-lg shadow-[0_0_12px_rgba(251,191,36,0.4)]">
               T
             </div>
-            <span className="text-xl font-bold text-text-main tracking-tight font-heading">TrendyAI</span>
+            <span className="text-xl font-extrabold text-white tracking-tight font-heading">
+              Trendy<span className="text-primary">AI</span>
+            </span>
             {role === 'client' && (
-              <span className="text-[10px] font-bold px-1.5 py-0.5 rounded bg-primary-light text-primary uppercase tracking-wider">
+              <span className="text-[9px] font-bold px-1.5 py-0.5 rounded bg-primary-light text-primary uppercase tracking-wider border border-primary/20">
                 Portal
               </span>
             )}
           </div>
 
           {/* Navigation Links list */}
-          <nav className="p-3 space-y-1">
+          <nav className="p-3 space-y-1.5">
             {navLinks.map(link => {
               const isActive = location.pathname === link.to || (link.to !== '/' && link.to !== '/client' && location.pathname.startsWith(link.to));
               return (
@@ -103,13 +105,17 @@ const Layout = () => {
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3.5 px-4 py-2.5 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 ${
+                  className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 relative group ${
                     isActive
-                      ? 'bg-sidebar-hover text-sidebar-active font-extrabold shadow-sm'
+                      ? 'bg-sidebar-hover text-sidebar-active border border-white/[0.04] shadow-sm font-extrabold'
                       : 'text-sidebar-inactive hover:bg-sidebar-hover hover:text-sidebar-active'
                   }`}
                 >
-                  <span className="text-base shrink-0">{link.icon}</span>
+                  {/* Left Golden Active Line */}
+                  {isActive && (
+                    <span className="absolute left-0 top-1/4 bottom-1/4 w-1 bg-primary rounded-r"></span>
+                  )}
+                  <span className="text-base shrink-0 group-hover:scale-110 transition-transform duration-200">{link.icon}</span>
                   <span>{link.label}</span>
                 </Link>
               );
@@ -118,23 +124,27 @@ const Layout = () => {
         </div>
 
         {/* Sidebar Footer / User section */}
-        <div className="p-4 border-t border-border-main/10 bg-bg-panel/40">
-          <div className="flex items-center justify-between gap-2 px-3 py-2.5 rounded-xl border border-border-main/10 bg-bg-secondary shadow-sm">
-            <div className="flex items-center gap-2.5">
-              <div className="w-8 h-8 rounded-full bg-primary text-white flex items-center justify-center font-bold text-xs shadow-inner">
-                U
+        <div className="p-4 border-t border-white/5 bg-black/15">
+          <div className="flex items-center justify-between gap-2 px-3.5 py-3 rounded-xl border border-white/5 bg-[#121216] shadow-md">
+            <div className="flex items-center gap-2.5 min-w-0">
+              <div className="relative">
+                <div className="w-8 h-8 rounded-full bg-primary text-black flex items-center justify-center font-extrabold text-xs shadow-inner">
+                  U
+                </div>
+                {/* Pulsing online status indicator */}
+                <span className="absolute bottom-0 right-0 w-2.5 h-2.5 rounded-full bg-green-500 border-2 border-[#121216] animate-pulse"></span>
               </div>
-              <div className="truncate w-28">
-                <p className="text-xs font-bold text-text-main truncate">User Account</p>
-                <p className="text-[9px] text-text-muted uppercase tracking-wider font-extrabold capitalize mt-0.5">{role}</p>
+              <div className="truncate w-24">
+                <p className="text-xs font-bold text-slate-100 truncate">User Account</p>
+                <p className="text-[9px] text-primary uppercase tracking-wider font-extrabold mt-0.5">{role}</p>
               </div>
             </div>
             <button 
               onClick={handleLogout}
               title="Logout" 
-              className="text-text-muted hover:text-primary p-1.5 rounded-lg hover:bg-bg-panel transition-all duration-200 cursor-pointer"
+              className="text-slate-400 hover:text-primary p-2 rounded-lg hover:bg-white/5 transition-all duration-200 cursor-pointer shrink-0"
             >
-              <FaSignOutAlt size={14} />
+              <FaSignOutAlt size={13} />
             </button>
           </div>
         </div>

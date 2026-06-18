@@ -1,148 +1,109 @@
-// AI Service Integration - Real AI API Connections
-// This connects TrendyAI agents to actual AI services
+// AI Service Integration - Connected directly to Railway Backend and Flowise
+// This links TrendyAI agents to your backend workflow api endpoints
 
-// No imports needed for Puter.js, it is loaded globally via <script src="https://js.puter.com/v2/"></script>
+import environment from '../config/environment';
 
-// Advanced streaming and function-calling support for Puter.js
 class AIServiceIntegration {
   constructor() {
     this.name = 'AI Service Integration';
-    this.description = 'Direct Puter.js AI service integration (with streaming and function-calling)';
+    this.description = 'Railway Backend Flowise Gateway Integration';
   }
 
-  // Image Generation (with streaming support)
-  async generateImage(prompt, options = {}, onStream) {
-    if (typeof window.puter === 'undefined') {
-      return { success: false, error: 'Puter.js not loaded', fallback: { note: 'Puter.js script is missing.' } };
-    }
+  getBackendUrl() {
+    return environment.backend.baseURL;
+  }
+
+  // General run agent call to the Express API
+  async runAgent(agentId, prompt, taskType = 'chat_playground') {
     try {
-      if (onStream && typeof window.puter.ai.generateImageStream === 'function') {
-        // Streaming image generation
-        const stream = window.puter.ai.generateImageStream({ prompt, ...options });
-        for await (const chunk of stream) {
-          onStream(chunk);
+      const response = await fetch(`${this.getBackendUrl()}/agent/run`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          agent: agentId,
+          message: prompt,
+          task_type: taskType
+        })
+      });
+
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`API error: ${response.status} - ${errorText}`);
+      }
+
+      const data = await response.json();
+      if (data.success) {
+        // Resolve result text out of Flowise response formats
+        let resultText = '';
+        if (typeof data.result === 'string') {
+          resultText = data.result;
+        } else if (data.result && typeof data.result.text === 'string') {
+          resultText = data.result.text;
+        } else {
+          resultText = JSON.stringify(data.result || {});
         }
-        // Final result (if needed)
-        return { success: true, streamed: true };
+        return { 
+          success: true, 
+          text: resultText, 
+          task_id: data.task_id,
+          service: 'railway-flowise' 
+        };
       } else {
-        // Standard image generation
-        const result = await window.puter.ai.generateImage({ prompt, ...options });
-        return { success: true, imageUrl: result.url, prompt, service: 'puter' };
+        throw new Error(data.error || 'Backend agent execution failed');
       }
     } catch (error) {
-      return { success: false, error: error.message, fallback: { note: 'Puter.js error.' } };
+      console.error(`Failed to run agent ${agentId}:`, error);
+      return { 
+        success: false, 
+        error: error.message || 'Connection to Railway backend failed. Ensure your server is active.' 
+      };
     }
   }
 
-  // Text Generation (with streaming and function-calling support)
-  async generateText(prompt, options = {}, onStream, functionCall) {
-    if (typeof window === 'undefined' || typeof window.puter === 'undefined') {
-      return { success: false, error: 'Puter.js not loaded', fallback: { note: 'Puter.js script is missing.' } };
+  // Image Generation (handled by backend Flowise route)
+  async generateImage(prompt, options = {}) {
+    const agentId = options.agentId || 'pixeldex';
+    const result = await this.runAgent(agentId, prompt, 'image_generation');
+    if (result.success) {
+      // Check if output contains image links
+      const urlRegex = /(https?:\/\/[^\s]+?\.(?:png|jpe?g|gif|webp))/i;
+      const match = result.text.match(urlRegex);
+      return {
+        success: true,
+        imageUrl: match ? match[0] : '/assets/trendyai-og.webp',
+        text: result.text,
+        service: 'railway-flowise'
+      };
     }
-    try {
-      if (onStream && typeof window.puter.ai.chatStream === 'function') {
-        // Streaming text generation
-        const stream = window.puter.ai.chatStream(prompt, options);
-        for await (const chunk of stream) {
-          onStream(chunk);
-        }
-        return { success: true, streamed: true };
-      } else if (functionCall && typeof window.puter.ai.chatWithFunctions === 'function') {
-        // Function-calling support
-        const result = await window.puter.ai.chatWithFunctions(prompt, functionCall, options);
-        return { success: true, text: result, prompt, service: 'puter', functionCall: true };
-      } else {
-        // Standard text generation
-        const result = await window.puter.ai.chat(prompt, options);
-        return { success: true, text: result, prompt, service: 'puter' };
-      }
-    } catch (error) {
-      return { success: false, error: error.message, fallback: { note: 'Puter.js error: ' + error.message } };
-    }
+    return result;
   }
 
-  // Audio Generation (with streaming support)
-  async generateAudio(prompt, options = {}, onStream) {
-    if (typeof window.puter === 'undefined') {
-      return { success: false, error: 'Puter.js not loaded', fallback: { note: 'Puter.js script is missing.' } };
-    }
-    try {
-      if (onStream && typeof window.puter.ai.generateAudioStream === 'function') {
-        // Streaming audio generation
-        const stream = window.puter.ai.generateAudioStream({ prompt, ...options });
-        for await (const chunk of stream) {
-          onStream(chunk);
-        }
-        return { success: true, streamed: true };
-      } else {
-        // Standard audio generation
-        const result = await window.puter.ai.generateAudio({ prompt, ...options });
-        return { success: true, audioUrl: result.url, prompt, service: 'puter' };
-      }
-    } catch (error) {
-      return { success: false, error: error.message, fallback: { note: 'Puter.js error.' } };
-    }
+  // Text Generation
+  async generateText(prompt, options = {}) {
+    const agentId = options.agentId || 'trendyai-core';
+    return this.runAgent(agentId, prompt, 'text_chat');
   }
 
-  // Video Generation (with streaming support)
-  async generateVideo(prompt, options = {}, onStream) {
-    if (typeof window.puter === 'undefined') {
-      return { success: false, error: 'Puter.js not loaded', fallback: { note: 'Puter.js script is missing.' } };
-    }
-    try {
-      if (onStream && typeof window.puter.ai.generateVideoStream === 'function') {
-        // Streaming video generation
-        const stream = window.puter.ai.generateVideoStream({ prompt, ...options });
-        for await (const chunk of stream) {
-          onStream(chunk);
-        }
-        return { success: true, streamed: true };
-      } else {
-        // Standard video generation
-        const result = await window.puter.ai.generateVideo({ prompt, ...options });
-        return { success: true, videoUrl: result.url, prompt, service: 'puter' };
-      }
-    } catch (error) {
-      return { success: false, error: error.message, fallback: { note: 'Puter.js error.' } };
-    }
+  // Audio Generation
+  async generateAudio(prompt, options = {}) {
+    const agentId = options.agentId || 'mediawiz';
+    return this.runAgent(agentId, prompt, 'audio_generation');
   }
 
-  // Code Generation (with streaming support)
-  async generateCode(prompt, options = {}, onStream) {
-    if (typeof window.puter === 'undefined') {
-      return { success: false, error: 'Puter.js not loaded', fallback: { note: 'Puter.js script is missing.' } };
-    }
-    try {
-      if (onStream && typeof window.puter.ai.generateCodeStream === 'function') {
-        // Streaming code generation
-        const stream = window.puter.ai.generateCodeStream({ prompt, ...options });
-        for await (const chunk of stream) {
-          onStream(chunk);
-        }
-        return { success: true, streamed: true };
-      } else {
-        // Standard code generation
-        const result = await window.puter.ai.generateCode({ prompt, ...options });
-        return { success: true, code: result.code, prompt, service: 'puter' };
-      }
-    } catch (error) {
-      return { success: false, error: error.message, fallback: { note: 'Puter.js error.' } };
-    }
+  // Video Generation
+  async generateVideo(prompt, options = {}) {
+    const agentId = options.agentId || 'mediawiz';
+    return this.runAgent(agentId, prompt, 'video_generation');
   }
 
-  // Generic function-calling support for agents
-  async functionCall(functionName, args = {}, options = {}) {
-    if (typeof window.puter === 'undefined' || typeof window.puter.ai.callFunction !== 'function') {
-      return { success: false, error: 'Puter.js function-calling not available', fallback: { note: 'Puter.js script or function-calling missing.' } };
-    }
-    try {
-      const result = await window.puter.ai.callFunction(functionName, args, options);
-      return { success: true, result, functionName, args };
-    } catch (error) {
-      return { success: false, error: error.message, fallback: { note: 'Puter.js function-calling error.' } };
-    }
+  // Code Generation
+  async generateCode(prompt, options = {}) {
+    const agentId = options.agentId || 'webwiz';
+    return this.runAgent(agentId, prompt, 'code_generation');
   }
 }
 
 export const aiServiceIntegration = new AIServiceIntegration();
-export default aiServiceIntegration; 
+export default aiServiceIntegration;

@@ -19,22 +19,28 @@ export default function ClientForm({ initial, onSave, onCancel }) {
   };
 
   return (
-    <form className="bg-white p-6 rounded-xl shadow-lg w-full max-w-md mx-auto mb-6 border-2 border-cyan-500" onSubmit={handleSubmit} aria-label="Client form">
-      <h2 className="text-lg font-semibold mb-4 text-navy-900">{initial ? 'Edit Client' : 'Add Client'}</h2>
-      <label className="block mb-2 text-sm font-medium text-navy-900" htmlFor="name">Name</label>
-      <input id="name" type="text" className="w-full mb-4 px-3 py-2 rounded border-2 border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-navy-900" value={name} onChange={e => setName(e.target.value)} required />
-      <label className="block mb-2 text-sm font-medium text-navy-900" htmlFor="email">Email</label>
-      <input id="email" type="email" className="w-full mb-4 px-3 py-2 rounded border-2 border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-navy-900" value={email} onChange={e => setEmail(e.target.value)} required />
-      <label className="block mb-2 text-sm font-medium text-navy-900" htmlFor="status">Status</label>
-      <select id="status" className="w-full mb-4 px-3 py-2 rounded border-2 border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-navy-900" value={status} onChange={e => setStatus(e.target.value)}>
+    <form className="bg-bg-card border border-border-main p-6 rounded-2xl shadow-xl w-full max-w-md mx-auto mb-4" onSubmit={handleSubmit} aria-label="Client form">
+      <h2 className="text-xl font-bold mb-4 text-text-main font-heading">{initial ? 'Edit Client Account' : 'Add Client Account'}</h2>
+      
+      <label className="block mb-2 text-xs font-bold uppercase tracking-wider text-text-sub" htmlFor="name">Name</label>
+      <input id="name" type="text" className="crm-input mb-4" value={name} onChange={e => setName(e.target.value)} required />
+      
+      <label className="block mb-2 text-xs font-bold uppercase tracking-wider text-text-sub" htmlFor="email">Email</label>
+      <input id="email" type="email" className="crm-input mb-4" value={email} onChange={e => setEmail(e.target.value)} required />
+      
+      <label className="block mb-2 text-xs font-bold uppercase tracking-wider text-text-sub" htmlFor="status">Status</label>
+      <select id="status" className="crm-input mb-4 appearance-none bg-bg-card" value={status} onChange={e => setStatus(e.target.value)}>
         {statusOptions.map(opt => <option key={opt} value={opt}>{opt}</option>)}
       </select>
-      <label className="block mb-2 text-sm font-medium text-navy-900" htmlFor="briefing">Briefing (Natural Language)</label>
-      <textarea id="briefing" className="w-full mb-4 px-3 py-2 rounded border-2 border-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 text-navy-900" value={briefing} onChange={e => setBriefing(e.target.value)} rows={3} placeholder="Paste or type client briefing here..." />
-      {error && <div className="mb-4 text-red-600 text-sm" role="alert">{error}</div>}
-      <div className="flex gap-2 justify-end">
-        <button type="button" onClick={onCancel} className="px-4 py-2 rounded bg-gray-200 text-navy-900 hover:bg-gray-300">Cancel</button>
-        <button type="submit" className="px-4 py-2 rounded bg-cyan-500 text-navy-900 font-semibold hover:bg-cyan-400">{initial ? 'Save' : 'Add'}</button>
+      
+      <label className="block mb-2 text-xs font-bold uppercase tracking-wider text-text-sub" htmlFor="briefing">Briefing (Natural Language Target)</label>
+      <textarea id="briefing" className="crm-input mb-4 h-24 resize-none" value={briefing} onChange={e => setBriefing(e.target.value)} rows={3} placeholder="Paste or type client briefing details here..." />
+      
+      {error && <div className="mb-4 text-red-500 text-xs font-semibold" role="alert">{error}</div>}
+      
+      <div className="flex gap-2 justify-end pt-2">
+        <button type="button" onClick={onCancel} className="crm-btn crm-btn-secondary py-2 px-4 text-xs font-bold">Cancel</button>
+        <button type="submit" className="crm-btn crm-btn-primary py-2 px-4 text-xs font-bold">{initial ? 'Save Changes' : 'Add Account'}</button>
       </div>
     </form>
   );

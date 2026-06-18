@@ -19,20 +19,24 @@ function getGreeting() {
 }
 
 const StatCard = ({ icon, label, value, change }) => (
-  <div className="crm-card flex flex-col justify-between">
+  <div className="crm-card flex flex-col justify-between hover-scale">
     <div className="flex items-start justify-between">
       <div>
-        <span className="text-sm font-medium text-text-sub">{label}</span>
-        <h3 className="text-3xl font-bold text-text-main mt-1">{value}</h3>
+        <span className="text-xs font-bold uppercase tracking-wider text-text-sub">{label}</span>
+        <h3 className="text-3xl font-extrabold text-text-main mt-2 tracking-tight">{value}</h3>
       </div>
-      <div className="p-3 bg-bg-panel border border-border-main rounded-lg text-lg text-primary">
+      <div className="p-3 bg-bg-panel border border-border-main rounded-xl text-lg text-primary shadow-[0_0_15px_rgba(251,191,36,0.1)]">
         {icon}
       </div>
     </div>
-    {change && (
+    {change !== undefined && (
       <div className="flex items-center gap-1.5 mt-4 text-xs font-semibold">
-        <span className={`inline-flex items-center gap-0.5 ${change > 0 ? 'text-green-500' : 'text-red-500'}`}>
-          {change > 0 ? <FaArrowUp size={10} /> : <FaArrowDown size={10} />}
+        <span className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full ${
+          change > 0 
+            ? 'bg-green-500/15 text-green-500' 
+            : 'bg-red-500/15 text-red-500'
+        }`}>
+          {change > 0 ? <FaArrowUp size={8} /> : <FaArrowDown size={8} />}
           {Math.abs(change)}%
         </span>
         <span className="text-text-muted">vs last month</span>
@@ -42,12 +46,12 @@ const StatCard = ({ icon, label, value, change }) => (
 );
 
 const activityIcons = {
-  'Client added': <FaUserPlus className="text-green-500 bg-green-500/10 border border-green-500/20 rounded p-1.5 w-7 h-7" />,
-  'Project approved': <FaClipboardCheck className="text-blue-500 bg-blue-500/10 border border-blue-500/20 rounded p-1.5 w-7 h-7" />,
-  'Agent': <FaRobot className="text-purple-500 bg-purple-500/10 border border-purple-500/20 rounded p-1.5 w-7 h-7" />,
-  'Audit log': <FaClipboardList className="text-yellow-500 bg-yellow-500/10 border border-yellow-500/20 rounded p-1.5 w-7 h-7" />,
-  'Approval requested': <FaClipboardCheck className="text-orange-500 bg-orange-500/10 border border-orange-500/20 rounded p-1.5 w-7 h-7" />,
-  'default': <FaClipboardList className="text-primary bg-primary/10 border border-primary/20 rounded p-1.5 w-7 h-7" />
+  'Client added': <FaUserPlus className="text-green-500 bg-green-500/10 border border-green-500/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
+  'Project approved': <FaClipboardCheck className="text-amber-500 bg-amber-500/10 border border-amber-500/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
+  'Agent': <FaRobot className="text-amber-400 bg-amber-400/10 border border-amber-400/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
+  'Audit log': <FaClipboardList className="text-primary bg-primary/10 border border-primary/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
+  'Approval requested': <FaClipboardCheck className="text-amber-600 bg-amber-600/10 border border-amber-600/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
+  'default': <FaClipboardList className="text-primary bg-primary/10 border border-primary/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />
 };
 
 const getActivityIcon = (action) => {
@@ -61,13 +65,13 @@ const getActivityIcon = (action) => {
 
 const RecentTimeline = ({ recent }) => (
   <div className="crm-card">
-    <h3 className="text-lg font-bold text-text-main mb-6 border-b border-border-main pb-3">Recent System Activity</h3>
-    <ol className="relative border-l border-border-main ml-4 space-y-6 pl-6">
+    <h3 className="text-lg font-bold text-text-main mb-6 border-b border-border-main pb-3 tracking-tight font-heading">Recent System Activity</h3>
+    <ol className="relative border-l border-border-main ml-4 space-y-6 pl-8">
       {recent.map((item, index) => (
         <li key={index} className="relative flex items-center justify-between gap-4">
-          <span className="absolute -left-[38px] bg-bg-card p-1">{getActivityIcon(item.action)}</span>
+          <span className="absolute -left-[48px] bg-bg-card p-1.5 rounded-full border border-border-main">{getActivityIcon(item.action)}</span>
           <div className="flex-1 min-w-0">
-            <p className="text-sm font-semibold text-text-main truncate">{item.action}</p>
+            <p className="text-sm font-semibold text-text-main truncate leading-snug">{item.action}</p>
             <p className="text-xs text-text-muted mt-0.5">{item.time}</p>
           </div>
         </li>
@@ -85,32 +89,33 @@ const Dashboard = () => {
       {/* Hero Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-6">
         <div>
-          <div className="text-xs font-semibold text-primary uppercase tracking-wider flex items-center gap-1.5">
-            <FaRegClock /> {getGreeting()}, Admin
+          <div className="text-xs font-bold text-primary uppercase tracking-wider flex items-center gap-1.5">
+            <span className="w-1.5 h-1.5 rounded-full bg-primary animate-pulse"></span>
+            <FaRegClock /> {getGreeting()}, Administrator
           </div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-text-main mt-1">Orchestration Center</h1>
-          <p className="text-text-sub mt-1 text-sm md:text-base">Monitor agents, scale content generation, and manage active client accounts.</p>
+          <h1 className="text-3xl font-extrabold tracking-tight text-text-main mt-1.5 font-heading">Orchestration Center</h1>
+          <p className="text-text-sub mt-1 text-sm md:text-base font-medium">Monitor active agents, review generated campaigns, and manage client briefs.</p>
         </div>
         
         {/* Quick Actions */}
         <div className="flex flex-wrap gap-2">
           <button 
             onClick={() => { navigate('/projects'); showInfo('Opening Projects'); }}
-            className="crm-btn crm-btn-primary py-2 text-sm"
+            className="crm-btn crm-btn-primary py-2 px-4 text-xs shadow-md"
           >
-            <FaPlus size={12} /> New Project
+            <FaPlus size={10} /> New Project
           </button>
           <button 
             onClick={() => { navigate('/clients'); showInfo('Opening Clients'); }}
-            className="crm-btn crm-btn-secondary py-2 text-sm"
+            className="crm-btn crm-btn-secondary py-2 px-4 text-xs"
           >
-            <FaUserPlus size={12} /> Add Client
+            <FaUserPlus size={10} /> Add Client
           </button>
           <button 
             onClick={() => { navigate('/approval-queue'); showInfo('Opening Approval Queue'); }}
-            className="crm-btn crm-btn-secondary py-2 text-sm"
+            className="crm-btn crm-btn-secondary py-2 px-4 text-xs"
           >
-            <FaClipboardCheck size={12} /> Approval Queue
+            <FaClipboardCheck size={10} /> Approval Queue
           </button>
         </div>
       </div>

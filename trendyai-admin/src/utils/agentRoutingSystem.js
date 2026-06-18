@@ -337,7 +337,6 @@ export class AgentRoutingSystem {
     if (studioAgent.role.includes('Design') || lowerMessage.includes('image') || lowerMessage.includes('picture') || lowerMessage.includes('visual')) {
       // Generate image with advanced features
       const imageResult = await aiServiceIntegration.generateImage(optimizedPrompt, {
-        service: 'puter',
         size: '1024x1024',
         quality: 'standard'
       });
@@ -360,7 +359,6 @@ export class AgentRoutingSystem {
     } else if (studioAgent.role.includes('Video') || lowerMessage.includes('video') || lowerMessage.includes('animation')) {
       // Generate video with advanced features
       const videoResult = await aiServiceIntegration.generateVideo(optimizedPrompt, {
-        service: 'puter',
         duration: 10,
         quality: 'standard'
       });
@@ -383,7 +381,6 @@ export class AgentRoutingSystem {
     } else if (studioAgent.role.includes('Audio') || lowerMessage.includes('audio') || lowerMessage.includes('music') || lowerMessage.includes('sound')) {
       // Generate audio with advanced features
       const audioResult = await aiServiceIntegration.generateAudio(optimizedPrompt, {
-        service: 'puter',
         voice: 'alloy',
         speed: 1.0
       });
@@ -405,7 +402,6 @@ export class AgentRoutingSystem {
     } else if (studioAgent.role.includes('Code') || lowerMessage.includes('code') || lowerMessage.includes('programming')) {
       // Generate code with advanced features
       const codeResult = await aiServiceIntegration.generateCode(optimizedPrompt, {
-        service: 'puter',
         language: 'javascript'
       });
       
@@ -426,7 +422,6 @@ export class AgentRoutingSystem {
     } else {
       // Generate text response with advanced features (function-calling, streaming support)
       const textResult = await aiServiceIntegration.generateText(optimizedPrompt, {
-        service: 'puter',
         model: 'openai/gpt-4',
         maxTokens: 1000,
         temperature: 0.7

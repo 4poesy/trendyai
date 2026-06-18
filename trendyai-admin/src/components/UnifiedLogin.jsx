@@ -202,33 +202,35 @@ const UnifiedLogin = () => {
   const domainInfo = getDomainInfo();
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-cyan-50 via-cyan-100 to-navy-900 flex items-center justify-center p-4">
+    <div className="min-h-screen bg-[#070709] bg-[radial-gradient(ellipse_at_top_right,_var(--tw-gradient-stops))] from-amber-500/10 via-[#070709] to-[#070709] flex items-center justify-center p-4">
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4">
-            {domainInfo.icon}
-            <h1 className="text-3xl font-bold text-navy-900 ml-3">
-              {domainInfo.name}
+          <div className="flex items-center justify-center mb-4 gap-3">
+            <div className="w-10 h-10 rounded-xl bg-primary text-black flex items-center justify-center font-black text-xl shadow-[0_0_15px_rgba(251,191,36,0.5)]">
+              T
+            </div>
+            <h1 className="text-3xl font-extrabold text-white tracking-tight font-heading">
+              Trendy<span className="text-primary">AI</span>
             </h1>
           </div>
-          <p className="text-navy-900/80">{domainInfo.description}</p>
-          <div className="mt-2 text-sm text-navy-900/70">
-            Domain: {currentDomain}
+          <p className="text-gray-400 text-sm font-medium">{domainInfo.description}</p>
+          <div className="mt-2 text-xs text-gray-500 font-mono">
+            Secure Node: {currentDomain}
           </div>
         </div>
 
         {/* Login Form */}
-        <div className="bg-white rounded-2xl shadow-xl p-8 border-2 border-cyan-200/40">
+        <div className="bg-[#121216] rounded-2xl shadow-2xl p-8 border border-[#222228] transition-all duration-300 hover:border-primary/30">
           <form onSubmit={handleLogin} className="space-y-6">
             {/* Email Field */}
             <div>
-              <label htmlFor="email" className="block text-sm font-medium text-navy-900 mb-2">
+              <label htmlFor="email" className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
                 Email Address
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaUser className="h-5 w-5 text-cyan-500" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                  <FaUser className="h-4 w-4 text-primary" />
                 </div>
                 <input
                   id="email"
@@ -236,26 +238,26 @@ const UnifiedLogin = () => {
                   type="email"
                   value={formData.email}
                   onChange={handleInputChange}
-                  className={`block w-full pl-10 pr-3 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors ${
-                    errors.email ? 'border-red-300' : 'border-cyan-200'
+                  className={`block w-full pl-10 pr-3.5 py-3 bg-[#1a1a22] border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm ${
+                    errors.email ? 'border-red-500/50' : 'border-[#2d2d3a]'
                   }`}
-                  placeholder="Enter your email"
+                  placeholder="name@example.com"
                   disabled={loading}
                 />
               </div>
               {errors.email && (
-                <p className="mt-1 text-sm text-red-600">{errors.email}</p>
+                <p className="mt-1.5 text-xs text-red-500 font-semibold">{errors.email}</p>
               )}
             </div>
 
             {/* Password Field */}
             <div>
-              <label htmlFor="password" className="block text-sm font-medium text-navy-900 mb-2">
+              <label htmlFor="password" className="block text-xs font-bold uppercase tracking-wider text-gray-400 mb-2">
                 Password
               </label>
               <div className="relative">
-                <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
-                  <FaLock className="h-5 w-5 text-cyan-500" />
+                <div className="absolute inset-y-0 left-0 pl-3.5 flex items-center pointer-events-none">
+                  <FaLock className="h-4 w-4 text-primary" />
                 </div>
                 <input
                   id="password"
@@ -263,27 +265,27 @@ const UnifiedLogin = () => {
                   type={showPassword ? 'text' : 'password'}
                   value={formData.password}
                   onChange={handleInputChange}
-                  className={`block w-full pl-10 pr-12 py-3 border rounded-lg focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:border-transparent transition-colors ${
-                    errors.password ? 'border-red-300' : 'border-cyan-200'
+                  className={`block w-full pl-10 pr-12 py-3 bg-[#1a1a22] border rounded-xl text-white placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary/20 focus:border-primary transition-all text-sm ${
+                    errors.password ? 'border-red-500/50' : 'border-[#2d2d3a]'
                   }`}
-                  placeholder="Enter your password"
+                  placeholder="Enter your security password"
                   disabled={loading}
                 />
                 <button
                   type="button"
-                  className="absolute inset-y-0 right-0 pr-3 flex items-center"
+                  className="absolute inset-y-0 right-0 pr-3.5 flex items-center text-gray-500 hover:text-primary transition-colors"
                   onClick={() => setShowPassword(!showPassword)}
                   disabled={loading}
                 >
                   {showPassword ? (
-                    <FaEyeSlash className="h-5 w-5 text-cyan-500 hover:text-cyan-700" />
+                    <FaEyeSlash className="h-4 w-4" />
                   ) : (
-                    <FaEye className="h-5 w-5 text-cyan-500 hover:text-cyan-700" />
+                    <FaEye className="h-4 w-4" />
                   )}
                 </button>
               </div>
               {errors.password && (
-                <p className="mt-1 text-sm text-red-600">{errors.password}</p>
+                <p className="mt-1.5 text-xs text-red-500 font-semibold">{errors.password}</p>
               )}
             </div>
 
@@ -296,11 +298,11 @@ const UnifiedLogin = () => {
                   type="checkbox"
                   checked={formData.rememberMe}
                   onChange={handleInputChange}
-                  className="h-4 w-4 text-cyan-600 focus:ring-cyan-500 border-cyan-300 rounded"
+                  className="h-4 w-4 text-[#070709] focus:ring-primary border-[#2d2d3a] bg-[#1a1a22] rounded accent-primary"
                   disabled={loading}
                 />
-                <label htmlFor="rememberMe" className="ml-2 block text-sm text-navy-900">
-                  Remember me
+                <label htmlFor="rememberMe" className="ml-2.5 block text-xs font-medium text-gray-300">
+                  Remember my session
                 </label>
               </div>
             </div>
@@ -309,55 +311,55 @@ const UnifiedLogin = () => {
             <button
               type="submit"
               disabled={loading}
-              className="w-full bg-gradient-to-r from-cyan-500 to-cyan-600 text-navy-900 py-3 px-4 rounded-lg font-bold hover:from-cyan-400 hover:to-cyan-500 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-lg"
+              className="w-full bg-primary hover:bg-[#fcd34d] text-[#070709] py-3 px-4 rounded-xl font-bold uppercase tracking-wider text-xs transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed shadow-[0_0_15px_rgba(251,191,36,0.25)] hover:shadow-[0_0_20px_rgba(251,191,36,0.45)] cursor-pointer"
             >
               {loading ? (
-                <div className="flex items-center justify-center">
-                  <div className="animate-spin rounded-full h-5 w-5 border-b-2 border-navy-900 mr-2"></div>
-                  Signing in...
+                <div className="flex items-center justify-center gap-2">
+                  <div className="animate-spin rounded-full h-4 w-4 border-2 border-[#070709] border-t-transparent"></div>
+                  Verifying...
                 </div>
               ) : (
-                'Sign In'
+                'Authenticate Account'
               )}
             </button>
 
-            {/* Demo Login */}
-            <button
-              type="button"
-              onClick={handleDemoLogin}
-              disabled={loading}
-              className="w-full bg-navy-900 text-cyan-200 py-3 px-4 rounded-lg font-bold hover:bg-navy-800 focus:outline-none focus:ring-2 focus:ring-cyan-500 focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-cyan-200/40"
-            >
-              Try Demo Mode
-            </button>
-
-            {/* Client Login */}
-            <button
-              type="button"
-              onClick={handleClientLogin}
-              disabled={loading}
-              className="w-full bg-primary text-white py-3 px-4 rounded-lg font-bold hover:bg-primary-hover focus:outline-none focus:ring-2 focus:ring-primary focus:ring-offset-2 transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border-2 border-border-main"
-            >
-              Try Client Mode
-            </button>
+            {/* Demo & Client Quick Ports */}
+            <div className="grid grid-cols-2 gap-3 pt-2">
+              <button
+                type="button"
+                onClick={handleDemoLogin}
+                disabled={loading}
+                className="bg-[#1a1a22] hover:bg-[#202029] text-primary py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-primary/20 hover:border-primary/40 cursor-pointer"
+              >
+                Demo Sandbox
+              </button>
+              <button
+                type="button"
+                onClick={handleClientLogin}
+                disabled={loading}
+                className="bg-[#1a1a22] hover:bg-[#202029] text-white py-2.5 px-3 rounded-xl text-xs font-bold transition-all duration-200 disabled:opacity-50 disabled:cursor-not-allowed border border-[#2d2d3a] hover:border-gray-500 cursor-pointer"
+              >
+                Client Portal
+              </button>
+            </div>
           </form>
 
           {/* Domain Navigation */}
-          <div className="mt-8 pt-6 border-t border-cyan-200/40">
-            <p className="text-sm text-navy-900/70 text-center mb-4">
-              Navigate between platforms:
+          <div className="mt-8 pt-6 border-t border-[#222228] text-center">
+            <p className="text-xs text-gray-500 font-semibold uppercase tracking-wider mb-4">
+              Gateway Switch
             </p>
             <div className="flex gap-3">
               <button
                 onClick={() => domainNavigation.goToTrendtactics()}
-                className="flex-1 bg-navy-900 text-cyan-200 py-2 px-4 rounded-lg text-sm font-bold hover:bg-navy-800 transition-colors border-2 border-cyan-200/40"
+                className="flex-1 bg-[#1a1a22] hover:bg-[#202029] text-gray-300 py-2.5 px-4 rounded-xl text-xs font-bold transition-colors border border-[#2d2d3a] cursor-pointer"
               >
-                <FaBuilding className="inline mr-2" />
+                <FaBuilding className="inline mr-2 text-primary" />
                 Trendtactics
               </button>
               <button
                 onClick={() => domainNavigation.goToTrendyAI()}
-                className="flex-1 bg-cyan-500 text-navy-900 py-2 px-4 rounded-lg text-sm font-bold hover:bg-cyan-400 transition-colors"
+                className="flex-1 bg-[#1a1a22] hover:bg-[#202029] text-primary py-2.5 px-4 rounded-xl text-xs font-bold transition-colors border border-primary/20 cursor-pointer"
               >
                 <FaRocket className="inline mr-2" />
                 TrendyAI
@@ -368,8 +370,8 @@ const UnifiedLogin = () => {
 
         {/* Footer */}
         <div className="text-center mt-6">
-          <p className="text-sm text-navy-900/70">
-            © 2025 Trendtactics Digital. All rights reserved.
+          <p className="text-xs text-gray-600 font-semibold tracking-wider uppercase">
+            © 2026 Trendtactics Digital. All rights reserved.
           </p>
         </div>
       </div>

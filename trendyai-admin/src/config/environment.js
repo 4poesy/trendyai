@@ -34,16 +34,6 @@ export const environment = {
     baseURL: 'https://api.anthropic.com/v1'
   },
   
-  // Puter.js Configuration
-  puter: {
-    appId: import.meta.env.VITE_PUTER_APP_ID || 
-           localStorage.getItem('VITE_PUTER_APP_ID') || 
-           'a913df5a-f2b6-4adb-b1a4-d2f6148b1508',
-    apiKey: import.meta.env.VITE_PUTER_API_KEY || 
-            localStorage.getItem('VITE_PUTER_API_KEY') || 
-            'your-puter-api-key-here'
-  },
-  
   // Backend Express API Configuration
   backend: {
     baseURL: import.meta.env.VITE_BACKEND_API_URL || 

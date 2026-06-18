@@ -12,9 +12,6 @@ class APIConfig {
   // Initialize with your provided credentials
   async initialize() {
     try {
-      // Initialize Puter.js with your App ID
-      const puterAppId = 'a913df5a-f2b6-4adb-b1a4-d2f6148b1508';
-      
       // Set up OpenRouter API keys dynamically from environment or placeholders
       const openRouterModelIds = [
         'mistral-small', 'deepseek-r1', 'nvidia-llama', 'kimi-dev', 'qwen-30b',
@@ -51,7 +48,6 @@ class APIConfig {
   saveToStorage() {
     try {
       localStorage.setItem('trendyai_api_config', JSON.stringify({
-        puterAppId: 'a913df5a-f2b6-4adb-b1a4-d2f6148b1508',
         openRouterKeys: this.openRouterKeys,
         googleAPIKey: this.googleAPIKey,
         initialized: true
@@ -93,10 +89,7 @@ class APIConfig {
     return this.googleAPIKey;
   }
 
-  // Get Puter.js App ID
-  getPuterAppId() {
-    return 'a913df5a-f2b6-4adb-b1a4-d2f6148b1508';
-  }
+
 
   // Test OpenRouter connection
   async testOpenRouterConnection(modelName = 'mistral-small') {
@@ -158,7 +151,6 @@ class APIConfig {
   getStatus() {
     return {
       isInitialized: this.isInitialized,
-      puterAppId: this.getPuterAppId(),
       openRouterModels: this.getAvailableModels().length,
       googleAPIKey: !!this.googleAPIKey,
       totalKeys: Object.keys(this.openRouterKeys).length + (this.googleAPIKey ? 1 : 0)

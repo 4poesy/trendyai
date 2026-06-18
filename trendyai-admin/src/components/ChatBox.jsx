@@ -231,7 +231,7 @@ Falling back to direct AI response...`,
         currentAgent.includes('Design') || currentAgent.includes('Pixel') || currentAgent.includes('Visual')) {
       
       const imageResult = await aiServiceIntegration.generateImage(userMessage, {
-        service: 'puter', // Use Puter.js as default free service
+        agentId: sourceAgentId || 'pixeldex',
         size: '1024x1024',
         quality: 'standard'
       });
@@ -240,8 +240,7 @@ Falling back to direct AI response...`,
         response = `I've generated an image based on your request: "${userMessage}". Here's what I created:`;
         mediaUrl = imageResult.imageUrl;
       } else {
-        response = `I encountered an issue generating your image: ${imageResult.error}. ${imageResult.fallback?.note || ''}`;
-        mediaUrl = imageResult.fallback?.imageUrl;
+        response = `I encountered an issue generating your image: ${imageResult.error}`;
       }
     }
     // Check if this is a video request
@@ -249,7 +248,7 @@ Falling back to direct AI response...`,
              currentAgent.includes('Video') || currentAgent.includes('Clip') || currentAgent.includes('Trendywood')) {
       
       const videoResult = await aiServiceIntegration.generateVideo(userMessage, {
-        service: 'puter', // Use Puter.js as default free service
+        agentId: sourceAgentId || 'mediawiz',
         duration: 10,
         quality: 'standard'
       });
@@ -258,8 +257,7 @@ Falling back to direct AI response...`,
         response = `I've created a video based on your request: "${userMessage}". Here's what I generated:`;
         mediaUrl = videoResult.videoUrl;
       } else {
-        response = `I encountered an issue generating your video: ${videoResult.error}. ${videoResult.fallback?.note || ''}`;
-        mediaUrl = videoResult.fallback?.videoUrl;
+        response = `I encountered an issue generating your video: ${videoResult.error}`;
       }
     }
     // Check if this is an audio request
@@ -267,7 +265,7 @@ Falling back to direct AI response...`,
              currentAgent.includes('Audio') || currentAgent.includes('Sonic')) {
       
       const audioResult = await aiServiceIntegration.generateAudio(userMessage, {
-        service: 'puter', // Use Puter.js as default free service
+        agentId: sourceAgentId || 'mediawiz',
         voice: 'alloy',
         speed: 1.0
       });
@@ -276,13 +274,13 @@ Falling back to direct AI response...`,
         response = `I've created audio based on your request: "${userMessage}". Here's what I generated:`;
         mediaUrl = audioResult.audioUrl;
       } else {
-        response = `I encountered an issue generating your audio: ${audioResult.error}. ${audioResult.fallback?.note || ''}`;
+        response = `I encountered an issue generating your audio: ${audioResult.error}`;
       }
     }
     // Default to text response
     else {
       const textResult = await aiServiceIntegration.generateText(userMessage, {
-        service: 'puter', // Use Puter.js as default free service
+        agentId: sourceAgentId || 'trendyai-core',
         model: 'gpt-3.5-turbo',
         maxTokens: 1000,
         temperature: 0.7
@@ -291,7 +289,7 @@ Falling back to direct AI response...`,
       if (textResult.success) {
         response = textResult.text;
       } else {
-        response = `I encountered an issue generating a response: ${textResult.error}. ${textResult.fallback?.note || ''}`;
+        response = `I encountered an issue generating a response: ${textResult.error}`;
       }
     }
     
