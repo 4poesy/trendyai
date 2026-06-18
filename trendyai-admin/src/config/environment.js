@@ -44,6 +44,13 @@ export const environment = {
             'your-puter-api-key-here'
   },
   
+  // Backend Express API Configuration
+  backend: {
+    baseURL: import.meta.env.VITE_BACKEND_API_URL || 
+             localStorage.getItem('VITE_BACKEND_API_URL') || 
+             'http://localhost:3000/api/v1'
+  },
+  
   // Development Mode
   isDevelopment: import.meta.env.VITE_DEV_MODE === 'true' || import.meta.env.DEV
 };
