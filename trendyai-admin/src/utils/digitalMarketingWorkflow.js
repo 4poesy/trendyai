@@ -18,31 +18,30 @@ class DigitalMarketingWorkflow {
       retention: 'Client Retention & Advocacy'
     };
 
-    // Service categories
     this.services = {
       seo: {
         name: 'Search Engine Optimization',
-        agents: ['RankRover', 'ContentCrafter', 'BlogSmith'],
+        agents: ['StratoBoss', 'ContentSmith'],
         workflow: this.seoWorkflow.bind(this)
       },
       webDesign: {
         name: 'Website Design & Development',
-        agents: ['WebWiz', 'DesignDex', 'PixelWitch'],
+        agents: ['WebWiz', 'PixelDex'],
         workflow: this.webDesignWorkflow.bind(this)
       },
       ebookSales: {
         name: 'Ebook Creation & Sales',
-        agents: ['BookSmith', 'EbookStylist', 'EbookSalesAgent'],
+        agents: ['ContentSmith', 'PixelDex'],
         workflow: this.ebookSalesWorkflow.bind(this)
       },
       courseSales: {
         name: 'Online Course Sales',
-        agents: ['CourseCraft', 'CourseSalesAgent', 'Trendywood'],
+        agents: ['ContentSmith', 'MediaWiz'],
         workflow: this.courseSalesWorkflow.bind(this)
       },
       digitalMarketing: {
         name: 'Comprehensive Digital Marketing',
-        agents: ['StratoBoss', 'AdGenie', 'MailMage', 'PostPilot'],
+        agents: ['StratoBoss', 'ContentSmith', 'PulsePilot'],
         workflow: this.digitalMarketingWorkflow.bind(this)
       }
     };

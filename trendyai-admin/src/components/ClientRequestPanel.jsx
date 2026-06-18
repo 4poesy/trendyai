@@ -83,10 +83,10 @@ export default function ClientRequestPanel() {
               className="crm-input"
               disabled={submitting}
             >
-              <option value="seo">SEO & Keywords Audit (RankRover & WebWiz)</option>
-              <option value="content">Marketing Copy & Blog posts (BlogSmith)</option>
-              <option value="design">Landing Page Wireframes & Copy (WebWiz & BlogSmith)</option>
-              <option value="full">Full AI Service Stack (All Agents)</option>
+              <option value="seo">SEO & Keywords Audit (StratoBoss & WebWiz)</option>
+              <option value="content">Marketing Copy & Blog posts (ContentSmith)</option>
+              <option value="design">Landing Page Wireframes & Copy (WebWiz & ContentSmith)</option>
+              <option value="full">Full AI Service Stack (All 8 Agents)</option>
             </select>
           </div>
 
@@ -152,24 +152,24 @@ export default function ClientRequestPanel() {
             <div className="flex flex-wrap gap-2">
               {formData.type === 'seo' && (
                 <>
-                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">RankRover (SEO auditor)</span>
-                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">WebWiz (HTML structure checker)</span>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">StratoBoss (SEO Audit & Strategy)</span>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">WebWiz (Structure auditor)</span>
                 </>
               )}
               {formData.type === 'content' && (
-                <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">BlogSmith (AI Copywriter)</span>
+                <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">ContentSmith (Intentionally Creative Writer)</span>
               )}
               {formData.type === 'design' && (
                 <>
-                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">WebWiz (Designer agent)</span>
-                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">BlogSmith (Copywriter)</span>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">WebWiz (UI & Code)</span>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">ContentSmith (Copywriter)</span>
                 </>
               )}
               {formData.type === 'full' && (
                 <>
-                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">WebWiz (Design)</span>
-                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">BlogSmith (Copywriting)</span>
-                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">RankRover (SEO validation)</span>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">WebWiz (Code & Dev)</span>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">ContentSmith (Creative Copy)</span>
+                  <span className="text-xs font-semibold px-2.5 py-1 bg-bg-card border border-border-main rounded text-text-main">StratoBoss (SEO Strategy)</span>
                 </>
               )}
             </div>

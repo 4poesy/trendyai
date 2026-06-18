@@ -6,46 +6,47 @@ import { aiServiceIntegration } from './aiServiceIntegration';
 
 // Agent mapping between AgentGrid and StudioMode
 const agentGridToStudioMapping = {
-  // Core & Client Management
+  // Consolidated 8-Agent Grid Mappings
   'trendyai-core': 'TrendyAI Core',
   'clientflow': 'ClientFlow',
-  'onboarding-agent': 'ONBOARDING AGENT',
-  'bizdev-strategist': 'BizDevStrategist',
-  
-  // Content & SEO
-  'content-crafter': 'ContentCrafter',
-  'blogsmith': 'BlogSmith',
-  'booksmith': 'BookSmith',
-  'rankrover': 'RankRover',
-  
-  // Ads & Email
-  'adgenie': 'AdGenie',
-  'mailmage': 'MailMage',
-  'postpilot': 'PostPilot',
-  'pixelwitch': 'PixelWitch',
-  
-  // Design & Video
-  'designdex': 'DesignDex',
-  'clipcrafter': 'ClipCrafter',
-  'trendywood': 'Trendywood',
-  'sonicvibe': 'SonicVibe',
-  
-  // Strategy & Analytics
   'stratoboss': 'StratoBoss',
-  'pulsetrack': 'PulseTrack',
-  'trendscout': 'TrendScout',
-  'promptify': 'Promptify',
+  'contentsmith': 'ContentSmith',
+  'pixeldex': 'PixelDex',
+  'mediawiz': 'MediaWiz',
+  'webwiz': 'WebWiz',
+  'pulsepilot': 'PulsePilot',
   
-  // Specialized Content & Feedback
-  'coursecraft': 'CourseCraft',
-  'ebookstylist': 'EbookStylist',
-  'poeticai': 'PoeticAI',
-  'feedbackloop': 'FeedbackLoop',
-  'promptwizard': 'PromptWizard',
+  // Legacy / Fallback Mappings (to prevent runtime breaks)
+  'onboarding-agent': 'ClientFlow',
+  'bizdev-strategist': 'ClientFlow',
+  'clientsuccessagent': 'ClientFlow',
   
-  // Marketing & Funnel Management
-  'funnelmanager': 'FunnelManager',
-  'articlerewriter': 'ArticleRewriter'
+  'content-crafter': 'ContentSmith',
+  'blogsmith': 'ContentSmith',
+  'booksmith': 'ContentSmith',
+  'coursecraft': 'ContentSmith',
+  'poeticai': 'ContentSmith',
+  'articlerewriter': 'ContentSmith',
+  
+  'pixelwitch': 'PixelDex',
+  'designdex': 'PixelDex',
+  'ebookstylist': 'PixelDex',
+  
+  'clipcrafter': 'MediaWiz',
+  'trendywood': 'MediaWiz',
+  'sonicvibe': 'MediaWiz',
+  
+  'rankrover': 'StratoBoss',
+  'trendscout': 'StratoBoss',
+  
+  'adgenie': 'PulsePilot',
+  'mailmage': 'PulsePilot',
+  'postpilot': 'PulsePilot',
+  'pulsetrack': 'PulsePilot',
+  'feedbackloop': 'PulsePilot',
+  'funnelmanager': 'PulsePilot',
+  'promptify': 'TrendyAI Core',
+  'promptwizard': 'TrendyAI Core'
 };
 
 // Reverse mapping for StudioMode to AgentGrid

@@ -6,9 +6,9 @@ import { useToast } from './Toast';
 const recent = [
   { time: '2m ago', action: 'Client added: Omega Solutions' },
   { time: '10m ago', action: 'Project approved: Social Launch' },
-  { time: '1h ago', action: 'Agent PixelWitch completed image gen' },
+  { time: '1h ago', action: 'Agent PixelDex completed image gen' },
   { time: '2h ago', action: 'Audit log exported' },
-  { time: '3h ago', action: 'Approval requested: BlogSmith' },
+  { time: '3h ago', action: 'Approval requested: ContentSmith' },
 ];
 
 function getGreeting() {

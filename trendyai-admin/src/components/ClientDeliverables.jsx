@@ -16,7 +16,7 @@ export default function ClientDeliverables() {
       type: 'content',
       project: 'SaaS Launch SEO',
       status: 'pending',
-      creator: 'BlogSmith',
+      creator: 'ContentSmith',
       content: `<h1>Getting Started with Agentic AI: The Next Frontier of Automation</h1>
 
 <p>For the past decade, AI has primarily been predictive or conversational. We asked questions, and it gave us answers. We fed it data, and it drew charts. However, a major shift is happening in 2026: the rise of <strong>Agentic AI</strong>.</p>

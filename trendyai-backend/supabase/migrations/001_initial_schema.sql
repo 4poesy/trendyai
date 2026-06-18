@@ -93,23 +93,28 @@ alter table public.tasks enable row level security;
 alter table public.analytics enable row level security;
 
 -- Create policies for clients table
+drop policy if exists "Users can view their own clients" on public.clients;
 create policy "Users can view their own clients"
     on public.clients for select
     using (auth.uid() = created_by);
 
+drop policy if exists "Users can insert their own clients" on public.clients;
 create policy "Users can insert their own clients"
     on public.clients for insert
     with check (auth.uid() = created_by);
 
+drop policy if exists "Users can update their own clients" on public.clients;
 create policy "Users can update their own clients"
     on public.clients for update
     using (auth.uid() = created_by);
 
+drop policy if exists "Users can delete their own clients" on public.clients;
 create policy "Users can delete their own clients"
     on public.clients for delete
     using (auth.uid() = created_by);
 
 -- Create policies for projects table
+drop policy if exists "Users can view projects they are assigned to" on public.projects;
 create policy "Users can view projects they are assigned to"
     on public.projects for select
     using (auth.uid() = assigned_to or exists (
@@ -118,6 +123,7 @@ create policy "Users can view projects they are assigned to"
         and public.clients.created_by = auth.uid()
     ));
 
+drop policy if exists "Users can insert projects for their own clients" on public.projects;
 create policy "Users can insert projects for their own clients"
     on public.projects for insert
     with check (exists (
@@ -126,6 +132,7 @@ create policy "Users can insert projects for their own clients"
         and public.clients.created_by = auth.uid()
     ));
 
+drop policy if exists "Users can update projects they are assigned to" on public.projects;
 create policy "Users can update projects they are assigned to"
     on public.projects for update
     using (auth.uid() = assigned_to or exists (
@@ -134,6 +141,7 @@ create policy "Users can update projects they are assigned to"
         and public.clients.created_by = auth.uid()
     ));
 
+drop policy if exists "Users can delete projects they are assigned to" on public.projects;
 create policy "Users can delete projects they are assigned to"
     on public.projects for delete
     using (auth.uid() = assigned_to or exists (
@@ -155,8 +163,11 @@ create index if not exists idx_analytics_event_type on public.analytics(event_ty
 
 -- Insert sample data
 insert into public.agents (name, role, description, capabilities) values
-    ('TrendyAI Core', 'Master Orchestrator', 'Central intelligence for decomposing, assigning, and managing all client requests and workflows', ARRAY['intention recognition', 'task decomposition', 'agent assignment']),
-    ('ClientFlow', 'Digital Marketing Concierge', 'Central orchestrator for client lifecycle management, lead nurturing, and automated service delivery', ARRAY['lead detection', 'client nurturing', 'service orchestration']),
-    ('WebWiz', 'Web Design & Development', 'Creates and develops websites, encompassing wireframing, mockups, coding, and deployment', ARRAY['wireframe generation', 'mockup creation', 'website deployment']),
-    ('RankRover', 'SEO Optimization', 'Conducts comprehensive SEO audits, keyword research, and monitors search performance', ARRAY['SEO auditing', 'keyword research', 'ranking monitoring']),
-    ('AdGenie', 'Ad Copywriter & Campaign Manager', 'Writes engaging ad copy and manages digital advertising campaigns', ARRAY['ad copy generation', 'campaign setup', 'performance monitoring']);
+    ('TrendyAI Core', 'Master Orchestrator', 'Central intelligence for decomposing, assigning, and managing all client requests and workflows. Handles human-in-the-loop review routing and notifications.', ARRAY['intention recognition', 'task decomposition', 'agent assignment', 'progress monitoring']),
+    ('ClientFlow', 'Digital Marketing Concierge', 'Central orchestrator for client lifecycle management, lead nurturing, and automated service delivery.', ARRAY['lead detection', 'client nurturing', 'service onboarding']),
+    ('StratoBoss', 'Strategy & Trend Analyst', 'Formulates overarching digital marketing strategies, competitive intelligence, SEO audits, keyword research, and forecasts consumer trends.', ARRAY['market analysis', 'SEO auditing', 'trend forecasting', 'competitor sweeps']),
+    ('ContentSmith', 'Intentionally Creative Writer', 'Chameleonic writer adapting behavior (Copywriter, Blogger, Poet, Book Writer) with active tone matching and creative variations.', ARRAY['copywriting', 'blog writing', 'ebook writing', 'poetic content', 'tone matching']),
+    ('PixelDex', 'Visual & Graphic Designer', 'Creates professional graphic designs, logos, and visual assets. Integrates branding guidelines and utilizes AI image generation.', ARRAY['image generation', 'logo design', 'social banners', 'UI design']),
+    ('MediaWiz', 'Video & Audio Specialist', 'Manages video scripting, storyboarding, short-form editing, scene creation, and synthetic voiceovers.', ARRAY['video editing', 'scripting', 'audio syncing', 'voiceovers']),
+    ('WebWiz', 'Web Designer & Coder', 'Designs, wireframes, and develops website frontends (HTML, CSS, React), manages site deployments and CMS connections.', ARRAY['frontend coding', 'wireframing', 'CMS publishing', 'site deployment']),
+    ('PulsePilot', 'Publisher & Ad Operations', 'Deploys paid ads, schedules social media, manages YouTube video uploads, and monitors client ad budgets.', ARRAY['campaign setup', 'social publishing', 'YouTube uploads', 'budget alerts']);

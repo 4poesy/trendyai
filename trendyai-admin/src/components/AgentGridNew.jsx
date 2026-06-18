@@ -13,253 +13,86 @@ console.log('AgentGridNew component loading...');
 // Agent definitions with categorization and chat functionality using professional React Icons
 const agentGroups = [
   {
-    name: 'Core & Client Management',
+    name: 'Core & Onboarding Suite',
     agents: [
       {
         id: 'trendyai-core',
         name: 'TrendyAI Core',
-        description: 'Central AI orchestrator and request router',
+        description: 'Central orchestrator for project decomposition, task assignment, and human approval gates.',
         icon: <FaRobot />,
         status: 'Active',
-        chatFlow: ['TrendyAI Core', 'PromptWizard', 'Target Agent']
+        chatFlow: ['ClientFlow', 'StratoBoss', 'PulsePilot']
       },
       {
         id: 'clientflow',
         name: 'ClientFlow',
-        description: 'Client onboarding and relationship management',
+        description: 'Acquires leads, parses briefings into variables, and manages CRM/onboarding pipelines.',
         icon: <FaUsers />,
         status: 'Active',
-        chatFlow: ['ClientFlow', 'ONBOARDING AGENT', 'BizDevStrategist']
-      },
-      {
-        id: 'onboarding-agent',
-        name: 'ONBOARDING AGENT',
-        description: 'Streamlined client onboarding process',
-        icon: <FaRocket />,
-        status: 'Active',
-        chatFlow: ['ONBOARDING AGENT', 'ClientFlow', 'BizDevStrategist']
-      },
-      {
-        id: 'bizdev-strategist',
-        name: 'BizDevStrategist',
-        description: 'Business development and growth strategy',
-        icon: <FaChartLine />,
-        status: 'Active',
-        chatFlow: ['BizDevStrategist', 'ClientFlow', 'TrendyAI Core']
+        chatFlow: ['TrendyAI Core', 'ContentSmith', 'StratoBoss']
       }
     ]
   },
   {
-    name: 'Content & SEO',
-    agents: [
-      {
-        id: 'content-crafter',
-        name: 'ContentCrafter',
-        description: 'High-quality content creation and optimization',
-        icon: <FaPenNib />,
-        status: 'Active',
-        chatFlow: ['ContentCrafter', 'BlogSmith', 'RankRover']
-      },
-      {
-        id: 'blogsmith',
-        name: 'BlogSmith',
-        description: 'Blog post creation and management',
-        icon: <FaEdit />,
-        status: 'Active',
-        chatFlow: ['BlogSmith', 'ContentCrafter', 'RankRover']
-      },
-      {
-        id: 'booksmith',
-        name: 'BookSmith',
-        description: 'E-book and long-form content creation',
-        icon: <FaBook />,
-        status: 'Active',
-        chatFlow: ['BookSmith', 'ContentCrafter', 'EbookStylist']
-      },
-      {
-        id: 'rankrover',
-        name: 'RankRover',
-        description: 'SEO optimization and ranking strategies',
-        icon: <FaSearch />,
-        status: 'Active',
-        chatFlow: ['RankRover', 'ContentCrafter', 'PulseTrack']
-      }
-    ]
-  },
-  {
-    name: 'Ads & Email',
-    agents: [
-      {
-        id: 'adgenie',
-        name: 'AdGenie',
-        description: 'Ad copy creation and campaign management',
-        icon: <FaBullhorn />,
-        status: 'Active',
-        chatFlow: ['AdGenie', 'PostPilot', 'PixelWitch']
-      },
-      {
-        id: 'mailmage',
-        name: 'MailMage',
-        description: 'Email marketing and automation',
-        icon: <FaEnvelope />,
-        status: 'Active',
-        chatFlow: ['MailMage', 'AdGenie', 'FeedbackLoop']
-      },
-      {
-        id: 'postpilot',
-        name: 'PostPilot',
-        description: 'Social media post creation and scheduling',
-        icon: <FaMobileAlt />,
-        status: 'Active',
-        chatFlow: ['PostPilot', 'AdGenie', 'TrendScout']
-      },
-      {
-        id: 'pixelwitch',
-        name: 'PixelWitch',
-        description: 'Image generation and visual content',
-        icon: <FaPalette />,
-        status: 'Active',
-        chatFlow: ['PixelWitch', 'DesignDex', 'ClipCrafter']
-      }
-    ]
-  },
-  {
-    name: 'Design & Video',
-    agents: [
-      {
-        id: 'designdex',
-        name: 'DesignDex',
-        description: 'Graphic design and visual branding',
-        icon: <FaPalette />,
-        status: 'Active',
-        chatFlow: ['DesignDex', 'PixelWitch', 'ClipCrafter']
-      },
-      {
-        id: 'clipcrafter',
-        name: 'ClipCrafter',
-        description: 'Video editing and content creation',
-        icon: <FaVideo />,
-        status: 'Active',
-        chatFlow: ['ClipCrafter', 'DesignDex', 'Trendywood']
-      },
-      {
-        id: 'trendywood',
-        name: 'Trendywood',
-        description: 'Video production and storytelling',
-        icon: <FaFilm />,
-        status: 'Active',
-        chatFlow: ['Trendywood', 'ClipCrafter', 'SonicVibe']
-      },
-      {
-        id: 'sonicvibe',
-        name: 'SonicVibe',
-        description: 'Audio production and sound design',
-        icon: <FaMusic />,
-        status: 'Active',
-        chatFlow: ['SonicVibe', 'Trendywood', 'ClipCrafter']
-      }
-    ]
-  },
-  {
-    name: 'Strategy & Analytics',
+    name: 'Strategy & Operations Suite',
     agents: [
       {
         id: 'stratoboss',
         name: 'StratoBoss',
-        description: 'Strategic planning and business intelligence',
+        description: 'Conducts market analysis, competitor sweeps, SEO audits, keyword lookups, and trend forecasts.',
         icon: <FaBullseye />,
         status: 'Active',
-        chatFlow: ['StratoBoss', 'PulseTrack', 'TrendScout']
+        chatFlow: ['ContentSmith', 'PulsePilot', 'TrendyAI Core']
       },
       {
-        id: 'pulsetrack',
-        name: 'PulseTrack',
-        description: 'Analytics and performance tracking',
-        icon: <FaChartBar />,
+        id: 'pulsepilot',
+        name: 'PulsePilot',
+        description: 'Deploys paid ads, schedules social media, manages YouTube video metadata, and tracks ad spend.',
+        icon: <FaChartLine />,
         status: 'Active',
-        chatFlow: ['PulseTrack', 'StratoBoss', 'FeedbackLoop']
-      },
-      {
-        id: 'trendscout',
-        name: 'TrendScout',
-        description: 'Market trends and competitive analysis',
-        icon: <FaCompass />,
-        status: 'Active',
-        chatFlow: ['TrendScout', 'StratoBoss', 'PostPilot']
-      },
-      {
-        id: 'promptify',
-        name: 'Promptify',
-        description: 'Prompt engineering and optimization',
-        icon: <FaBolt />,
-        status: 'Active',
-        chatFlow: ['Promptify', 'TrendyAI Core', 'ContentCrafter']
+        chatFlow: ['StratoBoss', 'TrendyAI Core', 'PixelDex']
       }
     ]
   },
   {
-    name: 'Specialized Content & Feedback',
+    name: 'Creative Content Suite',
     agents: [
       {
-        id: 'coursecraft',
-        name: 'CourseCraft',
-        description: 'Educational content and course creation',
-        icon: <FaGraduationCap />,
+        id: 'contentsmith',
+        name: 'ContentSmith',
+        description: 'Creative specialist adapting behavior dynamically (Copywriter, Blogger, Poet, Book Writer) with active tone matching.',
+        icon: <FaPenNib />,
         status: 'Active',
-        chatFlow: ['CourseCraft', 'BookSmith', 'EbookStylist']
+        chatFlow: ['PixelDex', 'StratoBoss', 'TrendyAI Core']
       },
       {
-        id: 'ebookstylist',
-        name: 'EbookStylist',
-        description: 'E-book formatting and styling',
-        icon: <FaBookOpen />,
+        id: 'pixeldex',
+        name: 'PixelDex',
+        description: 'Visual designer crafting logos, ad graphics, social media banners, and formatting ebook layouts.',
+        icon: <FaPalette />,
         status: 'Active',
-        chatFlow: ['EbookStylist', 'BookSmith', 'CourseCraft']
-      },
+        chatFlow: ['ContentSmith', 'MediaWiz', 'TrendyAI Core']
+      }
+    ]
+  },
+  {
+    name: 'Development & Media Suite',
+    agents: [
       {
-        id: 'poeticai',
-        name: 'PoeticAI',
-        description: 'Creative writing and poetry generation',
-        icon: <FaPenFancy />,
-        status: 'Active',
-        chatFlow: ['PoeticAI', 'ContentCrafter', 'BlogSmith']
-      },
-      {
-        id: 'feedbackloop',
-        name: 'FeedbackLoop',
-        description: 'Customer feedback analysis and insights',
-        icon: <FaSync />,
-        status: 'Active',
-        chatFlow: ['FeedbackLoop', 'PulseTrack', 'ClientFlow']
-      },
-      {
-        id: 'promptwizard',
-        name: 'PromptWizard',
-        description: 'Advanced prompt engineering and optimization',
+        id: 'webwiz',
+        name: 'WebWiz',
+        description: 'Designs UI layouts, wireframes, generates frontend code (React/HTML), and connects CMS publishing.',
         icon: <FaMagic />,
         status: 'Active',
-        chatFlow: ['PromptWizard', 'TrendyAI Core', 'Promptify']
-      }
-    ]
-  },
-  {
-    name: 'Marketing & Funnel Management',
-    agents: [
-      {
-        id: 'funnelmanager',
-        name: 'FunnelManager',
-        description: 'Marketing funnel creation and optimization',
-        icon: <FaFilter />,
-        status: 'Active',
-        chatFlow: ['FunnelManager', 'AdGenie', 'PulseTrack']
+        chatFlow: ['MediaWiz', 'PixelDex', 'TrendyAI Core']
       },
       {
-        id: 'articlerewriter',
-        name: 'ArticleRewriter',
-        description: 'Content paraphrasing and repurposing',
-        icon: <FaRetweet />,
+        id: 'mediawiz',
+        name: 'MediaWiz',
+        description: 'Generates scripts, storyboards, edits video clips (Shorts/Reels), and manages backing audio/voiceovers.',
+        icon: <FaVideo />,
         status: 'Active',
-        chatFlow: ['ArticleRewriter', 'ContentCrafter', 'BlogSmith']
+        chatFlow: ['WebWiz', 'PixelDex', 'TrendyAI Core']
       }
     ]
   }

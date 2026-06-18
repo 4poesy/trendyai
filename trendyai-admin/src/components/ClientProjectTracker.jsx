@@ -15,8 +15,8 @@ export default function ClientProjectTracker() {
       pipeline: [
         { step: 'Intake / Briefing', status: 'completed', agent: 'Client', details: 'Brief submitted with 12 focus keywords.' },
         { step: 'WebWiz (UI & Structure)', status: 'completed', agent: 'WebWiz Agent', details: 'Analyzed H1 tags, layout hierarchy, and internal link structure.' },
-        { step: 'BlogSmith (Content Draft)', status: 'active', agent: 'BlogSmith Agent', details: 'Writing optimized blog post based on high-intent keywords.' },
-        { step: 'RankRover (SEO Audit)', status: 'pending', agent: 'RankRover Agent', details: 'Will run Google Core Web Vitals checks and verify keyword density.' },
+        { step: 'ContentSmith (Content Draft)', status: 'active', agent: 'ContentSmith Agent', details: 'Writing optimized blog post based on high-intent keywords.' },
+        { step: 'StratoBoss (SEO Audit)', status: 'pending', agent: 'StratoBoss Agent', details: 'Will run Google Core Web Vitals checks and verify keyword density.' },
         { step: 'Client Review', status: 'pending', agent: 'Client', details: 'Final review and sign-off.' }
       ]
     },
@@ -29,8 +29,8 @@ export default function ClientProjectTracker() {
       pipeline: [
         { step: 'Intake / Briefing', status: 'completed', agent: 'Client', details: 'Brief submitted for 3 ad variants.' },
         { step: 'WebWiz (UI & Structure)', status: 'completed', agent: 'WebWiz Agent', details: 'Generated visual layout grid & verified image dimensions.' },
-        { step: 'BlogSmith (Content Draft)', status: 'completed', agent: 'BlogSmith Agent', details: 'Generated ad copies and call-to-actions.' },
-        { step: 'RankRover (SEO Audit)', status: 'completed', agent: 'RankRover Agent', details: 'Verified social tags and link redirects.' },
+        { step: 'ContentSmith (Content Draft)', status: 'completed', agent: 'ContentSmith Agent', details: 'Generated ad copies and call-to-actions.' },
+        { step: 'StratoBoss (SEO Audit)', status: 'completed', agent: 'StratoBoss Agent', details: 'Verified social tags and link redirects.' },
         { step: 'Client Review', status: 'active', agent: 'Client', details: 'Awaiting client feedback in the Deliverables tab.' }
       ]
     }

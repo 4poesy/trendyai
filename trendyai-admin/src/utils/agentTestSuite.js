@@ -72,28 +72,26 @@ class AgentTestSuite {
         maxTokens: 500 
       });
     }
-  }
-
-  // Test advanced features for specific agents
+   // Test advanced features for specific agents
   async testAgentAdvanced(agent, prompt) {
-    if (agent.name === 'Promptify') {
-      // Test function-calling for prompt engineering
-      await aiServiceIntegration.generateText(prompt, { 
-        service: 'puter', 
-        model: 'openai/gpt-4' 
-      }, null, { functions: ['optimizePrompt'] });
-    } else if (agent.name === 'MailMage') {
-      // Test function-calling for email generation
+    if (agent.name === 'ContentSmith') {
+      // Test function-calling for content generation
       await aiServiceIntegration.generateText(prompt, { 
         service: 'puter', 
         model: 'openai/gpt-4' 
       }, null, { functions: ['generateEmail'] });
-    } else if (agent.name === 'PostPilot') {
-      // Test function-calling for social media posts
+    } else if (agent.name === 'PulsePilot') {
+      // Test function-calling for social media publishing
       await aiServiceIntegration.generateText(prompt, { 
         service: 'puter', 
         model: 'openai/gpt-4' 
       }, null, { functions: ['generateSocialPost'] });
+    } else if (agent.name === 'TrendyAI Core') {
+      // Test function-calling for project management optimization
+      await aiServiceIntegration.generateText(prompt, { 
+        service: 'puter', 
+        model: 'openai/gpt-4' 
+      }, null, { functions: ['optimizePrompt'] });
     }
   }
 
@@ -102,36 +100,12 @@ class AgentTestSuite {
     const prompts = {
       'TrendyAI Core': 'Analyze this project request and create a task breakdown',
       'ClientFlow': 'Process this new client inquiry and qualify the lead',
-      'OnboardingAgent': 'Collect necessary information for new client onboarding',
-      'WebWiz': 'Create a modern landing page for a tech startup',
-      'RankRover': 'Perform SEO audit for an e-commerce website',
-      'StratoBoss': 'Develop digital marketing strategy for a B2B SaaS company',
-      'Promptify': 'Optimize this prompt for better AI response quality',
-      'AdGenie': 'Create compelling ad copy for a fitness app',
-      'MailMage': 'Write a welcome email sequence for new subscribers',
-      'PostPilot': 'Create engaging social media content for a coffee shop',
-      'PulseTrack': 'Analyze campaign performance data and provide insights',
-      'ContentCrafter': 'Write a comprehensive blog post about AI in marketing',
-      'BlogSmith': 'Create an SEO-optimized blog post about productivity tips',
-      'BookSmith': 'Outline a business book about digital transformation',
-      'CourseCraft': 'Design an online course about social media marketing',
-      'PixelWitch': 'Generate a professional logo for a consulting firm',
-      'DesignDex': 'Create marketing materials for a product launch',
-      'ClipCrafter': 'Edit a promotional video for a software product',
-      'Trendywood': 'Create a full video production for a brand campaign',
-      'SonicVibe': 'Compose background music for a corporate presentation',
-      'PoeticAI': 'Write a brand anthem for a sustainable fashion company',
-      'BizDevStrategist': 'Identify partnership opportunities for a tech startup',
-      'EbookStylist': 'Format an ebook about personal development',
-      'TrendScout': 'Analyze emerging trends in digital marketing',
-      'FeedbackLoop': 'Process user feedback for product improvement',
-      'FunnelManager': 'Design a sales funnel for an online course',
-      'ArticleRewriter': 'Rewrite this article for better SEO performance',
-      'EbookSalesAgent': 'Create a sales page for an ebook about productivity',
-      'CourseSalesAgent': 'Optimize course sales page for better conversions',
-      'WebsiteMonitor': 'Monitor website performance and identify issues',
-      'RevenueOptimizer': 'Analyze sales data and suggest optimizations',
-      'ClientSuccessAgent': 'Handle client support request and provide solution'
+      'StratoBoss': 'Perform SEO audit and keyword search for trendtacticsdigital.com',
+      'ContentSmith': 'Write an SEO-friendly blog post about organic search marketing',
+      'PixelDex': 'Generate a vector logo for an AI consulting agency',
+      'MediaWiz': 'Edit a 30-second promo clip with text overlay and soundtracks',
+      'WebWiz': 'Code a responsive React navbar element with Tailwind CSS',
+      'PulsePilot': 'Schedule a LinkedIn post and check the Meta Ads campaign spend'
     };
     
     return prompts[agent.name] || `Test prompt for ${agent.name}`;
@@ -140,10 +114,8 @@ class AgentTestSuite {
   // Determine if agent should test advanced features
   shouldTestAdvancedFeatures(agent) {
     const advancedAgents = [
-      'Promptify', 'MailMage', 'PostPilot', 'PulseTrack', 
-      'StratoBoss', 'BizDevStrategist', 'FunnelManager', 
-      'TrendScout', 'FeedbackLoop', 'EbookStylist', 
-      'CourseCraft', 'PoeticAI', 'ArticleRewriter'
+      'TrendyAI Core', 'ClientFlow', 'StratoBoss', 'ContentSmith',
+      'PixelDex', 'MediaWiz', 'WebWiz', 'PulsePilot'
     ];
     return advancedAgents.includes(agent.name);
   }
