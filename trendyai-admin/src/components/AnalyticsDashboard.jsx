@@ -13,9 +13,9 @@ import {
 const MetricCard = ({ title, value, change, icon: Icon, color = 'blue' }) => {
   const colors = {
     blue: 'bg-primary-light text-primary border-primary/10',
-    green: 'bg-green-500/10 text-green-600 dark:text-green-400 border-green-500/20',
-    purple: 'bg-purple-500/10 text-purple-600 dark:text-purple-400 border-purple-500/20',
-    orange: 'bg-orange-500/10 text-orange-600 dark:text-orange-400 border-orange-500/20'
+    green: 'bg-amber-500/10 text-amber-500 dark:text-amber-400 border-amber-500/20',
+    purple: 'bg-yellow-500/10 text-yellow-500 dark:text-yellow-400 border-yellow-500/20',
+    orange: 'bg-amber-600/10 text-amber-600 dark:text-amber-500 border-amber-600/20'
   };
 
   return (
@@ -25,7 +25,7 @@ const MetricCard = ({ title, value, change, icon: Icon, color = 'blue' }) => {
           <p className="text-xs font-semibold uppercase tracking-wider text-text-sub">{title}</p>
           <p className="text-3xl font-extrabold text-text-main mt-2">{value}</p>
           {change && (
-            <p className={`text-xs font-semibold mt-3 flex items-center gap-1 ${change >= 0 ? 'text-green-600 dark:text-green-400' : 'text-red-500'}`}>
+            <p className={`text-xs font-semibold mt-3 flex items-center gap-1 ${change >= 0 ? 'text-primary' : 'text-text-muted'}`}>
               {change >= 0 ? '+' : ''}{change}% <span className="text-text-muted font-normal">from last month</span>
             </p>
           )}
@@ -51,7 +51,7 @@ const SimpleBarChart = ({ data }) => {
   return (
     <div className="flex items-end justify-between h-48 space-x-3 pt-4 px-2">
       {data.map((item, index) => (
-        <div key={index} className="flex-1 flex flex-col items-center">
+        <div key={index} className="flex-1 flex flex-col items-center h-full justify-end">
           <div 
             className="w-full bg-primary rounded-t transition-all duration-300 hover:bg-primary-hover"
             style={{ 
@@ -70,11 +70,7 @@ const ActivityFeed = ({ activities }) => (
   <div className="space-y-4">
     {activities.map((activity, index) => (
       <div key={index} className="flex items-start space-x-3 p-2 hover:bg-bg-panel/40 rounded transition-colors">
-        <div className={`p-2 rounded-full border shrink-0 ${
-          activity.type === 'success' 
-            ? 'bg-green-500/10 border-green-500/20 text-green-600 dark:text-green-400' 
-            : 'bg-primary-light border-primary/10 text-primary'
-        }`}>
+        <div className="p-2 rounded-full border shrink-0 bg-primary-light border-primary/10 text-primary">
           {activity.type === 'success' ? (
             <FiCheckCircle className="w-4 h-4" />
           ) : (
@@ -227,7 +223,7 @@ const AnalyticsDashboard = () => {
                 <span className="text-primary">95%</span>
               </div>
               <div className="w-full bg-bg-panel border border-border-main rounded-full h-3 overflow-hidden">
-                <div className="bg-green-500 h-full rounded-full" style={{ width: '95%' }}></div>
+                <div className="bg-primary h-full rounded-full" style={{ width: '95%' }}></div>
               </div>
             </div>
             
@@ -237,7 +233,7 @@ const AnalyticsDashboard = () => {
                 <span className="text-primary">87%</span>
               </div>
               <div className="w-full bg-bg-panel border border-border-main rounded-full h-3 overflow-hidden">
-                <div className="bg-primary h-full rounded-full" style={{ width: '87%' }}></div>
+                <div className="bg-amber-500 h-full rounded-full" style={{ width: '87%' }}></div>
               </div>
             </div>
             
@@ -247,7 +243,7 @@ const AnalyticsDashboard = () => {
                 <span className="text-primary">92%</span>
               </div>
               <div className="w-full bg-bg-panel border border-border-main rounded-full h-3 overflow-hidden">
-                <div className="bg-purple-500 h-full rounded-full" style={{ width: '92%' }}></div>
+                <div className="bg-amber-600 h-full rounded-full" style={{ width: '92%' }}></div>
               </div>
             </div>
           </div>

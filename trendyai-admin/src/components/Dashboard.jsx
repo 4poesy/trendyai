@@ -31,10 +31,10 @@ const StatCard = ({ icon, label, value, change }) => (
     </div>
     {change !== undefined && (
       <div className="flex items-center gap-1.5 mt-4 text-xs font-semibold">
-        <span className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full ${
+        <span className={`inline-flex items-center gap-0.5 px-2 py-0.5 rounded-full border ${
           change > 0 
-            ? 'bg-green-500/15 text-green-500' 
-            : 'bg-red-500/15 text-red-500'
+            ? 'bg-primary-light text-primary border-primary/20' 
+            : 'bg-bg-panel text-text-muted border-border-main'
         }`}>
           {change > 0 ? <FaArrowUp size={8} /> : <FaArrowDown size={8} />}
           {Math.abs(change)}%
@@ -46,7 +46,7 @@ const StatCard = ({ icon, label, value, change }) => (
 );
 
 const activityIcons = {
-  'Client added': <FaUserPlus className="text-green-500 bg-green-500/10 border border-green-500/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
+  'Client added': <FaUserPlus className="text-primary bg-primary/10 border border-primary/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
   'Project approved': <FaClipboardCheck className="text-amber-500 bg-amber-500/10 border border-amber-500/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
   'Agent': <FaRobot className="text-amber-400 bg-amber-400/10 border border-amber-400/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
   'Audit log': <FaClipboardList className="text-primary bg-primary/10 border border-primary/20 rounded-lg p-1.5 w-8 h-8 shrink-0" />,
