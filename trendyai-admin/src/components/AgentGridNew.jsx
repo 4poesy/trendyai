@@ -125,6 +125,16 @@ const agentMockStats = {
   'mediawiz': { successRate: 92.8, uptime: 99.80, tasks: 180, latency: 510 }
 };
 
+// Helper to look up agent icons dynamically for the pipeline preview
+const getAgentIconByName = (name) => {
+  const allAgents = agentGroups.flatMap(g => g.agents);
+  const found = allAgents.find(a => 
+    a.name.toLowerCase() === name.toLowerCase() || 
+    a.id.toLowerCase() === name.toLowerCase().replace(/\s+/g, '')
+  );
+  return found ? found.icon : <FaRobot />;
+};
+
 const AgentGridNew = () => {
   const { showSuccess, showInfo } = useToast();
   
@@ -528,7 +538,7 @@ const AgentGridNew = () => {
                 {group.agents.map(agent => (
                   <div
                     key={agent.id}
-                    className="group relative flex flex-col justify-between w-full rounded-2xl shadow-sm border border-border-main hover:border-primary bg-bg-card p-6 transition-all duration-300 hover:-translate-y-1 hover:shadow-md cursor-pointer"
+                    className="group relative flex flex-col justify-between w-full rounded-2xl shadow-sm border border-border-main hover:border-primary bg-bg-secondary p-7 transition-all duration-300 hover:-translate-y-1 hover:shadow-md cursor-pointer"
                     onClick={() => setActiveAgentId(agent.id)}
                     tabIndex={0}
                     role="button"
@@ -537,14 +547,14 @@ const AgentGridNew = () => {
                     {/* Top row: Status and Badge */}
                     <div className="flex items-center justify-between mb-4 w-full">
                       {/* Icon inside circle */}
-                      <div className="w-12 h-12 rounded-xl bg-primary-light dark:bg-primary/10 text-primary flex items-center justify-center text-xl group-hover:scale-110 transition-transform duration-300">
+                      <div className="w-11 h-11 rounded-xl bg-primary-light dark:bg-primary/10 text-primary flex items-center justify-center text-lg group-hover:scale-105 transition-transform duration-300 border border-border-main/40">
                         {agent.icon}
                       </div>
                       
                       {/* Ambient glowing status */}
-                      <div className="flex items-center gap-1.5">
-                        <span className={`w-2 h-2 rounded-full ${getStatusColor(agent.status)} animate-pulse`}></span>
-                        <span className="text-[10px] font-bold text-text-sub uppercase tracking-wider">
+                      <div className="flex items-center gap-1.5 bg-bg-panel px-2.5 py-1 rounded-full border border-border-main/30">
+                        <span className={`w-1.5 h-1.5 rounded-full ${getStatusColor(agent.status)} animate-pulse`}></span>
+                        <span className="text-[9px] font-bold text-text-sub uppercase tracking-wider">
                           {agent.status}
                         </span>
                       </div>
@@ -552,7 +562,7 @@ const AgentGridNew = () => {
 
                     {/* Agent Info */}
                     <div className="flex-1">
-                      <h3 className="text-lg font-bold text-text-main group-hover:text-primary transition-colors tracking-tight leading-snug">
+                      <h3 className="text-base font-bold text-text-main group-hover:text-primary transition-colors tracking-tight leading-snug font-heading">
                         {agent.name}
                       </h3>
                       <p className="text-xs text-text-sub mt-2 leading-relaxed font-medium">
@@ -562,7 +572,7 @@ const AgentGridNew = () => {
                       {/* Capabilities Pill Tags */}
                       <div className="flex flex-wrap gap-1.5 mt-4">
                         {(agentTags[agent.id] || []).map(tag => (
-                          <span key={tag} className="text-[10px] font-bold px-2.5 py-0.5 rounded-md bg-bg-panel border border-border-main/50 text-text-sub">
+                          <span key={tag} className="text-[10px] font-bold px-2 py-0.5 rounded-md bg-bg-panel border border-border-main/50 text-text-secondary">
                             {tag}
                           </span>
                         ))}
@@ -570,9 +580,28 @@ const AgentGridNew = () => {
                     </div>
 
                     {/* Action footer */}
-                    <div className="mt-6 border-t border-border-main/40 pt-4 flex items-center justify-between text-primary font-bold text-xs">
-                      <span>Launch Playground</span>
-                      <span className="transform translate-x-0 group-hover:translate-x-1 transition-transform duration-300 font-bold">&rarr;</span>
+                    <div className="mt-6 border-t border-border-main/30 pt-4 flex items-center justify-between w-full">
+                      {/* Pipeline Visualizer mirroring Flowise */}
+                      <div className="flex items-center gap-1.5">
+                        <div className="w-6 h-6 rounded-full bg-green-500/10 dark:bg-green-500/20 text-green-500 flex items-center justify-center text-[10px] shadow-sm">
+                          <FaPlay size={7} />
+                        </div>
+                        {agent.chatFlow.slice(0, 2).map((targetName) => (
+                          <div key={targetName} title={`Pipeline: ${targetName}`} className="w-6 h-6 rounded-lg bg-bg-panel border border-border-main/80 text-text-secondary flex items-center justify-center text-[10px] shadow-sm font-semibold">
+                            {getAgentIconByName(targetName)}
+                          </div>
+                        ))}
+                        {agent.chatFlow.length > 2 && (
+                          <span className="text-[9px] text-text-muted font-extrabold ml-1">
+                            +{agent.chatFlow.length - 2} More
+                          </span>
+                        )}
+                      </div>
+                      
+                      <div className="flex items-center gap-1 text-primary group-hover:text-primary-hover font-bold text-xs">
+                        <span>Playground</span>
+                        <span className="transform translate-x-0 group-hover:translate-x-1 transition-transform duration-300 font-bold">&rarr;</span>
+                      </div>
                     </div>
                     
                     {/* Soft hover gradient block */}

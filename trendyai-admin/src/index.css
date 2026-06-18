@@ -41,59 +41,59 @@
   --color-accent-yellow-light: var(--accent-yellow-light);
 }
 
-/* Design Tokens for Light and Dark Modes */
+/* Design Tokens for Light and Dark Modes - Flowise inspired */
 :root {
-  --bg-primary: #f8fafc;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #f1f5f9;
-  --border-color: #e2e8f0;
+  --bg-primary: #f3f4f6; /* Soft light-grey workspace background */
+  --bg-secondary: #ffffff; /* Pure white cards & header */
+  --bg-tertiary: #f9fafb; /* Light-grey panels */
+  --border-color: #e5e7eb; /* Soft border */
   
-  --text-primary: #0f172a;
-  --text-secondary: #475569;
-  --text-muted: #94a3b8;
+  --text-primary: #1f2937; /* Dark slate text */
+  --text-secondary: #4b5563; /* Medium slate text */
+  --text-muted: #9ca3af; /* Muted grey text */
 
-  --accent-primary: #5840d8; /* Snov.io Violet Purple */
+  --accent-primary: #5840d8; /* Flowise Violet Purple */
   --accent-hover: #4c36c3;
-  --accent-light: #f0edff;
+  --accent-light: #f0edff; /* Soft lavender glow */
 
-  --accent-yellow: #d97706; /* Solid Amber Yellow for light mode contrast */
+  --accent-yellow: #d97706; /* Solid Amber Yellow for warnings */
   --accent-yellow-light: #fffbeb;
   
-  --sidebar-bg: #5840d8; /* Solid deep purple sidebar for light mode */
-  --sidebar-text-active: #ffffff;
-  --sidebar-text-inactive: #c7d2fe;
-  --sidebar-item-hover: #4c36c3;
+  --sidebar-bg: #ffffff; /* Flowise-style pure white sidebar */
+  --sidebar-text-active: #5840d8; /* Active link in purple */
+  --sidebar-text-inactive: #4b5563; /* Inactive link in slate grey */
+  --sidebar-item-hover: #f0edff; /* Soft lavender active/hover block */
 
   /* Legacy overrides values */
   --white-bg-val: #ffffff;
-  --navy-900-val: #0a1833;
+  --navy-900-val: #0f172a;
 }
 
 .dark {
-  --bg-primary: #121212; /* Deep charcoal black */
-  --bg-secondary: #1c1c1c; /* Lighter charcoal for cards */
-  --bg-tertiary: #242424; /* Panel backgrounds */
-  --border-color: #2c2c2c; /* Solid borders */
+  --bg-primary: #0b0f19; /* Rich dark-blue-slate workspace background */
+  --bg-secondary: #131722; /* Medium slate-blue cards & header */
+  --bg-tertiary: #1e2330; /* Darker panel background */
+  --border-color: #1e293b; /* Subtle dark border */
 
-  --text-primary: #f3f4f6;
-  --text-secondary: #9ca3af;
-  --text-muted: #6b7280;
+  --text-primary: #f8fafc; /* High contrast white text */
+  --text-secondary: #94a3b8; /* Slate gray text */
+  --text-muted: #64748b; /* Muted gray text */
 
-  --accent-primary: #facc15; /* Glowing gold-yellow as primary accent in dark mode */
-  --accent-hover: #eab308;
-  --accent-light: rgba(250, 204, 21, 0.15);
+  --accent-primary: #818cf8; /* Glowing indigo-purple primary accent */
+  --accent-hover: #6366f1;
+  --accent-light: rgba(129, 140, 248, 0.15);
 
-  --accent-yellow: #facc15; 
-  --accent-yellow-light: rgba(250, 204, 21, 0.15);
+  --accent-yellow: #fbbf24; 
+  --accent-yellow-light: rgba(251, 191, 36, 0.15);
 
-  --sidebar-bg: #181818; /* Solid dark charcoal sidebar */
-  --sidebar-text-active: #facc15; /* Highlight active in yellow */
-  --sidebar-text-inactive: #a1a1aa;
-  --sidebar-item-hover: #242424;
+  --sidebar-bg: #0e131f; /* Dark slate-blue sidebar */
+  --sidebar-text-active: #818cf8; /* Active link in glowing purple */
+  --sidebar-text-inactive: #94a3b8; /* Inactive link in slate grey */
+  --sidebar-item-hover: #1e1b4b; /* Deep violet-purple active/hover block */
 
   /* Legacy overrides values */
-  --white-bg-val: #1c1c1c;
-  --navy-900-val: #f3f4f6;
+  --white-bg-val: #131722;
+  --navy-900-val: #f8fafc;
 }
 
 /* Reset and Global Styles */
