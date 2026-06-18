@@ -97,7 +97,7 @@ const Layout = () => {
           </div>
 
           {/* Navigation Links list */}
-          <nav className="p-4 mt-6 space-y-3">
+          <nav className="px-5 py-4 mt-8 space-y-4">
             {navLinks.map(link => {
               const isActive = location.pathname === link.to || (link.to !== '/' && link.to !== '/client' && location.pathname.startsWith(link.to));
               return (
@@ -105,7 +105,7 @@ const Layout = () => {
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-4 px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-200 relative group ${
+                  className={`flex items-center gap-4 px-6 py-4 rounded-xl text-sm font-semibold transition-all duration-200 relative group ${
                     isActive
                       ? 'bg-sidebar-hover text-sidebar-active border border-white/[0.04] shadow-sm font-bold'
                       : 'text-sidebar-inactive hover:bg-sidebar-hover hover:text-sidebar-active'

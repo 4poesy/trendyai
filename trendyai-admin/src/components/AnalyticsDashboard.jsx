@@ -1,38 +1,16 @@
 import React, { useState, useEffect } from 'react';
-import { 
-  FiTrendingUp, 
-  FiUsers, 
-  FiBriefcase, 
-  FiActivity,
-  FiDollarSign,
-  FiClock,
-  FiCheckCircle,
-  FiAlertCircle
-} from 'react-icons/fi';
 
-const MetricCard = ({ title, value, change, icon: Icon, color = 'blue' }) => {
-  const colors = {
-    blue: 'bg-primary-light text-primary border-primary/10',
-    green: 'bg-amber-500/10 text-amber-500 dark:text-amber-400 border-amber-500/20',
-    purple: 'bg-yellow-500/10 text-yellow-500 dark:text-yellow-400 border-yellow-500/20',
-    orange: 'bg-amber-600/10 text-amber-600 dark:text-amber-500 border-amber-600/20'
-  };
-
+const MetricCard = ({ title, value, change }) => {
   return (
     <div className="crm-card flex flex-col justify-between">
-      <div className="flex items-center justify-between">
-        <div>
-          <p className="text-xs font-semibold uppercase tracking-wider text-text-sub">{title}</p>
-          <p className="text-3xl font-extrabold text-text-main mt-2">{value}</p>
-          {change && (
-            <p className={`text-xs font-semibold mt-3 flex items-center gap-1 ${change >= 0 ? 'text-primary' : 'text-text-muted'}`}>
-              {change >= 0 ? '+' : ''}{change}% <span className="text-text-muted font-normal">from last month</span>
-            </p>
-          )}
-        </div>
-        <div className={`p-3.5 rounded-lg border text-xl ${colors[color]}`}>
-          <Icon />
-        </div>
+      <div>
+        <p className="text-xs font-semibold uppercase tracking-wider text-text-sub">{title}</p>
+        <p className="text-3xl font-extrabold text-text-main mt-2">{value}</p>
+        {change && (
+          <p className={`text-xs font-semibold mt-3 flex items-center gap-1 ${change >= 0 ? 'text-primary' : 'text-text-muted'}`}>
+            {change >= 0 ? '+' : ''}{change}% <span className="text-text-muted font-normal">from last month</span>
+          </p>
+        )}
       </div>
     </div>
   );
@@ -70,13 +48,7 @@ const ActivityFeed = ({ activities }) => (
   <div className="space-y-4">
     {activities.map((activity, index) => (
       <div key={index} className="flex items-start space-x-3 p-2 hover:bg-bg-panel/40 rounded transition-colors">
-        <div className="p-2 rounded-full border shrink-0 bg-primary-light border-primary/10 text-primary">
-          {activity.type === 'success' ? (
-            <FiCheckCircle className="w-4 h-4" />
-          ) : (
-            <FiActivity className="w-4 h-4" />
-          )}
-        </div>
+        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0"></span>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-text-main truncate">{activity.title}</p>
           <p className="text-xs text-text-muted mt-0.5">{activity.time}</p>
@@ -157,11 +129,11 @@ const AnalyticsDashboard = () => {
   }
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-12 max-w-7xl mx-auto pb-12">
       {/* Header */}
-      <div className="border-b border-border-main pb-4">
+      <div className="border-b border-border-main pb-6 mb-10">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Analytics Dashboard</h1>
-        <p className="text-text-sub mt-1 text-sm md:text-base">Track your automation performance, client acquisition, and operations insights.</p>
+        <p className="text-text-sub mt-2 text-sm md:text-base font-medium">Track your automation performance, client acquisition, and operations insights.</p>
       </div>
 
       {/* Metrics Grid */}
@@ -170,34 +142,26 @@ const AnalyticsDashboard = () => {
           title="Total Clients"
           value={metrics.totalClients}
           change={12}
-          icon={FiUsers}
-          color="blue"
         />
         <MetricCard
           title="Active Projects"
           value={metrics.activeProjects}
           change={8}
-          icon={FiBriefcase}
-          color="green"
         />
         <MetricCard
           title="Completed Tasks"
           value={metrics.completedTasks}
           change={23}
-          icon={FiCheckCircle}
-          color="purple"
         />
         <MetricCard
           title="Revenue (USD)"
           value={`$${metrics.revenue.toLocaleString()}`}
           change={15}
-          icon={FiDollarSign}
-          color="orange"
         />
       </div>
 
       {/* Charts and Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-16">
         {/* Performance Chart */}
         <div className="lg:col-span-2">
           <ChartCard title="Performance Trends">
@@ -214,7 +178,7 @@ const AnalyticsDashboard = () => {
       </div>
 
       {/* Additional Insights */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-12">
         <ChartCard title="Agent Performance Accuracy">
           <div className="space-y-6 pt-2">
             <div>

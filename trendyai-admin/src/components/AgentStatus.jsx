@@ -118,54 +118,47 @@ const AgentStatus = () => {
   const offlineAgents = agents.filter(agent => agent.status === 'Offline').length;
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-12 max-w-7xl mx-auto pb-12">
       {/* Header */}
-      <div className="border-b border-border-main pb-4">
-        <h1 className="text-3xl font-extrabold tracking-tight text-text-main flex items-center gap-2">
-          <FaRobot className="text-primary" />
+      <div className="border-b border-border-main pb-6 mb-10">
+        <h1 className="text-3xl font-extrabold tracking-tight text-text-main">
           Agent Status Center
         </h1>
-        <p className="text-text-sub mt-1 text-sm md:text-base">Monitor runtime performance, tasks executed, and connection status for each worker.</p>
+        <p className="text-text-sub mt-2 text-sm md:text-base">Monitor runtime performance, tasks executed, and connection status for each worker.</p>
       </div>
 
       {/* Summary stats with breathing space */}
       <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
         <div className="crm-card text-center">
           <span className="text-sm font-semibold uppercase tracking-wider text-text-sub">Total Workers</span>
-          <h3 className="text-3xl font-bold text-text-main mt-2">{totalAgents}</h3>
+          <h3 className="text-3xl font-extrabold text-text-main mt-2">{totalAgents}</h3>
         </div>
         <div className="crm-card text-center">
           <span className="text-sm font-semibold uppercase tracking-wider text-text-sub">Active Running</span>
-          <h3 className="text-3xl font-bold text-text-main mt-2 text-green-500">{activeAgents}</h3>
+          <h3 className="text-3xl font-extrabold text-primary mt-2">{activeAgents}</h3>
         </div>
         <div className="crm-card text-center">
           <span className="text-sm font-semibold uppercase tracking-wider text-text-sub">Idle Waiting</span>
-          <h3 className="text-3xl font-bold text-text-main mt-2 text-yellow-500">{idleAgents}</h3>
+          <h3 className="text-3xl font-extrabold text-amber-500 mt-2">{idleAgents}</h3>
         </div>
         <div className="crm-card text-center">
           <span className="text-sm font-semibold uppercase tracking-wider text-text-sub">Offline / Suspended</span>
-          <h3 className="text-3xl font-bold text-text-main mt-2 text-red-500">{offlineAgents}</h3>
+          <h3 className="text-3xl font-extrabold text-text-muted mt-2">{offlineAgents}</h3>
         </div>
       </div>
 
       {/* Grid of Agent Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-16">
         {agents.map((agent) => (
           <div key={agent.id} className="crm-card flex flex-col justify-between">
             <div>
               {/* Card top */}
               <div className="flex justify-between items-start mb-5 pb-4 border-b border-border-main">
-                <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 rounded bg-primary-light border border-primary/10 flex items-center justify-center text-primary text-lg">
-                    <FaRobot />
-                  </div>
-                  <div>
-                    <h3 className="text-base font-bold text-text-main">{agent.name}</h3>
-                    <p className="text-xs text-text-muted mt-0.5">{agent.type}</p>
-                  </div>
+                <div>
+                  <h3 className="text-base font-bold text-text-main">{agent.name}</h3>
+                  <p className="text-xs text-text-muted mt-0.5">{agent.type}</p>
                 </div>
-                <div className="flex items-center gap-2">
-                  {getStatusIcon(agent.status)}
+                <div className="flex items-center">
                   <span className={`badge ${getStatusColor(agent.status)}`}>
                     {agent.status}
                   </span>
@@ -214,21 +207,21 @@ const AgentStatus = () => {
                 disabled={agent.status === 'Active'}
                 className="crm-btn crm-btn-secondary py-1 px-2.5 text-xs flex items-center gap-1"
               >
-                <FaPlay size={9} /> Resume
+                Resume
               </button>
               <button
                 onClick={() => updateAgentStatus(agent.id, 'Idle')}
                 disabled={agent.status === 'Idle'}
                 className="crm-btn crm-btn-secondary py-1 px-2.5 text-xs flex items-center gap-1"
               >
-                <FaPause size={9} /> Pause
+                Pause
               </button>
               <button
                 onClick={() => updateAgentStatus(agent.id, 'Offline')}
                 disabled={agent.status === 'Offline'}
                 className="crm-btn crm-btn-secondary py-1 px-2.5 text-xs flex items-center gap-1"
               >
-                <FaStop size={9} /> Stop
+                Stop
               </button>
             </div>
           </div>
