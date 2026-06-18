@@ -66,10 +66,10 @@ const getActivityIcon = (action) => {
 const RecentTimeline = ({ recent }) => (
   <div className="crm-card">
     <h3 className="text-lg font-bold text-text-main mb-6 border-b border-border-main pb-3 tracking-tight font-heading">Recent System Activity</h3>
-    <ol className="relative border-l border-border-main ml-4 space-y-6 pl-8">
+    <ol className="relative border-l border-border-main ml-6 space-y-8 pl-10">
       {recent.map((item, index) => (
         <li key={index} className="relative flex items-center justify-between gap-4">
-          <span className="absolute -left-[48px] bg-bg-card p-1.5 rounded-full border border-border-main">{getActivityIcon(item.action)}</span>
+          <span className="absolute -left-[56px] bg-bg-card p-1.5 rounded-full border border-border-main">{getActivityIcon(item.action)}</span>
           <div className="flex-1 min-w-0">
             <p className="text-sm font-semibold text-text-main truncate leading-snug">{item.action}</p>
             <p className="text-xs text-text-muted mt-0.5">{item.time}</p>
@@ -85,7 +85,7 @@ const Dashboard = () => {
   const { showInfo } = useToast();
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-12 max-w-7xl mx-auto">
       {/* Hero Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-6">
         <div>
@@ -121,7 +121,7 @@ const Dashboard = () => {
       </div>
 
       {/* Stats Cards */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-14">
         <StatCard 
           icon={<FaRobot />} 
           label="Active AI Agents" 
@@ -149,14 +149,14 @@ const Dashboard = () => {
       </div>
 
       {/* Details layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-10">
         {/* Left Column: Recent Activity Feed */}
         <div className="lg:col-span-2">
           <RecentTimeline recent={recent} />
         </div>
 
         {/* Right Column: AI Engine Status */}
-        <div className="space-y-6">
+        <div className="space-y-8">
           <div className="crm-card">
             <h3 className="text-lg font-bold text-text-main mb-4 border-b border-border-main pb-3">Automation Engine</h3>
             <div className="space-y-4">

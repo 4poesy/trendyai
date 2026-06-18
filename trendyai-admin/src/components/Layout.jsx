@@ -97,7 +97,7 @@ const Layout = () => {
           </div>
 
           {/* Navigation Links list */}
-          <nav className="p-3 space-y-1.5">
+          <nav className="p-4 mt-6 space-y-3">
             {navLinks.map(link => {
               const isActive = location.pathname === link.to || (link.to !== '/' && link.to !== '/client' && location.pathname.startsWith(link.to));
               return (
@@ -105,9 +105,9 @@ const Layout = () => {
                   key={link.to}
                   to={link.to}
                   onClick={() => setMobileOpen(false)}
-                  className={`flex items-center gap-3.5 px-4 py-3 rounded-xl text-xs font-bold uppercase tracking-wider transition-all duration-200 relative group ${
+                  className={`flex items-center gap-4 px-5 py-3 rounded-xl text-sm font-semibold transition-all duration-200 relative group ${
                     isActive
-                      ? 'bg-sidebar-hover text-sidebar-active border border-white/[0.04] shadow-sm font-extrabold'
+                      ? 'bg-sidebar-hover text-sidebar-active border border-white/[0.04] shadow-sm font-bold'
                       : 'text-sidebar-inactive hover:bg-sidebar-hover hover:text-sidebar-active'
                   }`}
                 >
@@ -115,8 +115,8 @@ const Layout = () => {
                   {isActive && (
                     <span className="absolute left-0 top-1/4 bottom-1/4 w-1 bg-primary rounded-r"></span>
                   )}
-                  <span className="text-base shrink-0 group-hover:scale-110 transition-transform duration-200">{link.icon}</span>
-                  <span>{link.label}</span>
+                  <span className="text-lg shrink-0 group-hover:scale-110 transition-transform duration-200">{link.icon}</span>
+                  <span className="tracking-tight">{link.label}</span>
                 </Link>
               );
             })}
