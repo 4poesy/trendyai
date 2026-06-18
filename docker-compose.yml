@@ -1,6 +1,7 @@
 version: '3.8'
 
 services:
+  # n8n Workflow Automation
   n8n:
     image: n8nio/n8n:latest
     container_name: trendyai-n8n
@@ -17,6 +18,51 @@ services:
     volumes:
       - trendyai_n8n_data:/home/node/.n8n
 
+  # Activepieces (n8n Alternative / Trigger automation)
+  activepieces:
+    image: activepieces/activepieces:latest
+    container_name: trendyai-activepieces
+    ports:
+      - "8080:80"
+    environment:
+      - AP_ENCRYPTION_KEY=e13a968631ff2ef5b1e604f8db7b3f8a # Generated secure 32-character key
+      - AP_JWT_SECRET=66a2b8e3bf5d4e1cb8d3b74df1cfc672
+      - AP_FRONTEND_URL=http://localhost:8080
+    volumes:
+      - activepieces_data:/root/.activepieces
+    restart: unless-stopped
+
+  # Flowise (Visual Agentflow / 25 AI Agent personas)
+  flowise:
+    image: flowiseai/flowise:latest
+    container_name: trendyai-flowise
+    ports:
+      - "3002:3001"
+    environment:
+      - PORT=3001
+      - FLOWISE_USERNAME=admin
+      - FLOWISE_PASSWORD=admin123 # You can change this local password
+      - DATABASE_TYPE=sqlite
+    volumes:
+      - flowise_data:/root/.flowise
+    restart: unless-stopped
+
+  # Redis (Queueing and Agent State)
+  redis:
+    image: redis:alpine
+    container_name: trendyai-redis
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis_data:/data
+    restart: unless-stopped
+
 volumes:
   trendyai_n8n_data:
     name: trendyai_n8n_data
+  activepieces_data:
+    name: trendyai_activepieces_data
+  flowise_data:
+    name: trendyai_flowise_data
+  redis_data:
+    name: trendyai_redis_data
