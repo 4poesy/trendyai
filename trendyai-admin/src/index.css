@@ -10,7 +10,6 @@
   --font-sans: 'Inter', 'IBM Plex Sans', system-ui, sans-serif;
   --font-heading: 'Outfit', sans-serif;
 
-  /* Theme mappings for styling */
   --color-primary: var(--accent-primary);
   --color-primary-hover: var(--accent-hover);
   --color-primary-light: var(--accent-light);
@@ -30,77 +29,80 @@
   --color-sidebar-inactive: var(--sidebar-text-inactive);
   --color-sidebar-hover: var(--sidebar-item-hover);
 
-  /* Contrast safety overrides for legacy styling */
   --color-white: var(--white-bg-val);
   --color-navy-900: var(--navy-900-val);
   --color-cyan-500: var(--accent-primary);
   --color-cyan-600: var(--accent-hover);
 
-  /* Yellow Accent Color tokens */
   --color-accent-yellow: var(--accent-yellow);
   --color-accent-yellow-light: var(--accent-yellow-light);
 }
 
-/* Design Tokens for Light and Dark Modes - Charcoal & Yellow theme */
+/* ─── LIGHT MODE TOKENS ─────────────────────────────────── */
 :root {
-  --bg-primary: #f3f4f6; /* Soft light-grey workspace background */
-  --bg-secondary: #ffffff; /* Pure white cards & header */
-  --bg-tertiary: #f9fafb; /* Light-grey panels */
-  --border-color: #e5e7eb; /* Soft border */
+  --bg-primary: #f3f4f6;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f9fafb;
+  --border-color: #e5e7eb;
   
-  --text-primary: #111827; /* Dark charcoal text */
-  --text-secondary: #4b5563; /* Medium charcoal text */
-  --text-muted: #9ca3af; /* Muted grey text */
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
 
-  --accent-primary: #fbbf24; /* Warm Gold-Yellow */
-  --accent-hover: #f59e0b; /* Slightly darker gold */
-  --accent-light: rgba(251, 191, 36, 0.12); /* Soft gold glow */
+  --accent-primary: #facc15;
+  --accent-hover: #eab308;
+  --accent-light: rgba(250, 204, 21, 0.12);
 
-  --accent-yellow: #fbbf24; 
-  --accent-yellow-light: rgba(251, 191, 36, 0.1);
+  --accent-yellow: #facc15;
+  --accent-yellow-light: rgba(250, 204, 21, 0.1);
   
-  --sidebar-bg: #0c0c0e; /* Premium dark charcoal sidebar in both modes */
-  --sidebar-text-active: #fbbf24; /* Glowing active link in gold */
-  --sidebar-text-inactive: #9ca3af; /* Light-grey inactive link */
-  --sidebar-item-hover: #17171c; /* Deep charcoal select background */
+  --sidebar-bg: #0d0d0d;
+  --sidebar-text-active: #facc15;
+  --sidebar-text-inactive: #555555;
+  --sidebar-item-hover: #1a1a1a;
 
-  /* Legacy overrides values */
   --white-bg-val: #ffffff;
   --navy-900-val: #0f172a;
 }
 
+/* ─── DARK MODE TOKENS — Premium Charcoal + Gold ────────── */
 .dark {
-  --bg-primary: #070709; /* Ultra-dark premium pitch-black background */
-  --bg-secondary: #0f0f13; /* Rich dark charcoal cards & header */
-  --bg-tertiary: #16161c; /* Dark slate panel background */
-  --border-color: #1a1a22; /* Sleek dark borders */
+  --bg-primary: #111111;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #161616;
+  --border-color: #2a2a2a;
 
-  --text-primary: #f8fafc; /* Clean off-white text */
-  --text-secondary: #94a3b8; /* Slate gray text */
-  --text-muted: #475569; /* Muted gray text */
+  --text-primary: #f5f5f5;
+  --text-secondary: #888888;
+  --text-muted: #555555;
 
-  --accent-primary: #fbbf24; /* Glowing gold-yellow */
-  --accent-hover: #f59e0b;
-  --accent-light: rgba(251, 191, 36, 0.15);
+  --accent-primary: #facc15;
+  --accent-hover: #eab308;
+  --accent-light: rgba(250, 204, 21, 0.12);
 
-  --accent-yellow: #fbbf24; 
-  --accent-yellow-light: rgba(251, 191, 36, 0.15);
+  --accent-yellow: #facc15;
+  --accent-yellow-light: rgba(250, 204, 21, 0.12);
 
-  --sidebar-bg: #0b0b0d; /* Deepest pitch charcoal sidebar */
-  --sidebar-text-active: #fbbf24; /* Glowing gold active state */
-  --sidebar-text-inactive: #64748b; /* Muted slate gray links */
-  --sidebar-item-hover: #131317; /* Dark charcoal hover blocks */
+  --sidebar-bg: #0d0d0d;
+  --sidebar-text-active: #facc15;
+  --sidebar-text-inactive: #555555;
+  --sidebar-item-hover: #1a1a1a;
 
-  /* Legacy overrides values */
-  --white-bg-val: #0f0f13;
-  --navy-900-val: #f8fafc;
+  --white-bg-val: #1a1a1a;
+  --navy-900-val: #f5f5f5;
 }
 
-/* Reset and Global Styles */
+/* ─── RESET ─────────────────────────────────────────────── */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
+  outline: none;
+}
+
+*:focus-visible {
+  outline: 2px solid rgba(250, 204, 21, 0.5);
+  outline-offset: 2px;
 }
 
 body {
@@ -118,22 +120,38 @@ h1, h2, h3, h4, h5, h6 {
   letter-spacing: -0.025em;
 }
 
-/* Premium CRM Container Utilities (No glassmorphism, solid color only) */
+/* ─── GLOBAL DARK SCROLLBARS ────────────────────────────── */
+::-webkit-scrollbar { width: 4px; height: 4px; }
+::-webkit-scrollbar-track { background: #111; }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+
+/* ─── PAGE TRANSITIONS ──────────────────────────────────── */
+.page-enter {
+  opacity: 0;
+  transform: translateY(6px);
+}
+.page-enter-active {
+  opacity: 1;
+  transform: translateY(0);
+  transition: all 0.2s ease;
+}
+
+/* ─── CRM CARD — Flat, no shadows ───────────────────────── */
 .crm-card {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 20px; /* Slightly rounder cards for premium look */
-  padding: 1.5rem 2rem; /* Reduced padding for cleaner look, de-congesting the internals */
-  box-shadow: 0 4px 20px -2px rgba(0, 0, 0, 0.05), 0 2px 10px -2px rgba(0, 0, 0, 0.03);
-  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  border-radius: 12px;
+  padding: 20px;
+  transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .crm-card:hover {
-  box-shadow: 0 20px 40px 0 rgba(0, 0, 0, 0.25);
-  border-color: var(--accent-yellow);
-  transform: translateY(-4px);
+  border-color: rgba(250, 204, 21, 0.4);
+  background-color: var(--bg-tertiary);
 }
 
+/* ─── TABLES ─────────────────────────────────────────────── */
 .crm-table {
   width: 100%;
   border-collapse: collapse;
@@ -144,72 +162,65 @@ h1, h2, h3, h4, h5, h6 {
   background-color: var(--bg-tertiary);
   color: var(--text-secondary);
   font-weight: 700;
-  font-size: 0.8rem;
-  padding: 1.5rem 2rem; /* Expanded header padding */
-  border-bottom: 2px solid var(--border-color);
+  font-size: 0.75rem;
+  padding: 12px 16px;
+  border-bottom: 1px solid var(--border-color);
   text-transform: uppercase;
   letter-spacing: 0.08em;
 }
 
 .crm-table td {
-  padding: 1.5rem 2rem; /* Expanded cell padding */
+  padding: 12px 16px;
   border-bottom: 1px solid var(--border-color);
   color: var(--text-primary);
-  font-size: 0.95rem;
+  font-size: 0.875rem;
 }
 
 .crm-table tr:hover td {
   background-color: var(--bg-tertiary);
 }
 
-/* Form inputs & controls */
+/* ─── INPUTS ─────────────────────────────────────────────── */
 .crm-input {
   width: 100%;
-  padding: 0.75rem 1rem; /* More vertical and horizontal padding */
+  padding: 0.65rem 1rem;
   background-color: var(--bg-secondary);
   color: var(--text-primary);
   border: 1px solid var(--border-color);
   border-radius: 8px;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   outline: none;
-  transition: border-color 0.2s ease, box-shadow 0.2s ease;
+  transition: border-color 0.2s ease;
 }
 
 .crm-input:focus {
   border-color: var(--accent-primary);
-  box-shadow: 0 0 0 3px var(--accent-light);
 }
 
+/* ─── BUTTONS ────────────────────────────────────────────── */
 .crm-btn {
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  gap: 0.65rem;
-  padding: 0.75rem 1.5rem; /* More spacing for buttons */
+  gap: 0.5rem;
+  padding: 0.55rem 1.25rem;
   font-weight: 600;
-  font-size: 0.95rem;
+  font-size: 0.875rem;
   border-radius: 8px;
-  transition: all 0.25s cubic-bezier(0.4, 0, 0.2, 1);
+  transition: all 0.15s ease;
   cursor: pointer;
   border: 1px solid transparent;
 }
 
 .crm-btn-primary {
-  background-color: var(--accent-primary);
-  color: #ffffff;
-}
-
-.dark .crm-btn-primary {
-  background-color: var(--accent-primary);
-  color: #121212; /* High-contrast text on yellow background */
+  background-color: #facc15;
+  color: #111111;
+  border-color: #facc15;
 }
 
 .crm-btn-primary:hover {
-  background-color: var(--accent-hover);
-}
-
-.dark .crm-btn-primary:hover {
-  background-color: #fde047; /* Brighter yellow on hover */
+  background-color: #eab308;
+  border-color: #eab308;
 }
 
 .crm-btn-secondary {
@@ -219,8 +230,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crm-btn-secondary:hover {
+  border-color: rgba(250, 204, 21, 0.4);
   background-color: var(--bg-tertiary);
-  border-color: var(--accent-yellow);
 }
 
 .crm-btn-danger {
@@ -232,12 +243,12 @@ h1, h2, h3, h4, h5, h6 {
   background-color: #dc2626;
 }
 
-/* Status Badges */
+/* ─── BADGES ─────────────────────────────────────────────── */
 .badge {
   display: inline-flex;
   align-items: center;
-  padding: 0.35rem 0.75rem; /* Spacious badge */
-  font-size: 0.75rem;
+  padding: 0.25rem 0.6rem;
+  font-size: 0.7rem;
   font-weight: 600;
   border-radius: 6px;
   text-transform: capitalize;
@@ -245,145 +256,122 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge-success {
-  background-color: rgba(251, 191, 36, 0.08);
-  color: var(--accent-primary);
-  border: 1px solid rgba(251, 191, 36, 0.15);
-}
-
-.dark .badge-success {
-  background-color: rgba(251, 191, 36, 0.08);
-  color: var(--accent-primary);
-  border: 1px solid rgba(251, 191, 36, 0.2);
+  background-color: rgba(29, 158, 117, 0.1);
+  color: #1D9E75;
+  border: 1px solid rgba(29, 158, 117, 0.2);
 }
 
 .badge-warning {
-  background-color: rgba(245, 158, 11, 0.06);
-  color: #f59e0b;
-  border: 1px solid rgba(245, 158, 11, 0.15);
-}
-
-.dark .badge-warning {
-  background-color: rgba(245, 158, 11, 0.06);
-  color: #f59e0b;
-  border: 1px solid rgba(245, 158, 11, 0.2);
+  background-color: rgba(250, 204, 21, 0.1);
+  color: #facc15;
+  border: 1px solid rgba(250, 204, 21, 0.2);
 }
 
 .badge-danger {
-  background-color: var(--bg-tertiary);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
-}
-
-.dark .badge-danger {
-  background-color: var(--bg-tertiary);
-  color: var(--text-secondary);
-  border: 1px solid var(--border-color);
+  background-color: rgba(239, 68, 68, 0.1);
+  color: #ef4444;
+  border: 1px solid rgba(239, 68, 68, 0.2);
 }
 
 .badge-info {
-  background-color: var(--bg-panel);
-  color: var(--text-primary);
+  background-color: var(--bg-tertiary);
+  color: var(--text-secondary);
   border: 1px solid var(--border-color);
-}
-
-.dark .badge-info {
-  background-color: var(--bg-panel);
-  color: var(--text-primary);
-  border: 1px solid var(--border-color);
-}
-
-/* CRM Grid Layouts */
-.crm-grid {
-  display: grid;
-  grid-template-columns: repeat(auto-fill, minmax(320px, 1fr));
-  gap: 2.75rem; /* Spacious layout separation */
-}
-
-/* Custom Navigation Menu styles */
-.nav-item {
-  display: flex;
-  align-items: center;
-  gap: 0.85rem;
-  padding: 0.85rem 1.25rem; /* Increased padding */
-  color: var(--sidebar-text-inactive);
-  font-weight: 500;
-  font-size: 0.95rem;
-  border-radius: 8px;
-  transition: all 0.25s ease;
-  text-decoration: none;
-}
-
-.nav-item:hover {
-  color: var(--sidebar-text-active);
-  background-color: var(--sidebar-item-hover);
-}
-
-.nav-item.active {
-  color: var(--sidebar-text-active);
-  background-color: var(--sidebar-item-hover);
-  font-weight: 600;
-}
-
-/* Custom Main Content Spacing - Prevents cards and layouts from sitting right next to the sidebar */
-.crm-layout-main {
-  padding: 2rem !important; /* Mobile (32px padding) */
-}
-
-@media (min-width: 768px) {
-  .crm-layout-main {
-    padding: 3.5rem !important; /* Tablet (56px padding) */
-  }
-}
-
-@media (min-width: 1024px) {
-  .crm-layout-main {
-    padding: 4.5rem !important; /* Desktop / Large Monitor (72px padding) */
-  }
-}
-
-/* Custom Premium Scrollbar */
-.custom-scrollbar::-webkit-scrollbar {
-  width: 6px;
-  height: 6px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-track {
-  background: transparent;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb {
-  background: var(--border-color);
-  border-radius: 8px;
-}
-
-.custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: var(--accent-hover);
-}
-
-/* Glowing Indicator Animation */
-@keyframes goldGlow {
-  0%, 100% {
-    box-shadow: 0 0 4px rgba(251, 191, 36, 0.2);
-  }
-  50% {
-    box-shadow: 0 0 16px rgba(251, 191, 36, 0.6);
-  }
-}
-
-.glow-yellow {
-  animation: goldGlow 2.5s infinite ease-in-out;
-}
-
-/* Micro-interaction Hover Cards */
-.hover-scale {
-  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
-}
-.hover-scale:hover {
-  transform: scale(1.02);
 }
 
 .badge-yellow {
-  background-color: rgba(251, 191, 36, 0.1);
-  color: #fbbf24;
-  border: 1px solid rgba(251, 191, 36, 0.2);
+  background-color: rgba(250, 204, 21, 0.1);
+  color: #facc15;
+  border: 1px solid rgba(250, 204, 21, 0.2);
+}
+
+/* ─── GRID ───────────────────────────────────────────────── */
+.crm-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(300px, 1fr));
+  gap: 16px;
+}
+
+/* ─── NAV ITEMS ──────────────────────────────────────────── */
+.nav-item {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  height: 36px;
+  padding: 0 12px;
+  color: var(--sidebar-text-inactive);
+  font-weight: 500;
+  font-size: 0.8125rem;
+  border-radius: 8px;
+  transition: all 0.15s ease;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.nav-item:hover {
+  color: #f0f0f0;
+  background-color: #1a1a1a;
+}
+
+.nav-item.active {
+  color: #f0f0f0;
+  background-color: rgba(250, 204, 21, 0.08);
+  font-weight: 600;
+}
+
+/* ─── LAYOUT MAIN CONTENT ────────────────────────────────── */
+.crm-layout-main {
+  padding: 28px 32px;
+}
+
+@media (max-width: 768px) {
+  .crm-layout-main {
+    padding: 20px 16px;
+  }
+}
+
+/* ─── CUSTOM SCROLLBAR (legacy class) ───────────────────── */
+.custom-scrollbar::-webkit-scrollbar {
+  width: 4px;
+  height: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-track {
+  background: #111;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb {
+  background: #2a2a2a;
+  border-radius: 4px;
+}
+
+.custom-scrollbar::-webkit-scrollbar-thumb:hover {
+  background: #3a3a3a;
+}
+
+/* ─── ANIMATIONS ─────────────────────────────────────────── */
+@keyframes fadeIn {
+  from { opacity: 0; transform: translateY(6px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+.animate-fadeIn {
+  animation: fadeIn 0.2s ease forwards;
+}
+
+@keyframes pulse {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.4; }
+}
+
+.animate-pulse {
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+
+/* ─── MICRO UTILITIES ────────────────────────────────────── */
+.hover-scale {
+  transition: all 0.15s ease;
+}
+.hover-scale:hover {
+  transform: scale(1.01);
 }

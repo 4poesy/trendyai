@@ -19,6 +19,7 @@ const AuditLogs = React.lazy(() => import('./components/AuditLogs'));
 const AgentStatus = React.lazy(() => import('./components/AgentStatus'));
 const StudioMode = React.lazy(() => import('./components/StudioMode'));
 const AgentGridNew = React.lazy(() => import('./components/AgentGridNew'));
+const AgentDetail  = React.lazy(() => import('./components/AgentDetail'));
 const LazyLogin = React.lazy(() => import('./components/UnifiedLogin'));
 
 // Lazy load client portal components
@@ -54,6 +55,7 @@ const App = () => {
                   <Route path="agent-status" element={<AgentStatus />} />
                   <Route path="studio-mode" element={<StudioMode />} />
                   <Route path="agent-grid" element={<AgentGridNew />} />
+                  <Route path="agent-grid/:agentId" element={<AgentDetail />} />
                   <Route path="analytics" element={<LazyAnalytics />} />
                   <Route path="agent-training" element={<LazyAgentTraining />} />
                   
