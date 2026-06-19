@@ -225,21 +225,16 @@ export default function ClientDashboard() {
 
       {/* ── Zone 1: Metric cards ── */}
       <div 
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7"
-        style={{
-          display: 'grid',
-          marginTop: '24px',
-          marginBottom: '48px',
-        }}
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7 mt-8 mb-12"
       >
         {stats.map((s, i) => <MetricCard key={i} {...s} />)}
       </div>
 
       {/* ── Zone 2: Main content + sidebar ── */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" style={{ display: 'grid', alignItems: 'start' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" style={{ alignItems: 'start' }}>
 
         {/* LEFT — Campaigns + Deliverables */}
-        <div className="lg:col-span-2" style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+        <div className="lg:col-span-2 flex flex-col gap-8">
 
           {/* Active Campaigns */}
           <div style={{
@@ -383,7 +378,7 @@ export default function ClientDashboard() {
         </div>
 
         {/* RIGHT — AI Process + Automation CTA */}
-        <div className="lg:col-span-1" style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
+        <div className="lg:col-span-1 flex flex-col gap-8">
 
           {/* Campaign Health Summary */}
           <div style={{
