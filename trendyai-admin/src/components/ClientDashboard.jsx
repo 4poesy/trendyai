@@ -110,6 +110,66 @@ const ProcessStep = ({ num, title, desc, isLast }) => (
   </div>
 );
 
+/* ─── DELIVERABLE ROW ────────────────────────────────────── */
+const DeliverableRow = ({ d, navigate }) => {
+  const [hoveredRow, setHoveredRow] = useState(false);
+  const [hoveredRevBtn, setHoveredRevBtn] = useState(false);
+
+  return (
+    <div key={d.id} style={{
+      display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+      padding: '16px 20px',
+      background: hoveredRow ? '#112B55' : '#0A1E3F',
+      border: hoveredRow ? '1px solid rgba(0, 229, 255, 0.5)' : '1px solid rgba(0, 229, 255, 0.15)',
+      borderRadius: 8,
+      gap: 12,
+      transition: 'all 0.15s ease',
+      cursor: 'pointer',
+    }}
+    onClick={() => navigate('/client/deliverables')}
+    onMouseEnter={() => setHoveredRow(true)}
+    onMouseLeave={() => setHoveredRow(false)}
+    >
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+        <div style={{
+          width: 34, height: 34, borderRadius: 8,
+          background: 'rgba(0, 229, 255, 0.08)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center',
+          flexShrink: 0,
+        }}>
+          <FiFileText size={14} style={{ color: '#00E5FF' }} />
+        </div>
+        <div style={{ minWidth: 0 }}>
+          <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', marginBottom: 3, lineHeight: 1.3 }}>
+            {d.name}
+          </p>
+          <p style={{ fontSize: 11, color: '#A0B4CC' }}>
+            {d.type} · {d.project}
+          </p>
+        </div>
+      </div>
+      <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }} onClick={e => e.stopPropagation()}>
+        <span style={{ fontSize: 11, color: '#4A6080' }}>{d.date}</span>
+        <button
+          onClick={() => navigate('/client/deliverables')}
+          onMouseEnter={() => setHoveredRevBtn(true)}
+          onMouseLeave={() => setHoveredRevBtn(false)}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 5,
+            background: 'none',
+            border: hoveredRevBtn ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.25)',
+            borderRadius: 6, padding: '5px 12px',
+            color: hoveredRevBtn ? '#00E5FF' : '#4A6080', fontSize: 11, fontWeight: 600, cursor: 'pointer',
+            transition: 'all 0.15s ease',
+          }}
+        >
+          Review <FiExternalLink size={10} />
+        </button>
+      </div>
+    </div>
+  );
+};
+
 /* ─── MAIN CLIENT DASHBOARD ──────────────────────────────── */
 export default function ClientDashboard() {
   const navigate = useNavigate();
@@ -333,64 +393,9 @@ export default function ClientDashboard() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {deliverables.map(d => {
-                const [hoveredRow, setHoveredRow] = useState(false);
-                const [hoveredRevBtn, setHoveredRevBtn] = useState(false);
-
-                return (
-                  <div key={d.id} style={{
-                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                    padding: '16px 20px',
-                    background: hoveredRow ? '#112B55' : '#0A1E3F',
-                    border: hoveredRow ? '1px solid rgba(0, 229, 255, 0.5)' : '1px solid rgba(0, 229, 255, 0.15)',
-                    borderRadius: 8,
-                    gap: 12,
-                    transition: 'all 0.15s ease',
-                    cursor: 'pointer',
-                  }}
-                  onClick={() => navigate('/client/deliverables')}
-                  onMouseEnter={() => setHoveredRow(true)}
-                  onMouseLeave={() => setHoveredRow(false)}
-                  >
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
-                      <div style={{
-                        width: 34, height: 34, borderRadius: 8,
-                        background: 'rgba(0, 229, 255, 0.08)',
-                        display: 'flex', alignItems: 'center', justifyContent: 'center',
-                        flexShrink: 0,
-                      }}>
-                        <FiFileText size={14} style={{ color: '#00E5FF' }} />
-                      </div>
-                      <div style={{ minWidth: 0 }}>
-                        <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', marginBottom: 3, lineHeight: 1.3 }}>
-                          {d.name}
-                        </p>
-                        <p style={{ fontSize: 11, color: '#A0B4CC' }}>
-                          {d.type} · {d.project}
-                        </p>
-                      </div>
-                    </div>
-                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }} onClick={e => e.stopPropagation()}>
-                      <span style={{ fontSize: 11, color: '#4A6080' }}>{d.date}</span>
-                      <button
-                        onClick={() => navigate('/client/deliverables')}
-                        onMouseEnter={() => setHoveredRevBtn(true)}
-                        onMouseLeave={() => setHoveredRevBtn(false)}
-                        style={{
-                          display: 'flex', alignItems: 'center', gap: 5,
-                          background: 'none',
-                          border: hoveredRevBtn ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.25)',
-                          borderRadius: 6, padding: '5px 12px',
-                          color: hoveredRevBtn ? '#00E5FF' : '#4A6080', fontSize: 11, fontWeight: 600, cursor: 'pointer',
-                          transition: 'all 0.15s ease',
-                        }}
-                      >
-                        Review <FiExternalLink size={10} />
-                      </button>
-                    </div>
-                  </div>
-                );
-              })}
+              {deliverables.map(d => (
+                <DeliverableRow key={d.id} d={d} navigate={navigate} />
+              ))}
             </div>
           </div>
         </div>
