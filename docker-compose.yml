@@ -51,7 +51,7 @@ services:
     environment:
       - AP_ENCRYPTION_KEY=e13a968631ff2ef5b1e604f8db7b3f8a
       - AP_JWT_SECRET=66a2b8e3bf5d4e1cb8d3b74df1cfc672
-      - AP_FRONTEND_URL=http://localhost:8080
+      - AP_FRONTEND_URL=http://localhost:80
       - AP_POSTGRES_HOST=postgres
       - AP_POSTGRES_PORT=5432
       - AP_POSTGRES_DATABASE=activepieces
@@ -81,6 +81,44 @@ services:
     volumes:
       - flowise_data:/root/.flowise
     restart: unless-stopped
+
+  # ----------------------------------------------------------
+  # OPENCUT — Free open-source video editor (CapCut alternative)
+  # Access: http://localhost:3100
+  # GitHub: github.com/OpenCut-app/OpenCut
+  # Connects to: MediaWiz agent for video editing workflow
+  # ----------------------------------------------------------
+  opencut:
+    build:
+      context: ../OpenCut
+      dockerfile: Dockerfile
+    container_name: trendyai_opencut
+    restart: unless-stopped
+    ports:
+      - "3100:3000"
+    environment:
+      - NEXT_PUBLIC_APP_URL=http://localhost:3100
+      - DATABASE_URL=postgresql://postgres:trendyai_db_2024@postgres:5432/opencut
+      - REDIS_URL=redis://redis:6379
+    depends_on:
+      - postgres
+      - redis
+
+  # ----------------------------------------------------------
+  # SUNO API — Music generation wrapper for MediaWiz
+  # Access: http://localhost:3200
+  # GitHub: github.com/gcui-art/suno-api
+  # ----------------------------------------------------------
+  suno_api:
+    build:
+      context: ../suno-api
+      dockerfile: Dockerfile
+    container_name: trendyai_suno
+    restart: unless-stopped
+    ports:
+      - "3200:3000"
+    environment:
+      - SUNO_COOKIE=${SUNO_COOKIE}
 
 volumes:
   trendyai_n8n_data:

@@ -7,8 +7,17 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        primary: '#00FFFF', // Cyan
-        dark: '#0A1833',   // Deep Navy (updated to match brand)
+        'brand-navy':      '#0A1E3F',
+        'brand-navy-dark': '#071629',
+        'brand-card':      '#0D2347',
+        'brand-card-hover':'#112B55',
+        'brand-cyan':      '#00E5FF',
+        'brand-cyan-soft': 'rgba(0,229,255,0.12)',
+        'text-primary':    '#FFFFFF',
+        'text-secondary':  '#A0B4CC',
+        'text-muted':      '#4A6080',
+        primary: '#00E5FF', // Cyan
+        dark: '#0A1E3F',   // Deep Navy (updated to match brand)
         secondary: '#00B342', // Mint Green
         white: '#ffffff',
         cyan: {
@@ -16,7 +25,7 @@ module.exports = {
           200: '#B3FFFF',
           300: '#80FFFF',
           400: '#4DFFFF',
-          500: '#00FFFF', // Brand cyan
+          500: '#00E5FF', // Brand cyan
           600: '#00CCCC',
           700: '#009999',
           800: '#006666',
@@ -32,7 +41,7 @@ module.exports = {
           600: '#486581',
           700: '#334e68',
           800: '#243b53',
-          900: '#0A1833', // Brand navy
+          900: '#0A1E3F', // Brand navy
         },
         green: {
           500: '#22c55e',
@@ -59,7 +68,7 @@ module.exports = {
         },
         yellow: {
           100: '#fef3c7',
-          400: '#facc15',
+          400: '#00E5FF',
           500: '#eab308',
           600: '#ca8a04',
           800: '#92400e',
@@ -69,6 +78,7 @@ module.exports = {
           400: '#60a5fa',
           500: '#3b82f6',
           600: '#2563eb',
+          700: '#1d4ed8',
           800: '#1e40af',
           900: '#1e3a8a',
         },

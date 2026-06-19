@@ -125,7 +125,7 @@ const AgentGrid = () => {
   const getStatusColor = (status) => {
     switch (status) {
       case 'Deployed': return 'bg-green-100 text-green-800 dark:bg-green-900 dark:text-green-300';
-      case 'Staging': return 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900 dark:text-yellow-300';
+      case 'Staging': return 'bg-brand-cyan-soft text-brand-cyan border border-brand-cyan/25';
       case 'Development': return 'bg-blue-100 text-blue-800 dark:bg-blue-900 dark:text-blue-300';
       case 'Offline': return 'bg-red-100 text-red-800 dark:bg-red-900 dark:text-red-300';
       default: return 'bg-gray-100 text-gray-800 dark:bg-gray-900 dark:text-gray-300';
@@ -134,7 +134,7 @@ const AgentGrid = () => {
 
   const getPerformanceColor = (performance) => {
     if (performance >= 90) return 'text-green-500';
-    if (performance >= 75) return 'text-yellow-500';
+    if (performance >= 75) return 'text-cyan-400';
     return 'text-red-500';
   };
 
@@ -173,7 +173,7 @@ const AgentGrid = () => {
             <div className="text-sm text-navy-900/70 font-montserrat">Deployed</div>
           </div>
           <div className="bg-white border-2 border-cyan-500 shadow-lg rounded-2xl p-6 text-center">
-            <div className="text-3xl font-bold text-yellow-600 mb-2">
+            <div className="text-3xl font-bold text-cyan-600 mb-2">
               {agents.filter(a => a.status === 'Staging').length}
             </div>
             <div className="text-sm text-navy-900/70 font-montserrat">In Staging</div>
@@ -275,7 +275,7 @@ const AgentGrid = () => {
                   <>
                     <button
                       onClick={() => updateAgentStatus(agent.id, 'Staging')}
-                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-yellow-500 hover:bg-yellow-400 text-white font-bold transition-colors"
+                      className="flex items-center gap-2 px-4 py-2 rounded-lg bg-cyan-500 hover:bg-cyan-400 text-white font-bold transition-colors"
                     >
                       <FaPause /> Stage
                     </button>

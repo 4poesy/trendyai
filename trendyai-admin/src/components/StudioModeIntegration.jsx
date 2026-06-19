@@ -81,11 +81,11 @@ const StudioModeIntegration = ({ onAgentActivation, onWorkflowComplete }) => {
             </p>
           </div>
         </div>
-        <div className={`px-3 py-1 rounded-full text-xs font-semibold ${
-          systemStatus === 'idle' ? 'bg-green-100 text-green-700' :
-          systemStatus === 'routing' ? 'bg-blue-100 text-blue-700' :
-          systemStatus === 'testing' ? 'bg-yellow-100 text-yellow-700' :
-          'bg-gray-100 text-gray-700'
+        <div className={`px-3 py-1 rounded-full text-xs font-semibold border ${
+          systemStatus === 'idle' ? 'bg-green-950/40 text-green-400 border-green-800/30' :
+          systemStatus === 'routing' ? 'bg-blue-950/40 text-blue-400 border-blue-800/30' :
+          systemStatus === 'testing' ? 'bg-brand-cyan-soft text-brand-cyan border-brand-cyan/20' :
+          'bg-gray-900 text-gray-400 border-gray-800'
         }`}>
           {systemStatus === 'idle' && '🟢 Ready'}
           {systemStatus === 'routing' && '🔄 Routing'}

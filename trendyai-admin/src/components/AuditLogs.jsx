@@ -1,30 +1,30 @@
 import React, { useState } from 'react';
 import {
   FiFileText, FiSearch, FiDownload, FiFilter,
-  FiCheckCircle, FiAlertTriangle, FiInfo, FiUser, FiGlobe
+  FiUser, FiGlobe
 } from 'react-icons/fi';
 import { useToast } from './Toast';
 
 const SEVERITY_COLOR = {
-  Info:    '#378ADD',
-  Warning: '#facc15',
-  Error:   '#D85A30',
+  Info:    '#00E5FF',
+  Warning: '#FFB020',
+  Error:   '#FF4D4D',
 };
 
 const SEVERITY_BG = {
-  Info:    'rgba(55,138,221,0.12)',
-  Warning: 'rgba(250,204,21,0.12)',
-  Error:   'rgba(216,90,48,0.12)',
+  Info:    'rgba(0, 229, 255, 0.10)',
+  Warning: 'rgba(255, 176, 32, 0.10)',
+  Error:   'rgba(255, 77, 77, 0.10)',
 };
 
 const STATUS_COLOR = {
-  Success: '#1D9E75',
-  Failed:  '#D85A30',
+  Success: '#00E5FF',
+  Failed:  '#FF4D4D',
 };
 
 const STATUS_BG = {
-  Success: 'rgba(29,158,117,0.12)',
-  Failed:  'rgba(216,90,48,0.12)',
+  Success: 'rgba(0, 229, 255, 0.10)',
+  Failed:  'rgba(255, 77, 77, 0.10)',
 };
 
 const AuditLogs = () => {
@@ -33,9 +33,9 @@ const AuditLogs = () => {
   const [logs] = useState([
     {
       id: 1,
-      timestamp: '2024-03-15 16:30:45',
+      timestamp: '2026-06-19 16:30:45',
       action: 'User Login',
-      user: 'admin@trendyai.com',
+      user: 'admin@trendtacticsdigital.com',
       ipAddress: '192.168.1.100',
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Success',
@@ -44,9 +44,9 @@ const AuditLogs = () => {
     },
     {
       id: 2,
-      timestamp: '2024-03-15 16:25:12',
+      timestamp: '2026-06-19 16:25:12',
       action: 'Project Created',
-      user: 'admin@trendyai.com',
+      user: 'admin@trendtacticsdigital.com',
       ipAddress: '192.168.1.100',
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Success',
@@ -55,9 +55,9 @@ const AuditLogs = () => {
     },
     {
       id: 3,
-      timestamp: '2024-03-15 16:20:33',
+      timestamp: '2026-06-19 16:20:33',
       action: 'Client Added',
-      user: 'jane@trendyai.com',
+      user: 'jane@trendtacticsdigital.com',
       ipAddress: '192.168.1.101',
       userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
       status: 'Success',
@@ -66,9 +66,9 @@ const AuditLogs = () => {
     },
     {
       id: 4,
-      timestamp: '2024-03-15 16:15:08',
+      timestamp: '2026-06-19 16:15:08',
       action: 'Approval Rejected',
-      user: 'admin@trendyai.com',
+      user: 'admin@trendtacticsdigital.com',
       ipAddress: '192.168.1.100',
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Success',
@@ -77,7 +77,7 @@ const AuditLogs = () => {
     },
     {
       id: 5,
-      timestamp: '2024-03-15 16:10:22',
+      timestamp: '2026-06-19 16:10:22',
       action: 'Failed Login Attempt',
       user: 'unknown@example.com',
       ipAddress: '203.0.113.45',
@@ -88,9 +88,9 @@ const AuditLogs = () => {
     },
     {
       id: 6,
-      timestamp: '2024-03-15 16:05:15',
+      timestamp: '2026-06-19 16:05:15',
       action: 'Agent Status Updated',
-      user: 'system@trendyai.com',
+      user: 'system@trendtacticsdigital.com',
       ipAddress: '127.0.0.1',
       userAgent: 'TrendyAI-System/1.0',
       status: 'Success',
@@ -99,9 +99,9 @@ const AuditLogs = () => {
     },
     {
       id: 7,
-      timestamp: '2024-03-15 16:00:42',
+      timestamp: '2026-06-19 16:00:42',
       action: 'Data Export',
-      user: 'admin@trendyai.com',
+      user: 'admin@trendtacticsdigital.com',
       ipAddress: '192.168.1.100',
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Success',
@@ -110,9 +110,9 @@ const AuditLogs = () => {
     },
     {
       id: 8,
-      timestamp: '2024-03-15 15:55:18',
+      timestamp: '2026-06-19 15:55:18',
       action: 'Permission Denied',
-      user: 'user@trendyai.com',
+      user: 'user@trendtacticsdigital.com',
       ipAddress: '192.168.1.102',
       userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1)',
       status: 'Failed',
@@ -165,12 +165,12 @@ const AuditLogs = () => {
   /* ── shared styles ── */
   const inputStyle = (key) => ({
     width: '100%',
-    background: '#1a1a1a',
-    border: `1px solid ${focusedInput === key ? '#facc15' : '#2a2a2a'}`,
+    background: '#0D2347',
+    border: `1px solid ${focusedInput === key ? '#00E5FF' : 'rgba(0, 229, 255, 0.2)'}`,
     borderRadius: '8px',
     padding: '9px 14px',
     fontSize: '12px',
-    color: '#f0f0f0',
+    color: '#FFFFFF',
     outline: 'none',
     transition: 'border-color 0.15s',
     boxSizing: 'border-box',
@@ -178,10 +178,10 @@ const AuditLogs = () => {
 
   const labelSmall = {
     fontSize: '10px',
-    fontWeight: 700,
+    fontWeight: 600,
     textTransform: 'uppercase',
-    letterSpacing: '0.12em',
-    color: '#555',
+    letterSpacing: '0.1em',
+    color: '#4A6080',
     display: 'block',
     marginBottom: '6px',
   };
@@ -204,13 +204,13 @@ const AuditLogs = () => {
       {/* ── Header ── */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '36px' }}>
         <div>
-          <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#facc15', marginBottom: '8px' }}>
+          <p style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', marginBottom: '8px' }}>
             Audit Logs
           </p>
-          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#f0f0f0', margin: 0, lineHeight: 1.3 }}>
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#FFFFFF', margin: 0, lineHeight: 1.3 }}>
             Audit Logs
           </h1>
-          <p style={{ fontSize: '13px', color: '#666', marginTop: '6px', lineHeight: 1.7 }}>
+          <p style={{ fontSize: '13px', color: '#A0B4CC', marginTop: '6px', lineHeight: 1.7 }}>
             Comprehensive audit trail of all system activities, agent requests, and login events.
           </p>
         </div>
@@ -221,18 +221,21 @@ const AuditLogs = () => {
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: 'rgba(250,204,21,0.10)',
-            border: '1px solid #facc15',
+            background: '#00E5FF',
+            border: 'none',
             borderRadius: '8px',
-            padding: '9px 18px',
+            padding: '10px 20px',
             fontSize: '12px',
             fontWeight: 700,
-            color: '#facc15',
+            color: '#0A1E3F',
             cursor: 'pointer',
             letterSpacing: '0.04em',
             flexShrink: 0,
             marginTop: '4px',
+            transition: 'background 0.15s ease',
           }}
+          onMouseEnter={e => e.currentTarget.style.background = '#00CFEA'}
+          onMouseLeave={e => e.currentTarget.style.background = '#00E5FF'}
         >
           <FiDownload size={13} />
           Export Logs to CSV
@@ -241,13 +244,13 @@ const AuditLogs = () => {
 
       {/* ── Filter Bar ── */}
       <div style={{
-        background: '#1a1a1a',
-        border: '1px solid #2a2a2a',
-        borderRadius: '14px',
+        background: '#0D2347',
+        border: '1px solid rgba(0, 229, 255, 0.15)',
+        borderRadius: '12px',
         padding: '24px 28px',
         marginBottom: '24px',
       }}>
-        <p style={{ ...labelSmall, marginBottom: '16px', color: '#444' }}>
+        <p style={{ ...labelSmall, marginBottom: '16px', color: '#4A6080' }}>
           <FiFilter size={10} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
           Filter Audit Stream
         </p>
@@ -257,7 +260,7 @@ const AuditLogs = () => {
           <div>
             <label style={labelSmall}>Search Input</label>
             <div style={{ position: 'relative' }}>
-              <FiSearch size={12} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#555' }} />
+              <FiSearch size={12} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#4A6080' }} />
               <input
                 type="text"
                 placeholder="Search logs..."
@@ -319,28 +322,28 @@ const AuditLogs = () => {
 
       {/* ── Log Entries ── */}
       <div>
-        <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#444', marginBottom: '16px' }}>
+        <p style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#4A6080', marginBottom: '16px' }}>
           Logs History — {filteredLogs.length} {filteredLogs.length === 1 ? 'entry' : 'entries'}
         </p>
 
         {filteredLogs.length === 0 ? (
           <div style={{
-            background: '#1a1a1a',
-            border: '1px solid #222',
-            borderRadius: '14px',
+            background: '#0D2347',
+            border: '1px solid rgba(0, 229, 255, 0.15)',
+            borderRadius: '12px',
             padding: '48px 32px',
             textAlign: 'center',
           }}>
-            <FiFileText size={28} style={{ color: '#333', marginBottom: '12px' }} />
-            <p style={{ fontSize: '13px', color: '#555' }}>No log entries matched your search criteria.</p>
+            <FiFileText size={28} style={{ color: '#4A6080', marginBottom: '12px' }} />
+            <p style={{ fontSize: '13px', color: '#A0B4CC' }}>No log entries matched your search criteria.</p>
           </div>
         ) : (
           filteredLogs.map(log => (
             <div
               key={log.id}
               style={{
-                background: '#1a1a1a',
-                border: '1px solid #222',
+                background: '#0D2347',
+                border: '1px solid rgba(0, 229, 255, 0.15)',
                 borderRadius: '10px',
                 padding: '20px 24px',
                 marginBottom: '8px',
@@ -348,34 +351,34 @@ const AuditLogs = () => {
             >
               {/* Row 1: timestamp + action + badges */}
               <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '8px' }}>
-                <span style={{ fontFamily: 'monospace', fontSize: '10px', color: '#444' }}>
+                <span style={{ fontFamily: 'monospace', fontSize: '10px', color: '#4A6080' }}>
                   {log.timestamp}
                 </span>
-                <span style={{ fontSize: '13px', fontWeight: 700, color: '#f0f0f0' }}>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#FFFFFF' }}>
                   {log.action}
                 </span>
-                <span style={pillStyle(SEVERITY_COLOR[log.severity] || '#555', SEVERITY_BG[log.severity] || 'rgba(85,85,85,0.15)')}>
+                <span style={pillStyle(SEVERITY_COLOR[log.severity] || '#4A6080', SEVERITY_BG[log.severity] || 'rgba(74,96,128,0.10)')}>
                   {log.severity}
                 </span>
-                <span style={pillStyle(STATUS_COLOR[log.status] || '#555', STATUS_BG[log.status] || 'rgba(85,85,85,0.15)')}>
+                <span style={pillStyle(STATUS_COLOR[log.status] || '#4A6080', STATUS_BG[log.status] || 'rgba(74,96,128,0.10)')}>
                   {log.status}
                 </span>
               </div>
 
               {/* Row 2: user + IP */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#555' }}>
-                  <FiUser size={10} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#A0B4CC' }}>
+                  <FiUser size={10} style={{ color: '#00E5FF' }} />
                   {log.user}
                 </span>
-                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#555' }}>
-                  <FiGlobe size={10} />
+                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#A0B4CC' }}>
+                  <FiGlobe size={10} style={{ color: '#00E5FF' }} />
                   {log.ipAddress}
                 </span>
               </div>
 
               {/* Row 3: description */}
-              <p style={{ fontSize: '12px', color: '#777', lineHeight: 1.6, margin: 0 }}>
+              <p style={{ fontSize: '12px', color: '#A0B4CC', lineHeight: 1.6, margin: 0 }}>
                 {log.details}
               </p>
             </div>

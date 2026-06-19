@@ -64,6 +64,8 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
   const { showInfo } = useToast();
   const navGroups = role === 'client' ? clientNavGroups : adminNavGroups;
 
+  const [hoveredLogout, setHoveredLogout] = useState(false);
+
   const handleLogout = () => {
     crossDomainAuth.clearAuth();
     showInfo('Logged out successfully');
@@ -80,8 +82,8 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
       <aside
         style={{
           width: 220,
-          background: '#0d0d0d',
-          borderRight: '1px solid #1e1e1e',
+          background: '#071629',
+          borderRight: '1px solid rgba(0, 229, 255, 0.1)',
           display: 'flex',
           flexDirection: 'column',
           flexShrink: 0,
@@ -101,7 +103,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
           to={role === 'client' ? '/client' : '/'}
           style={{
             padding: '20px 16px 16px',
-            borderBottom: '1px solid #1e1e1e',
+            borderBottom: '1px solid rgba(0, 229, 255, 0.1)',
             display: 'block',
             textDecoration: 'none',
             cursor: 'pointer'
@@ -109,13 +111,18 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
           className="sidebar-brand-link"
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-            <span style={{ color: '#facc15', fontSize: 15 }}>⚡</span>
-            <span style={{ color: '#f5f5f5', fontSize: 15, fontWeight: 700, letterSpacing: '-0.01em' }}>
-              TrendyAI
+            {/* Yellow bar chart icon (keep as-is, do not recolour) */}
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
+              <rect x="3" y="14" width="4" height="6" rx="1" fill="#facc15" />
+              <rect x="10" y="8" width="4" height="12" rx="1" fill="#facc15" />
+              <rect x="17" y="3" width="4" height="17" rx="1" fill="#facc15" />
+            </svg>
+            <span style={{ color: '#FFFFFF', fontSize: 13, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              Trendtactics Digital
             </span>
           </div>
-          <p style={{ color: '#444', fontSize: 10, paddingLeft: 23 }}>
-            Trendtactics Digital
+          <p style={{ color: '#4A6080', fontSize: 10, paddingLeft: 26, margin: 0, fontWeight: 600 }}>
+            TrendyAI Platform
           </p>
         </Link>
 
@@ -125,9 +132,9 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
             <div key={group.label} style={{ marginBottom: 20 }}>
               {/* Section label */}
               <p style={{
-                color: '#333',
-                fontSize: 9,
-                fontWeight: 700,
+                color: '#4A6080',
+                fontSize: 10,
+                fontWeight: 600,
                 textTransform: 'uppercase',
                 letterSpacing: '0.1em',
                 padding: '0 8px 6px',
@@ -155,34 +162,34 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
                       textDecoration: 'none',
                       fontSize: 13,
                       fontWeight: active ? 600 : 500,
-                      color: active ? '#f0f0f0' : '#555',
-                      background: active ? 'rgba(250,204,21,0.08)' : 'transparent',
+                      color: active ? '#00E5FF' : '#4A6080',
+                      background: active ? 'rgba(0, 229, 255, 0.10)' : 'transparent',
                       transition: 'all 0.15s ease',
                       marginBottom: 2,
                     }}
                     className="sidebar-nav-link"
                     onMouseEnter={e => {
                       if (!active) {
-                        e.currentTarget.style.background = '#1a1a1a';
-                        e.currentTarget.style.color = '#f0f0f0';
+                        e.currentTarget.style.background = '#112B55';
+                        e.currentTarget.style.color = '#FFFFFF';
                       }
                     }}
                     onMouseLeave={e => {
                       if (!active) {
                         e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.color = '#555';
+                        e.currentTarget.style.color = '#4A6080';
                       }
                     }}
                   >
                     <Icon
                       size={16}
-                      style={{ color: active ? '#facc15' : '#555', flexShrink: 0 }}
+                      style={{ color: active ? '#00E5FF' : '#4A6080', flexShrink: 0 }}
                     />
                     <span style={{ flex: 1 }}>{link.label}</span>
                     {showBadge && (
                       <span style={{
-                        background: '#facc15',
-                        color: '#111',
+                        background: '#00E5FF',
+                        color: '#0A1E3F',
                         fontSize: 10,
                         fontWeight: 700,
                         borderRadius: 10,
@@ -200,7 +207,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
         </nav>
 
         {/* ── Footer ── */}
-        <div style={{ padding: '12px 8px', borderTop: '1px solid #1e1e1e' }}>
+        <div style={{ padding: '12px 8px', borderTop: '1px solid rgba(0, 229, 255, 0.1)' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '8px 12px', borderRadius: 8,
@@ -208,7 +215,8 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
             {/* Avatar */}
             <div style={{
               width: 28, height: 28, borderRadius: '50%',
-              background: '#facc15', color: '#111',
+              background: 'rgba(0, 229, 255, 0.10)', color: '#00E5FF',
+              border: '1px solid rgba(0, 229, 255, 0.25)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 11, fontWeight: 800, flexShrink: 0,
             }}>
@@ -216,10 +224,11 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
             </div>
             {/* Info */}
             <div style={{ flex: 1, minWidth: 0 }}>
-              <p style={{ color: '#f0f0f0', fontSize: 11, fontWeight: 700, lineHeight: 1.3 }}>ADMIN</p>
+              <p style={{ color: '#FFFFFF', fontSize: 11, fontWeight: 700, lineHeight: 1.3, margin: 0 }}>ADMIN</p>
               <p style={{
-                color: '#555', fontSize: 10,
+                color: '#4A6080', fontSize: 10,
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
+                margin: 0,
               }}>
                 akinola@trendtactics...
               </p>
@@ -228,14 +237,14 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
             <button
               onClick={handleLogout}
               title="Logout"
+              onMouseEnter={() => setHoveredLogout(true)}
+              onMouseLeave={() => setHoveredLogout(false)}
               style={{
                 background: 'none', border: 'none',
-                color: '#555', cursor: 'pointer', padding: 4,
+                color: hoveredLogout ? '#00E5FF' : '#4A6080', cursor: 'pointer', padding: 4,
                 borderRadius: 6, display: 'flex', alignItems: 'center',
                 transition: 'color 0.15s ease',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#facc15'}
-              onMouseLeave={e => e.currentTarget.style.color = '#555'}
             >
               <FiLogOut size={14} />
             </button>
@@ -275,6 +284,9 @@ const Layout = () => {
   const [mobileOpen,       setMobileOpen]       = useState(false);
   const [roleDropdownOpen, setRoleDropdownOpen]  = useState(false);
   const [pendingCount,     setPendingCount]      = useState(0);
+
+  const [hoveredRoleBtn,   setHoveredRoleBtn]    = useState(false);
+  const [hoveredThemeBtn,  setHoveredThemeBtn]   = useState(false);
 
   /* Persist role */
   useEffect(() => {
@@ -336,7 +348,7 @@ const Layout = () => {
       className="dark"
       style={{
         minHeight: '100vh', display: 'flex',
-        background: '#111111', color: '#f5f5f5',
+        background: '#0A1E3F', color: '#FFFFFF',
       }}
     >
       {/* Sidebar */}
@@ -353,8 +365,8 @@ const Layout = () => {
         {/* ── Topbar ── */}
         <header style={{
           height: 52,
-          background: '#0d0d0d',
-          borderBottom: '1px solid #1e1e1e',
+          background: '#071629',
+          borderBottom: '1px solid rgba(0, 229, 255, 0.1)',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -367,7 +379,7 @@ const Layout = () => {
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               style={{
-                background: 'none', border: 'none', color: '#555',
+                background: 'none', border: 'none', color: '#4A6080',
                 cursor: 'pointer', padding: 6, borderRadius: 6,
                 display: 'flex', alignItems: 'center',
               }}
@@ -376,28 +388,29 @@ const Layout = () => {
             >
               {mobileOpen ? <FiX size={18} /> : <FiMenu size={18} />}
             </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 500, color: '#555' }}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 500, color: '#4A6080' }}
                   className="hidden sm:inline-flex">
               {breadcrumbs.map((crumb, idx) => {
+                const [hoveredCrumb, setHoveredCrumb] = useState(false);
                 return (
                   <React.Fragment key={idx}>
-                    {idx > 0 && <span style={{ color: '#333' }}>/</span>}
+                    {idx > 0 && <span style={{ color: 'rgba(0, 229, 255, 0.15)' }}>/</span>}
                     {crumb.to ? (
                       <Link
                         to={crumb.to}
+                        onMouseEnter={() => setHoveredCrumb(true)}
+                        onMouseLeave={() => setHoveredCrumb(false)}
                         style={{
-                          color: '#555',
+                          color: hoveredCrumb ? '#00E5FF' : '#4A6080',
                           textDecoration: 'none',
                           transition: 'color 0.15s ease',
                           cursor: 'pointer',
                         }}
-                        onMouseEnter={e => e.currentTarget.style.color = '#facc15'}
-                        onMouseLeave={e => e.currentTarget.style.color = '#555'}
                       >
                         {crumb.label}
                       </Link>
                     ) : (
-                      <span style={{ color: '#888' }}>{crumb.label}</span>
+                      <span style={{ color: '#A0B4CC' }}>{crumb.label}</span>
                     )}
                   </React.Fragment>
                 );
@@ -412,13 +425,15 @@ const Layout = () => {
             <div style={{ position: 'relative' }}>
               <button
                 onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
+                onMouseEnter={() => setHoveredRoleBtn(true)}
+                onMouseLeave={() => setHoveredRoleBtn(false)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 6,
                   padding: '5px 12px',
-                  background: '#1a1a1a', border: '1px solid #2a2a2a',
-                  borderRadius: 7, color: '#888', fontSize: 11,
+                  background: '#0D2347', border: hoveredRoleBtn ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.15)',
+                  borderRadius: 7, color: hoveredRoleBtn ? '#FFFFFF' : '#A0B4CC', fontSize: 11,
                   fontWeight: 600, cursor: 'pointer',
-                  transition: 'border-color 0.15s ease',
+                  transition: 'all 0.15s ease',
                 }}
               >
                 View: {role === 'admin' ? 'Admin' : 'Client'}
@@ -427,24 +442,30 @@ const Layout = () => {
               {roleDropdownOpen && (
                 <div style={{
                   position: 'absolute', right: 0, top: '110%',
-                  background: '#1a1a1a', border: '1px solid #2a2a2a',
+                  background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
                   borderRadius: 8, overflow: 'hidden', zIndex: 50, minWidth: 140,
                 }}>
-                  {['admin', 'client'].map(r => (
-                    <button
-                      key={r}
-                      onClick={() => { handleRoleChange(r); setRoleDropdownOpen(false); }}
-                      style={{
-                        display: 'block', width: '100%', textAlign: 'left',
-                        padding: '8px 14px', background: 'none',
-                        border: 'none', fontSize: 12, fontWeight: 600,
-                        color: role === r ? '#facc15' : '#888',
-                        cursor: 'pointer',
-                      }}
-                    >
-                      {r === 'admin' ? 'Admin Portal' : 'Client Portal'}
-                    </button>
-                  ))}
+                  {['admin', 'client'].map(r => {
+                    const [hoveredItem, setHoveredItem] = useState(false);
+                    return (
+                      <button
+                        key={r}
+                        onClick={() => { handleRoleChange(r); setRoleDropdownOpen(false); }}
+                        onMouseEnter={() => setHoveredItem(true)}
+                        onMouseLeave={() => setHoveredItem(false)}
+                        style={{
+                          display: 'block', width: '100%', textAlign: 'left',
+                          padding: '8px 14px', background: hoveredItem ? '#112B55' : 'none',
+                          border: 'none', fontSize: 12, fontWeight: 600,
+                          color: role === r ? '#00E5FF' : (hoveredItem ? '#FFFFFF' : '#A0B4CC'),
+                          cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        {r === 'admin' ? 'Admin Portal' : 'Client Portal'}
+                      </button>
+                    );
+                  })}
                 </div>
               )}
             </div>
@@ -455,15 +476,15 @@ const Layout = () => {
             {/* Theme toggle */}
             <button
               onClick={toggleTheme}
+              onMouseEnter={() => setHoveredThemeBtn(true)}
+              onMouseLeave={() => setHoveredThemeBtn(false)}
               style={{
-                background: '#1a1a1a', border: '1px solid #2a2a2a',
-                borderRadius: 7, color: '#555', cursor: 'pointer',
+                background: '#0D2347', border: hoveredThemeBtn ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.15)',
+                borderRadius: 7, color: hoveredThemeBtn ? '#00E5FF' : '#4A6080', cursor: 'pointer',
                 padding: 7, display: 'flex', alignItems: 'center',
                 transition: 'color 0.15s ease, border-color 0.15s ease',
               }}
               aria-label="Toggle theme"
-              onMouseEnter={e => { e.currentTarget.style.color = '#facc15'; e.currentTarget.style.borderColor = 'rgba(250,204,21,0.4)'; }}
-              onMouseLeave={e => { e.currentTarget.style.color = '#555'; e.currentTarget.style.borderColor = '#2a2a2a'; }}
             >
               {theme === 'dark' ? <FiSun size={14} /> : <FiMoon size={14} />}
             </button>
@@ -471,7 +492,7 @@ const Layout = () => {
         </header>
 
         {/* ── Page body ── */}
-        <main style={{ flex: 1, overflowY: 'auto', background: '#111111' }} className="crm-layout-main">
+        <main style={{ flex: 1, overflowY: 'auto', background: '#0A1E3F' }} className="crm-layout-main">
           <Outlet />
         </main>
       </div>

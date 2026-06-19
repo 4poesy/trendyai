@@ -65,7 +65,7 @@ const AgentTrainingDashboard = () => {
 
   const getAgentStatusColor = (agent) => {
     if (agent.performance.successRate >= 0.9) return 'text-green-500';
-    if (agent.performance.successRate >= 0.7) return 'text-yellow-500';
+    if (agent.performance.successRate >= 0.7) return 'text-cyan-400';
     return 'text-red-500';
   };
 
@@ -122,7 +122,7 @@ const AgentTrainingDashboard = () => {
           </div>
           <div className="crm-card">
             <span className="text-sm font-semibold uppercase tracking-wider text-text-sub">Recommendations</span>
-            <h3 className="text-3xl font-bold text-text-main mt-2 text-yellow-500">{trainingReport.recommendations.length}</h3>
+            <h3 className="text-3xl font-bold text-text-main mt-2 text-cyan-400">{trainingReport.recommendations.length}</h3>
           </div>
         </div>
       )}
@@ -220,7 +220,7 @@ const AgentTrainingDashboard = () => {
           {trainingReport && (
             <div className="crm-card">
               <h3 className="font-bold text-text-main mb-4 flex items-center gap-1.5 text-base">
-                <FaLightbulb className="text-yellow-500" />
+                <FaLightbulb className="text-cyan-400" />
                 Training Suggestions
               </h3>
               <div className="space-y-3">

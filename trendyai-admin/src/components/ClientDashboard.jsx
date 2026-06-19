@@ -10,22 +10,22 @@ import { useToast } from './Toast';
 /* ─── METRIC CARD ────────────────────────────────────────── */
 const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) => (
   <div style={{
-    background: '#1a1a1a',
-    border: `1px solid ${highlight ? 'rgba(250,204,21,0.3)' : '#2a2a2a'}`,
-    borderRadius: 16,
-    padding: '32px 36px',
+    background: '#0D2347',
+    border: `1px solid ${highlight ? 'rgba(0, 229, 255, 0.4)' : 'rgba(0, 229, 255, 0.15)'}`,
+    borderRadius: 12,
+    padding: '28px 32px',
     display: 'flex',
     flexDirection: 'column',
     gap: 0,
     transition: 'border-color 0.15s ease',
   }}
-  onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.3)'}
-  onMouseLeave={e => e.currentTarget.style.borderColor = highlight ? 'rgba(250,204,21,0.3)' : '#2a2a2a'}
+  onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(0, 229, 255, 0.6)'}
+  onMouseLeave={e => e.currentTarget.style.borderColor = highlight ? 'rgba(0, 229, 255, 0.4)' : 'rgba(0, 229, 255, 0.15)'}
   >
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
       <p style={{
-        fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
-        letterSpacing: '0.12em', color: '#555',
+        fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
+        letterSpacing: '0.08em', color: '#4A6080',
       }}>
         {label}
       </p>
@@ -38,14 +38,14 @@ const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) 
       </div>
     </div>
     <p style={{
-      fontSize: 36, fontWeight: 600, lineHeight: 1,
-      color: highlight ? '#facc15' : '#f5f5f5',
+      fontSize: 28, fontWeight: 600, lineHeight: 1,
+      color: highlight ? '#00E5FF' : '#FFFFFF',
       letterSpacing: '-0.025em',
       marginBottom: 12,
     }}>
       {value}
     </p>
-    <p style={{ fontSize: 12, color: '#555', lineHeight: 1.6 }}>{desc}</p>
+    <p style={{ fontSize: 12, color: '#4A6080', lineHeight: 1.6 }}>{desc}</p>
   </div>
 );
 
@@ -53,26 +53,26 @@ const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) 
 const ProgressBar = ({ pct }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
     <div style={{
-      flex: 1, height: 3, background: '#222',
+      flex: 1, height: 3, background: '#0A1E3F',
       borderRadius: 2, overflow: 'hidden',
     }}>
       <div style={{
         width: `${pct}%`, height: '100%',
-        background: '#facc15', borderRadius: 2,
+        background: '#00E5FF', borderRadius: 2,
         transition: 'width 0.4s ease',
       }} />
     </div>
-    <span style={{ fontSize: 11, fontWeight: 700, color: '#facc15', minWidth: 30 }}>{pct}%</span>
+    <span style={{ fontSize: 11, fontWeight: 700, color: '#00E5FF', minWidth: 30 }}>{pct}%</span>
   </div>
 );
 
 /* ─── STATUS BADGE ───────────────────────────────────────── */
 const StatusBadge = ({ status }) => {
   const map = {
-    'In Progress': { bg: 'rgba(55,138,221,0.12)', color: '#378ADD' },
-    'Reviewing':   { bg: 'rgba(250,204,21,0.12)', color: '#facc15' },
-    'Completed':   { bg: 'rgba(29,158,117,0.12)', color: '#1D9E75' },
-    'Paused':      { bg: 'rgba(120,120,120,0.12)', color: '#666' },
+    'In Progress': { bg: 'rgba(0, 229, 255, 0.10)', color: '#00E5FF' },
+    'Reviewing':   { bg: 'rgba(255, 176, 32, 0.10)', color: '#FFB020' },
+    'Completed':   { bg: 'rgba(0, 229, 255, 0.15)', color: '#00E5FF' },
+    'Paused':      { bg: 'rgba(74, 96, 128, 0.10)', color: '#4A6080' },
   };
   const s = map[status] || map['Paused'];
   return (
@@ -92,20 +92,20 @@ const ProcessStep = ({ num, title, desc, isLast }) => (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
       <div style={{
         width: 28, height: 28, borderRadius: 8,
-        background: 'rgba(250,204,21,0.12)',
-        border: '1px solid rgba(250,204,21,0.3)',
+        background: 'rgba(0, 229, 255, 0.10)',
+        border: '1px solid rgba(0, 229, 255, 0.25)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 11, fontWeight: 800, color: '#facc15',
+        fontSize: 11, fontWeight: 800, color: '#00E5FF',
       }}>
         {num}
       </div>
       {!isLast && (
-        <div style={{ width: 1, flex: 1, background: '#222', margin: '6px 0' }} />
+        <div style={{ width: 1, flex: 1, background: 'rgba(0, 229, 255, 0.15)', margin: '6px 0' }} />
       )}
     </div>
     <div style={{ paddingBottom: isLast ? 0 : 20 }}>
-      <p style={{ fontSize: 13, fontWeight: 700, color: '#f0f0f0', marginBottom: 5, lineHeight: 1.3 }}>{title}</p>
-      <p style={{ fontSize: 12, color: '#666', lineHeight: 1.6 }}>{desc}</p>
+      <p style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF', marginBottom: 5, lineHeight: 1.3 }}>{title}</p>
+      <p style={{ fontSize: 12, color: '#A0B4CC', lineHeight: 1.6 }}>{desc}</p>
     </div>
   </div>
 );
@@ -116,6 +116,10 @@ export default function ClientDashboard() {
   const { showInfo } = useToast();
   const [loading, setLoading] = useState(true);
 
+  const [hoveredNewRequest, setHoveredNewRequest] = useState(false);
+  const [hoveredTrack, setHoveredTrack] = useState(false);
+  const [hoveredAssetBtn, setHoveredAssetBtn] = useState(false);
+
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 600);
     return () => clearTimeout(t);
@@ -125,18 +129,18 @@ export default function ClientDashboard() {
     {
       label: 'Active Projects',
       value: '2',
-      desc: 'Running AI campaigns',
+      desc: 'Running campaigns',
       Icon: FiLayers,
-      iconColor: '#378ADD',
-      iconBg: 'rgba(55,138,221,0.12)',
+      iconColor: '#00E5FF',
+      iconBg: 'rgba(0, 229, 255, 0.10)',
     },
     {
       label: 'Pending Approvals',
       value: '3',
       desc: 'Requires your feedback',
       Icon: FiClock,
-      iconColor: '#facc15',
-      iconBg: 'rgba(250,204,21,0.12)',
+      iconColor: '#00E5FF',
+      iconBg: 'rgba(0, 229, 255, 0.12)',
       highlight: true,
     },
     {
@@ -144,16 +148,16 @@ export default function ClientDashboard() {
       value: '18',
       desc: 'Ready for use',
       Icon: FiCheckCircle,
-      iconColor: '#1D9E75',
-      iconBg: 'rgba(29,158,117,0.12)',
+      iconColor: '#00E5FF',
+      iconBg: 'rgba(0, 229, 255, 0.10)',
     },
     {
-      label: 'AI Actions Today',
+      label: 'Actions Today',
       value: '142',
-      desc: 'Automated workflow runs',
+      desc: 'Automated runs',
       Icon: FiZap,
-      iconColor: '#D85A30',
-      iconBg: 'rgba(216,90,48,0.12)',
+      iconColor: '#00E5FF',
+      iconBg: 'rgba(0, 229, 255, 0.10)',
     },
   ];
 
@@ -174,8 +178,8 @@ export default function ClientDashboard() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
-          border: '2px solid #2a2a2a',
-          borderTop: '2px solid #facc15',
+          border: '2px solid rgba(0, 229, 255, 0.15)',
+          borderTop: '2px solid #00E5FF',
           animation: 'spin 0.7s linear infinite',
         }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -194,30 +198,30 @@ export default function ClientDashboard() {
       }}>
         <div>
           <p style={{
-            fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
-            letterSpacing: '0.1em', color: '#facc15', marginBottom: 6,
+            fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
+            letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 6,
           }}>
             Client Portal
           </p>
-          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#f5f5f5', marginBottom: 8, lineHeight: 1.2 }}>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#FFFFFF', marginBottom: 8, lineHeight: 1.2 }}>
             Client Dashboard
           </h1>
-          <p style={{ fontSize: 13, color: '#666', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: '#A0B4CC', lineHeight: 1.5 }}>
             Monitor your campaigns, review deliverables, and approve assets.
           </p>
         </div>
 
         <button
           onClick={() => { navigate('/client/requests'); showInfo('Opening intake brief form'); }}
+          onMouseEnter={() => setHoveredNewRequest(true)}
+          onMouseLeave={() => setHoveredNewRequest(false)}
           style={{
             display: 'flex', alignItems: 'center', gap: 7,
-            background: '#facc15', color: '#111', border: 'none',
+            background: hoveredNewRequest ? '#00CFEA' : '#00E5FF', color: '#0A1E3F', border: 'none',
             borderRadius: 8, padding: '10px 20px', fontSize: 13,
             fontWeight: 700, cursor: 'pointer', flexShrink: 0,
             transition: 'background 0.15s ease',
           }}
-          onMouseEnter={e => e.currentTarget.style.background = '#eab308'}
-          onMouseLeave={e => e.currentTarget.style.background = '#facc15'}
         >
           <FiPlus size={14} /> New Campaign Request
         </button>
@@ -238,17 +242,20 @@ export default function ClientDashboard() {
 
           {/* Active Campaigns */}
           <div style={{
-            background: '#1a1a1a', border: '1px solid #2a2a2a',
-            borderRadius: 16, padding: '32px 36px',
+            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            borderRadius: 12, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#f5f5f5' }}>Active Campaigns</h2>
+              <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#FFFFFF' }}>Active Campaigns</h2>
               <button
                 onClick={() => navigate('/client/projects')}
+                onMouseEnter={() => setHoveredTrack(true)}
+                onMouseLeave={() => setHoveredTrack(false)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 5,
                   background: 'none', border: 'none',
-                  color: '#facc15', fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                  color: hoveredTrack ? '#FFFFFF' : '#00E5FF', fontSize: 11, fontWeight: 500, cursor: 'pointer',
+                  transition: 'color 0.15s ease',
                 }}
               >
                 Track Pipelines <FiArrowRight size={12} />
@@ -262,12 +269,12 @@ export default function ClientDashboard() {
                   display: 'grid',
                   gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
                   gap: 12, padding: '0 0 12px 0',
-                  borderBottom: '1px solid #222',
+                  borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
                 }}>
                   {['Project', 'Lead Agent', 'Status', 'Progress', 'Last Active'].map(h => (
                     <span key={h} style={{
-                      fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
-                      letterSpacing: '0.08em', color: '#555',
+                      fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
+                      letterSpacing: '0.08em', color: '#4A6080',
                     }}>
                       {h}
                     </span>
@@ -280,22 +287,23 @@ export default function ClientDashboard() {
                     display: 'grid',
                     gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
                     gap: 12, padding: '18px 0',
-                    borderBottom: '1px solid #1e1e1e',
+                    borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
                     alignItems: 'center',
                   }}>
-                    <span style={{ fontSize: 13, fontWeight: 600, color: '#f0f0f0' }}>{proj.name}</span>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF' }}>{proj.name}</span>
                     <span style={{
                       display: 'inline-flex', alignItems: 'center', gap: 5,
-                      fontSize: 11, color: '#888',
-                      background: '#222', borderRadius: 5, padding: '3px 8px',
+                      fontSize: 11, color: '#00E5FF',
+                      background: 'rgba(0, 229, 255, 0.08)', border: '1px solid rgba(0, 229, 255, 0.15)',
+                      borderRadius: 4, padding: '3px 8px',
                       width: 'fit-content',
                     }}>
-                      <FiCpu size={10} style={{ color: '#facc15' }} />
+                      <FiCpu size={10} style={{ color: '#00E5FF' }} />
                       {proj.leadAgent}
                     </span>
                     <StatusBadge status={proj.status} />
                     <ProgressBar pct={proj.progress} />
-                    <span style={{ fontSize: 11, color: '#555' }}>{proj.lastActive}</span>
+                    <span style={{ fontSize: 11, color: '#4A6080' }}>{proj.lastActive}</span>
                   </div>
                 ))}
               </div>
@@ -304,17 +312,20 @@ export default function ClientDashboard() {
 
           {/* Recent Deliverables */}
           <div style={{
-            background: '#1a1a1a', border: '1px solid #2a2a2a',
-            borderRadius: 16, padding: '32px 36px',
+            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            borderRadius: 12, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#f5f5f5' }}>Recent Deliverables</h2>
+              <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#FFFFFF' }}>Recent Deliverables</h2>
               <button
                 onClick={() => navigate('/client/deliverables')}
+                onMouseEnter={() => setHoveredAssetBtn(true)}
+                onMouseLeave={() => setHoveredAssetBtn(false)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 5,
                   background: 'none', border: 'none',
-                  color: '#facc15', fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                  color: hoveredAssetBtn ? '#FFFFFF' : '#00E5FF', fontSize: 11, fontWeight: 500, cursor: 'pointer',
+                  transition: 'color 0.15s ease',
                 }}
               >
                 View Asset Center <FiArrowRight size={12} />
@@ -322,57 +333,64 @@ export default function ClientDashboard() {
             </div>
 
             <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
-              {deliverables.map(d => (
-                <div key={d.id} style={{
-                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '16px 20px',
-                  background: '#141414',
-                  border: '1px solid #222',
-                  borderRadius: 10,
-                  gap: 12,
-                  transition: 'border-color 0.15s ease',
-                }}
-                onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.3)'}
-                onMouseLeave={e => e.currentTarget.style.borderColor = '#222'}
-                >
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
-                    <div style={{
-                      width: 34, height: 34, borderRadius: 8,
-                      background: 'rgba(250,204,21,0.08)',
-                      display: 'flex', alignItems: 'center', justifyContent: 'center',
-                      flexShrink: 0,
-                    }}>
-                      <FiFileText size={14} style={{ color: '#facc15' }} />
+              {deliverables.map(d => {
+                const [hoveredRow, setHoveredRow] = useState(false);
+                const [hoveredRevBtn, setHoveredRevBtn] = useState(false);
+
+                return (
+                  <div key={d.id} style={{
+                    display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                    padding: '16px 20px',
+                    background: hoveredRow ? '#112B55' : '#0A1E3F',
+                    border: hoveredRow ? '1px solid rgba(0, 229, 255, 0.5)' : '1px solid rgba(0, 229, 255, 0.15)',
+                    borderRadius: 8,
+                    gap: 12,
+                    transition: 'all 0.15s ease',
+                    cursor: 'pointer',
+                  }}
+                  onClick={() => navigate('/client/deliverables')}
+                  onMouseEnter={() => setHoveredRow(true)}
+                  onMouseLeave={() => setHoveredRow(false)}
+                  >
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+                      <div style={{
+                        width: 34, height: 34, borderRadius: 8,
+                        background: 'rgba(0, 229, 255, 0.08)',
+                        display: 'flex', alignItems: 'center', justifyContent: 'center',
+                        flexShrink: 0,
+                      }}>
+                        <FiFileText size={14} style={{ color: '#00E5FF' }} />
+                      </div>
+                      <div style={{ minWidth: 0 }}>
+                        <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', marginBottom: 3, lineHeight: 1.3 }}>
+                          {d.name}
+                        </p>
+                        <p style={{ fontSize: 11, color: '#A0B4CC' }}>
+                          {d.type} · {d.project}
+                        </p>
+                      </div>
                     </div>
-                    <div style={{ minWidth: 0 }}>
-                      <p style={{ fontSize: 13, fontWeight: 600, color: '#f0f0f0', marginBottom: 3, lineHeight: 1.3 }}>
-                        {d.name}
-                      </p>
-                      <p style={{ fontSize: 11, color: '#555' }}>
-                        {d.type} · {d.project}
-                      </p>
+                    <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }} onClick={e => e.stopPropagation()}>
+                      <span style={{ fontSize: 11, color: '#4A6080' }}>{d.date}</span>
+                      <button
+                        onClick={() => navigate('/client/deliverables')}
+                        onMouseEnter={() => setHoveredRevBtn(true)}
+                        onMouseLeave={() => setHoveredRevBtn(false)}
+                        style={{
+                          display: 'flex', alignItems: 'center', gap: 5,
+                          background: 'none',
+                          border: hoveredRevBtn ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.25)',
+                          borderRadius: 6, padding: '5px 12px',
+                          color: hoveredRevBtn ? '#00E5FF' : '#4A6080', fontSize: 11, fontWeight: 600, cursor: 'pointer',
+                          transition: 'all 0.15s ease',
+                        }}
+                      >
+                        Review <FiExternalLink size={10} />
+                      </button>
                     </div>
                   </div>
-                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
-                    <span style={{ fontSize: 11, color: '#444' }}>{d.date}</span>
-                    <button
-                      onClick={() => navigate('/client/deliverables')}
-                      style={{
-                        display: 'flex', alignItems: 'center', gap: 5,
-                        background: 'none',
-                        border: '1px solid #2a2a2a',
-                        borderRadius: 6, padding: '5px 12px',
-                        color: '#888', fontSize: 11, fontWeight: 600, cursor: 'pointer',
-                        transition: 'all 0.15s ease',
-                      }}
-                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(250,204,21,0.4)'; e.currentTarget.style.color = '#facc15'; }}
-                      onMouseLeave={e => { e.currentTarget.style.borderColor = '#2a2a2a'; e.currentTarget.style.color = '#888'; }}
-                    >
-                      Review <FiExternalLink size={10} />
-                    </button>
-                  </div>
-                </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>
@@ -382,19 +400,19 @@ export default function ClientDashboard() {
 
           {/* Campaign Health Summary */}
           <div style={{
-            background: '#1a1a1a', border: '1px solid #2a2a2a',
-            borderRadius: 16, padding: '28px 32px',
+            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            borderRadius: 12, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-              <FiTrendingUp size={14} style={{ color: '#facc15' }} />
-              <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>
+              <FiTrendingUp size={14} style={{ color: '#00E5FF' }} />
+              <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', margin: 0 }}>
                 Campaign Health
               </p>
             </div>
             {activeProjects.map(p => (
               <div key={p.id} style={{ marginBottom: 16 }}>
                 <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
-                  <span style={{ fontSize: 12, color: '#888', fontWeight: 500 }}>{p.name}</span>
+                  <span style={{ fontSize: 12, color: '#A0B4CC', fontWeight: 500 }}>{p.name}</span>
                   <StatusBadge status={p.status} />
                 </div>
                 <ProgressBar pct={p.progress} />
@@ -404,10 +422,10 @@ export default function ClientDashboard() {
 
           {/* AI Agency Process */}
           <div style={{
-            background: '#1a1a1a', border: '1px solid #2a2a2a',
-            borderRadius: 16, padding: '28px 32px',
+            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            borderRadius: 12, padding: '28px 32px',
           }}>
-            <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15', marginBottom: 20 }}>
+            <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 20 }}>
               AI Agency Process
             </p>
             <ProcessStep
@@ -430,20 +448,20 @@ export default function ClientDashboard() {
 
           {/* Custom Automation CTA */}
           <div style={{
-            background: '#141414',
-            border: '1px dashed #2a2a2a',
-            borderRadius: 16, padding: '28px 32px',
+            background: '#0A1E3F',
+            border: '1px dashed rgba(0, 229, 255, 0.25)',
+            borderRadius: 12, padding: '28px 32px',
           }}>
-            <p style={{ fontSize: 13, fontWeight: 700, color: '#f0f0f0', marginBottom: 10 }}>
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF', marginBottom: 10 }}>
               Need a Custom Automation?
             </p>
-            <p style={{ fontSize: 12, color: '#666', lineHeight: 1.7, marginBottom: 14 }}>
+            <p style={{ fontSize: 12, color: '#A0B4CC', lineHeight: 1.7, marginBottom: 14 }}>
               Request custom n8n automations to sync approved content directly to your WordPress, Webflow, or Shopify store.
             </p>
             <a
               href="mailto:support@trendtacticsdigital.com"
               style={{
-                fontSize: 12, fontWeight: 700, color: '#facc15',
+                fontSize: 12, fontWeight: 700, color: '#00E5FF',
                 textDecoration: 'none', display: 'inline-flex',
                 alignItems: 'center', gap: 5,
               }}

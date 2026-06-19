@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 
 const statusColors = {
-  Pending: 'bg-yellow-100 text-yellow-800 dark:bg-yellow-900/40 dark:text-yellow-200',
+  Pending: 'bg-brand-cyan-soft text-brand-cyan border border-brand-cyan/25',
   Approved: 'bg-green-100 text-green-800 dark:bg-green-900/40 dark:text-green-200',
   Rejected: 'bg-red-100 text-red-800 dark:bg-red-900/40 dark:text-red-200',
   'Revisions Requested': 'bg-cyan-100 text-cyan-800 dark:bg-cyan-900/40 dark:text-cyan-200',

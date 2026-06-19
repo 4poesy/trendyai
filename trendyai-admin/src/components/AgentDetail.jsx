@@ -3,7 +3,7 @@ import { useParams, useNavigate } from 'react-router-dom';
 import {
   FiCpu, FiUsers, FiTarget, FiBarChart2,
   FiPenTool, FiImage, FiCode, FiVideo,
-  FiArrowLeft, FiSend, FiRefreshCw,
+  FiArrowLeft, FiRefreshCw,
 } from 'react-icons/fi';
 import { globalAgentTrainingSystem } from '../utils/agentTrainingSystem';
 import { useToast } from './Toast';
@@ -16,8 +16,8 @@ const AGENTS = {
     id: 'trendyai-core',
     name: 'TrendyAI Core',
     description: 'Central orchestrator — decomposes tasks, routes to agents, manages human approval gates, and ensures project state sync across the full pipeline.',
-    iconBg: 'rgba(250,204,21,0.12)',
-    iconColor: '#facc15',
+    iconBg: 'rgba(0, 229, 255, 0.10)',
+    iconColor: '#00E5FF',
     Icon: FiCpu,
     tags: ['Smart Routing', 'PM', 'State Sync'],
     capabilities: [
@@ -33,8 +33,8 @@ const AGENTS = {
     id: 'clientflow',
     name: 'ClientFlow',
     description: 'Acquires leads, qualifies briefs, and manages CRM pipelines end-to-end — from first contact to onboarding and retention alerts.',
-    iconBg: 'rgba(29,158,117,0.12)',
-    iconColor: '#1D9E75',
+    iconBg: 'rgba(0, 229, 255, 0.10)',
+    iconColor: '#00E5FF',
     Icon: FiUsers,
     tags: ['CRM', 'Onboarding', 'Retention'],
     capabilities: [
@@ -50,8 +50,8 @@ const AGENTS = {
     id: 'stratoboss',
     name: 'StratoBoss',
     description: 'Conducts market analysis, competitor sweeps, SEO audits, keyword lookups, and trend forecasts to power informed strategy decisions.',
-    iconBg: 'rgba(55,138,221,0.12)',
-    iconColor: '#378ADD',
+    iconBg: 'rgba(0, 229, 255, 0.10)',
+    iconColor: '#00E5FF',
     Icon: FiTarget,
     tags: ['SEO Audit', 'SWOT', 'Forecasting'],
     capabilities: [
@@ -67,8 +67,8 @@ const AGENTS = {
     id: 'pulsepilot',
     name: 'PulsePilot',
     description: 'Deploys paid ads on Meta and Google, schedules social media posts, manages YouTube metadata, and tracks ad spend in real time.',
-    iconBg: 'rgba(250,204,21,0.12)',
-    iconColor: '#facc15',
+    iconBg: 'rgba(0, 229, 255, 0.10)',
+    iconColor: '#00E5FF',
     Icon: FiBarChart2,
     tags: ['Meta/Google Ads', 'Spend', 'Publishing'],
     capabilities: [
@@ -84,8 +84,8 @@ const AGENTS = {
     id: 'contentsmith',
     name: 'ContentSmith',
     description: 'Creative specialist adapting dynamically — Copywriter, Blogger, Ghostwriter, Book Writer — with active tone matching and clarifying questions.',
-    iconBg: 'rgba(216,90,48,0.12)',
-    iconColor: '#D85A30',
+    iconBg: 'rgba(0, 229, 255, 0.10)',
+    iconColor: '#00E5FF',
     Icon: FiPenTool,
     tags: ['Copywriting', 'Blogging', 'Ghostwriting'],
     capabilities: [
@@ -101,8 +101,8 @@ const AGENTS = {
     id: 'pixeldex',
     name: 'PixelDex',
     description: 'Visual designer crafting logos, brand guides, social media banners, ad graphics, and formatting ebook layouts.',
-    iconBg: 'rgba(55,138,221,0.12)',
-    iconColor: '#378ADD',
+    iconBg: 'rgba(0, 229, 255, 0.10)',
+    iconColor: '#00E5FF',
     Icon: FiImage,
     tags: ['Branding', 'Social Design', 'Ebooks'],
     capabilities: [
@@ -118,8 +118,8 @@ const AGENTS = {
     id: 'webwiz',
     name: 'WebWiz',
     description: 'Designs UI layouts, generates React/HTML frontend code, connects CMS publishing, integrates Paystack, and monitors site uptime.',
-    iconBg: 'rgba(29,158,117,0.12)',
-    iconColor: '#1D9E75',
+    iconBg: 'rgba(0, 229, 255, 0.10)',
+    iconColor: '#00E5FF',
     Icon: FiCode,
     tags: ['Next.js', 'Paystack', 'CMS'],
     capabilities: [
@@ -135,8 +135,8 @@ const AGENTS = {
     id: 'mediawiz',
     name: 'MediaWiz',
     description: 'Full video pipeline — scripts, storyboards, Shorts/Reels editing direction, voiceovers, backing audio, and music curation.',
-    iconBg: 'rgba(216,90,48,0.12)',
-    iconColor: '#D85A30',
+    iconBg: 'rgba(0, 229, 255, 0.10)',
+    iconColor: '#00E5FF',
     Icon: FiVideo,
     tags: ['Reels', 'Voiceover', 'Afrobeats'],
     capabilities: [
@@ -152,9 +152,9 @@ const AGENTS = {
 
 /* ─── METRIC ROW ─────────────────────────────────────────── */
 const MetricRow = ({ label, value }) => (
-  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid #1e1e1e' }}>
-    <span style={{ fontSize: 12, color: '#666' }}>{label}</span>
-    <span style={{ fontSize: 12, fontWeight: 600, color: value === '—' ? '#555' : '#f0f0f0' }}>{value}</span>
+  <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', padding: '8px 0', borderBottom: '1px solid rgba(0, 229, 255, 0.15)' }}>
+    <span style={{ fontSize: 12, color: '#4A6080' }}>{label}</span>
+    <span style={{ fontSize: 12, fontWeight: 600, color: value === '—' ? '#4A6080' : '#FFFFFF' }}>{value}</span>
   </div>
 );
 
@@ -170,6 +170,12 @@ const AgentDetail = () => {
   const [retraining,       setRetraining]       = useState(false);
   const [chatKey,          setChatKey]          = useState(0);
   const [metrics,          setMetrics]          = useState({ uptime: '—', successRate: '—', response: '—', tasks: '—' });
+
+  const [hoveredBack,      setHoveredBack]      = useState(false);
+  const [focusedTextarea,  setFocusedTextarea]  = useState(false);
+  const [hoveredSaveBtn,   setHoveredSaveBtn]   = useState(false);
+  const [hoveredRetrainBtn,setHoveredRetrainBtn]= useState(false);
+  const [hoveredResetBtn,  setHoveredResetBtn]  = useState(false);
 
   /* Load agent training data for prompt */
   useEffect(() => {
@@ -218,10 +224,10 @@ const AgentDetail = () => {
   if (!agent) {
     return (
       <div style={{ maxWidth: 1280, margin: '0 auto', padding: '48px 0', textAlign: 'center' }}>
-        <p style={{ color: '#555', fontSize: 14 }}>Agent not found.</p>
+        <p style={{ color: '#4A6080', fontSize: 14 }}>Agent not found.</p>
         <button
           onClick={() => navigate('/agent-grid')}
-          style={{ marginTop: 16, color: '#facc15', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13 }}
+          style={{ marginTop: 16, color: '#00E5FF', background: 'none', border: 'none', cursor: 'pointer', fontSize: 13, fontWeight: 600 }}
         >
           ← Back to Agent Grid
         </button>
@@ -240,12 +246,12 @@ const AgentDetail = () => {
         style={{
           display: 'flex', alignItems: 'center', gap: 6,
           background: 'none', border: 'none',
-          color: '#555', fontSize: 12, fontWeight: 500,
+          color: hoveredBack ? '#00E5FF' : '#4A6080', fontSize: 12, fontWeight: 500,
           cursor: 'pointer', marginBottom: 24,
           transition: 'color 0.15s ease',
         }}
-        onMouseEnter={e => e.currentTarget.style.color = '#facc15'}
-        onMouseLeave={e => e.currentTarget.style.color = '#555'}
+        onMouseEnter={() => setHoveredBack(true)}
+        onMouseLeave={() => setHoveredBack(false)}
       >
         <FiArrowLeft size={13} /> Back to Agent Grid
       </button>
@@ -259,53 +265,57 @@ const AgentDetail = () => {
         <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
           {/* Agent identity */}
-          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 14, padding: '28px 32px' }}>
+          <div style={{ background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12, padding: '28px 32px' }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 18 }}>
               {/* Large icon */}
               <div style={{
-                width: 56, height: 56, borderRadius: 14,
+                width: 56, height: 56, borderRadius: 9,
                 background: agent.iconBg, flexShrink: 0,
                 display: 'flex', alignItems: 'center', justifyContent: 'center',
               }}>
                 <Icon size={24} style={{ color: agent.iconColor }} />
               </div>
               <div>
-                <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 22, fontWeight: 700, color: '#f5f5f5', lineHeight: 1.2, marginBottom: 6 }}>
+                <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 22, fontWeight: 700, color: '#FFFFFF', lineHeight: 1.2, marginBottom: 6 }}>
                   {agent.name}
                 </h1>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
-                  <span style={{ width: 7, height: 7, borderRadius: '50%', background: '#1D9E75', display: 'inline-block' }} />
-                  <span style={{ fontSize: 11, color: '#1D9E75', fontWeight: 600 }}>Active</span>
+                  <span style={{
+                    width: 7, height: 7, borderRadius: '50%',
+                    background: '#00E5FF', display: 'inline-block',
+                    boxShadow: '0 0 6px rgba(0, 229, 255, 0.5)'
+                  }} />
+                  <span style={{ fontSize: 11, color: '#00E5FF', fontWeight: 600 }}>Active</span>
                 </div>
               </div>
             </div>
-            <p style={{ fontSize: 13, color: '#888', lineHeight: 1.7 }}>
+            <p style={{ fontSize: 13, color: '#A0B4CC', lineHeight: 1.7 }}>
               {agent.description}
             </p>
           </div>
 
           {/* Performance metrics */}
-          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 14, padding: '28px 32px' }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#facc15', marginBottom: 16 }}>
+          <div style={{ background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12, padding: '28px 32px' }}>
+            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 16 }}>
               Performance
             </p>
             <MetricRow label="Uptime"        value={metrics.uptime} />
             <MetricRow label="Success Rate"  value={metrics.successRate} />
             <MetricRow label="Response"      value={metrics.response} />
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12 }}>
-              <span style={{ fontSize: 13, color: '#888' }}>Tasks Completed</span>
-              <span style={{ fontSize: 13, fontWeight: 600, color: metrics.tasks === '—' ? '#555' : '#f5f5f5' }}>{metrics.tasks}</span>
+              <span style={{ fontSize: 13, color: '#4A6080' }}>Tasks Completed</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: metrics.tasks === '—' ? '#4A6080' : '#FFFFFF' }}>{metrics.tasks}</span>
             </div>
           </div>
 
           {/* Capabilities */}
-          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 14, padding: '28px 32px' }}>
-            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#facc15', marginBottom: 16 }}>
+          <div style={{ background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12, padding: '28px 32px' }}>
+            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 16 }}>
               Capabilities
             </p>
             <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {agent.capabilities.map((cap, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: '#888', lineHeight: 1.6 }}>
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: '#A0B4CC', lineHeight: 1.6 }}>
                   <span style={{ color: agent.iconColor, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>•</span>
                   {cap}
                 </li>
@@ -314,13 +324,13 @@ const AgentDetail = () => {
           </div>
 
           {/* Custom Prompt */}
-          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 14, padding: '28px 32px' }}>
+          <div style={{ background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12, padding: '28px 32px' }}>
             <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
-              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#facc15' }}>
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF' }}>
                 Custom Prompt
               </p>
               <span style={{
-                fontSize: 9, color: '#555', border: '1px solid #2a2a2a',
+                fontSize: 9, color: '#4A6080', border: '1px solid rgba(0, 229, 255, 0.15)',
                 borderRadius: 4, padding: '2px 6px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.06em',
               }}>
                 Writable
@@ -332,25 +342,25 @@ const AgentDetail = () => {
               rows={5}
               style={{
                 width: '100%', padding: '12px 14px',
-                background: '#111', border: '1px solid #2a2a2a',
-                borderRadius: 8, color: '#f0f0f0', fontSize: 12,
+                background: '#0A1E3F', border: focusedTextarea ? '1px solid rgba(0, 229, 255, 0.6)' : '1px solid rgba(0, 229, 255, 0.2)',
+                borderRadius: 8, color: '#FFFFFF', fontSize: 12,
                 fontFamily: 'monospace', lineHeight: 1.6, resize: 'vertical',
                 outline: 'none', transition: 'border-color 0.15s ease',
               }}
-              onFocus={e => e.target.style.borderColor = 'rgba(250,204,21,0.4)'}
-              onBlur={e => e.target.style.borderColor = '#2a2a2a'}
+              onFocus={() => setFocusedTextarea(true)}
+              onBlur={() => setFocusedTextarea(false)}
               placeholder="Edit custom system instructions here…"
             />
             <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
               <button
                 onClick={handleSavePrompt}
                 style={{
-                  flex: 1, padding: '10px 0', background: '#facc15', color: '#111',
+                  flex: 1, padding: '10px 0', background: hoveredSaveBtn ? '#00CFEA' : '#00E5FF', color: '#0A1E3F',
                   border: 'none', borderRadius: 8, fontSize: 12, fontWeight: 700,
                   cursor: 'pointer', transition: 'background 0.15s ease',
                 }}
-                onMouseEnter={e => e.currentTarget.style.background = '#eab308'}
-                onMouseLeave={e => e.currentTarget.style.background = '#facc15'}
+                onMouseEnter={() => setHoveredSaveBtn(true)}
+                onMouseLeave={() => setHoveredSaveBtn(false)}
               >
                 Save Prompt
               </button>
@@ -359,14 +369,14 @@ const AgentDetail = () => {
                 disabled={retraining}
                 style={{
                   padding: '10px 18px',
-                  background: 'none', color: '#555',
-                  border: '1px solid #2a2a2a', borderRadius: 8,
+                  background: 'none', color: hoveredRetrainBtn && !retraining ? '#00E5FF' : '#4A6080',
+                  border: hoveredRetrainBtn && !retraining ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.25)', borderRadius: 8,
                   fontSize: 12, fontWeight: 600, cursor: 'pointer',
                   display: 'flex', alignItems: 'center', gap: 6,
                   transition: 'all 0.15s ease', opacity: retraining ? 0.5 : 1,
                 }}
-                onMouseEnter={e => { if (!retraining) { e.currentTarget.style.borderColor = 'rgba(250,204,21,0.4)'; e.currentTarget.style.color = '#facc15'; } }}
-                onMouseLeave={e => { e.currentTarget.style.borderColor = '#2a2a2a'; e.currentTarget.style.color = '#555'; }}
+                onMouseEnter={() => setHoveredRetrainBtn(true)}
+                onMouseLeave={() => setHoveredRetrainBtn(false)}
               >
                 <FiRefreshCw size={11} style={{ animation: retraining ? 'spin 1s linear infinite' : 'none' }} />
                 {retraining ? 'Syncing…' : 'Retrain'}
@@ -379,7 +389,7 @@ const AgentDetail = () => {
             RIGHT COLUMN — Playground
         ════════════════════════════════════ */}
         <div style={{
-          background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 12,
+          background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12,
           display: 'flex', flexDirection: 'column',
           height: 'calc(100vh - 120px)', overflow: 'hidden',
           position: 'sticky', top: 24,
@@ -387,12 +397,17 @@ const AgentDetail = () => {
 
           {/* Playground header */}
           <div style={{
-            display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-            padding: '14px 20px', borderBottom: '1px solid #2a2a2a', flexShrink: 0,
+            display: 'flex', alignItems: 'center', justifycontent: 'space-between',
+            padding: '14px 20px', borderBottom: '1px solid rgba(0, 229, 255, 0.15)', flexShrink: 0,
+            justifyContent: 'space-between'
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8 }}>
-              <span style={{ width: 6, height: 6, borderRadius: '50%', background: '#facc15', display: 'inline-block' }} className="animate-pulse" />
-              <span style={{ fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#f5f5f5' }}>
+              <span style={{
+                width: 6, height: 6, borderRadius: '50%',
+                background: '#00E5FF', display: 'inline-block',
+                boxShadow: '0 0 6px rgba(0, 229, 255, 0.5)'
+              }} className="animate-pulse" />
+              <span style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#FFFFFF' }}>
                 Interactive Playground
               </span>
             </div>
@@ -400,11 +415,11 @@ const AgentDetail = () => {
               onClick={() => { showInfo(`Resetting session for ${agent.name}…`); setChatKey(k => k + 1); }}
               style={{
                 background: 'none', border: 'none',
-                color: '#555', fontSize: 11, fontWeight: 600,
+                color: hoveredResetBtn ? '#00E5FF' : '#4A6080', fontSize: 11, fontWeight: 600,
                 cursor: 'pointer', transition: 'color 0.15s ease',
               }}
-              onMouseEnter={e => e.currentTarget.style.color = '#facc15'}
-              onMouseLeave={e => e.currentTarget.style.color = '#555'}
+              onMouseEnter={() => setHoveredResetBtn(true)}
+              onMouseLeave={() => setHoveredResetBtn(false)}
             >
               Reset Session
             </button>
@@ -423,9 +438,9 @@ const AgentDetail = () => {
 
           {/* Connected status */}
           <div style={{
-            padding: '8px 20px', borderTop: '1px solid #1e1e1e', flexShrink: 0,
+            padding: '8px 20px', borderTop: '1px solid rgba(0, 229, 255, 0.15)', flexShrink: 0,
           }}>
-            <p style={{ fontSize: 11, color: '#1D9E75', fontWeight: 500 }}>
+            <p style={{ fontSize: 11, color: '#00E5FF', fontWeight: 500 }}>
               ● Connected to {agent.name}
             </p>
           </div>

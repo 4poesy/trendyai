@@ -40,56 +40,56 @@
 
 /* ─── LIGHT MODE TOKENS ─────────────────────────────────── */
 :root {
-  --bg-primary: #f3f4f6;
-  --bg-secondary: #ffffff;
-  --bg-tertiary: #f9fafb;
-  --border-color: #e5e7eb;
+  --bg-primary: #0A1E3F;
+  --bg-secondary: #0D2347;
+  --bg-tertiary: #112B55;
+  --border-color: rgba(0, 229, 255, 0.15);
   
-  --text-primary: #111827;
-  --text-secondary: #4b5563;
-  --text-muted: #9ca3af;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0B4CC;
+  --text-muted: #4A6080;
 
-  --accent-primary: #facc15;
-  --accent-hover: #eab308;
-  --accent-light: rgba(250, 204, 21, 0.12);
+  --accent-primary: #00E5FF;
+  --accent-hover: #00CFEA;
+  --accent-light: rgba(0, 229, 255, 0.12);
 
-  --accent-yellow: #facc15;
-  --accent-yellow-light: rgba(250, 204, 21, 0.1);
+  --accent-yellow: #00E5FF;
+  --accent-yellow-light: rgba(0, 229, 255, 0.12);
   
-  --sidebar-bg: #0d0d0d;
-  --sidebar-text-active: #facc15;
-  --sidebar-text-inactive: #555555;
-  --sidebar-item-hover: #1a1a1a;
+  --sidebar-bg: #071629;
+  --sidebar-text-active: #00E5FF;
+  --sidebar-text-inactive: #4A6080;
+  --sidebar-item-hover: #112B55;
 
-  --white-bg-val: #ffffff;
-  --navy-900-val: #0f172a;
+  --white-bg-val: #0D2347;
+  --navy-900-val: #0A1E3F;
 }
 
-/* ─── DARK MODE TOKENS — Premium Charcoal + Gold ────────── */
+/* ─── DARK MODE TOKENS — Premium Navy + Cyan ────────── */
 .dark {
-  --bg-primary: #111111;
-  --bg-secondary: #1a1a1a;
-  --bg-tertiary: #161616;
-  --border-color: #2a2a2a;
+  --bg-primary: #0A1E3F;
+  --bg-secondary: #0D2347;
+  --bg-tertiary: #112B55;
+  --border-color: rgba(0, 229, 255, 0.15);
 
-  --text-primary: #f5f5f5;
-  --text-secondary: #888888;
-  --text-muted: #555555;
+  --text-primary: #FFFFFF;
+  --text-secondary: #A0B4CC;
+  --text-muted: #4A6080;
 
-  --accent-primary: #facc15;
-  --accent-hover: #eab308;
-  --accent-light: rgba(250, 204, 21, 0.12);
+  --accent-primary: #00E5FF;
+  --accent-hover: #00CFEA;
+  --accent-light: rgba(0, 229, 255, 0.12);
 
-  --accent-yellow: #facc15;
-  --accent-yellow-light: rgba(250, 204, 21, 0.12);
+  --accent-yellow: #00E5FF;
+  --accent-yellow-light: rgba(0, 229, 255, 0.12);
 
-  --sidebar-bg: #0d0d0d;
-  --sidebar-text-active: #facc15;
-  --sidebar-text-inactive: #555555;
-  --sidebar-item-hover: #1a1a1a;
+  --sidebar-bg: #071629;
+  --sidebar-text-active: #00E5FF;
+  --sidebar-text-inactive: #4A6080;
+  --sidebar-item-hover: #112B55;
 
-  --white-bg-val: #1a1a1a;
-  --navy-900-val: #f5f5f5;
+  --white-bg-val: #0D2347;
+  --navy-900-val: #0A1E3F;
 }
 
 /* ─── RESET ─────────────────────────────────────────────── */
@@ -101,7 +101,7 @@
 }
 
 *:focus-visible {
-  outline: 2px solid rgba(250, 204, 21, 0.5);
+  outline: 2px solid rgba(0, 229, 255, 0.5);
   outline-offset: 2px;
 }
 
@@ -124,9 +124,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── GLOBAL DARK SCROLLBARS ────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: #111; }
-::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #3a3a3a; }
+::-webkit-scrollbar-track { background: #071629; }
+::-webkit-scrollbar-thumb { background: #1A3A5C; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #00E5FF; }
 
 /* ─── PAGE TRANSITIONS ──────────────────────────────────── */
 .page-enter {
@@ -143,13 +143,13 @@ h1, h2, h3, h4, h5, h6 {
 .crm-card {
   background-color: var(--bg-secondary);
   border: 1px solid var(--border-color);
-  border-radius: 16px;
+  border-radius: 12px;
   padding: 32px 36px;
   transition: border-color 0.15s ease, background-color 0.15s ease;
 }
 
 .crm-card:hover {
-  border-color: rgba(250, 204, 21, 0.35);
+  border-color: rgba(0, 229, 255, 0.5);
   background-color: var(--bg-tertiary);
 }
 
@@ -216,14 +216,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crm-btn-primary {
-  background-color: #facc15;
-  color: #111111;
-  border-color: #facc15;
+  background-color: #00E5FF;
+  color: #0A1E3F;
+  border-color: #00E5FF;
+  font-weight: 700;
 }
 
 .crm-btn-primary:hover {
-  background-color: #eab308;
-  border-color: #eab308;
+  background-color: #00CFEA;
+  border-color: #00CFEA;
 }
 
 .crm-btn-secondary {
@@ -233,7 +234,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crm-btn-secondary:hover {
-  border-color: rgba(250, 204, 21, 0.4);
+  border-color: rgba(0, 229, 255, 0.6);
   background-color: var(--bg-tertiary);
 }
 
@@ -259,33 +260,33 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge-success {
-  background-color: rgba(29, 158, 117, 0.1);
-  color: #1D9E75;
-  border: 1px solid rgba(29, 158, 117, 0.2);
+  background-color: rgba(0, 229, 255, 0.1);
+  color: #00E5FF;
+  border: 1px solid rgba(0, 229, 255, 0.2);
 }
 
 .badge-warning {
-  background-color: rgba(250, 204, 21, 0.1);
-  color: #facc15;
-  border: 1px solid rgba(250, 204, 21, 0.2);
+  background-color: rgba(255, 176, 32, 0.1);
+  color: #FFB020;
+  border: 1px solid rgba(255, 176, 32, 0.2);
 }
 
 .badge-danger {
-  background-color: rgba(239, 68, 68, 0.1);
-  color: #ef4444;
-  border: 1px solid rgba(239, 68, 68, 0.2);
+  background-color: rgba(255, 77, 77, 0.1);
+  color: #FF4D4D;
+  border: 1px solid rgba(255, 77, 77, 0.2);
 }
 
 .badge-info {
-  background-color: var(--bg-tertiary);
+  background-color: var(--bg-secondary);
   color: var(--text-secondary);
   border: 1px solid var(--border-color);
 }
 
 .badge-yellow {
-  background-color: rgba(250, 204, 21, 0.1);
-  color: #facc15;
-  border: 1px solid rgba(250, 204, 21, 0.2);
+  background-color: rgba(0, 229, 255, 0.08);
+  color: #00E5FF;
+  border: 1px solid rgba(0, 229, 255, 0.2);
 }
 
 /* ─── GRID ───────────────────────────────────────────────── */
@@ -312,13 +313,13 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-item:hover {
-  color: #f0f0f0;
-  background-color: #1a1a1a;
+  color: #ffffff;
+  background-color: var(--bg-tertiary);
 }
 
 .nav-item.active {
-  color: #f0f0f0;
-  background-color: rgba(250, 204, 21, 0.08);
+  color: #00E5FF;
+  background-color: rgba(0, 229, 255, 0.10);
   font-weight: 600;
 }
 
@@ -346,16 +347,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #111;
+  background: #071629;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #2a2a2a;
+  background: #1A3A5C;
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #3a3a3a;
+  background: #00E5FF;
 }
 
 /* ─── ANIMATIONS ─────────────────────────────────────────── */

@@ -5,14 +5,14 @@ import supabase from '../utils/supabaseClient';
 
 /* ─── AGENT CONFIG ───────────────────────────────────────── */
 const AGENTS = [
-  { id: 'trendyai-core',  name: 'TrendyAI Core',  color: '#facc15' },
-  { id: 'clientflow',     name: 'ClientFlow',      color: '#1D9E75' },
-  { id: 'stratoboss',     name: 'StratoBoss',      color: '#378ADD' },
-  { id: 'pulsepilot',     name: 'PulsePilot',      color: '#facc15' },
-  { id: 'contentsmith',   name: 'ContentSmith',    color: '#D85A30' },
-  { id: 'pixeldex',       name: 'PixelDex',        color: '#378ADD' },
-  { id: 'webwiz',         name: 'WebWiz',          color: '#1D9E75' },
-  { id: 'mediawiz',       name: 'MediaWiz',        color: '#D85A30' },
+  { id: 'trendyai-core',  name: 'TrendyAI Core',  color: '#00E5FF' },
+  { id: 'clientflow',     name: 'ClientFlow',      color: '#00E5FF' },
+  { id: 'stratoboss',     name: 'StratoBoss',      color: '#00E5FF' },
+  { id: 'pulsepilot',     name: 'PulsePilot',      color: '#00E5FF' },
+  { id: 'contentsmith',   name: 'ContentSmith',    color: '#00E5FF' },
+  { id: 'pixeldex',       name: 'PixelDex',        color: '#00E5FF' },
+  { id: 'webwiz',         name: 'WebWiz',          color: '#00E5FF' },
+  { id: 'mediawiz',       name: 'MediaWiz',        color: '#00E5FF' },
 ];
 
 /* ─── HELPERS ────────────────────────────────────────────── */
@@ -41,67 +41,74 @@ function timeAgo(dateStr) {
 }
 
 /* ─── METRIC CARD ────────────────────────────────────────── */
-const MetricCard = ({ label, value, highlight }) => (
-  <div style={{
-    background: '#1a1a1a',
-    border: '1px solid #2a2a2a',
-    borderRadius: 16,
-    padding: '32px 36px',
-    transition: 'border-color 0.15s ease',
-  }}
-  onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.3)'}
-  onMouseLeave={e => e.currentTarget.style.borderColor = '#2a2a2a'}
-  >
-    <p style={{
-      fontSize: 11,
-      textTransform: 'uppercase',
-      letterSpacing: '0.12em',
-      color: '#555',
-      fontWeight: 700,
-      marginBottom: 16,
-    }}>
-      {label}
-    </p>
-    <p style={{
-      fontSize: 34,
-      fontWeight: 600,
-      color: highlight ? '#facc15' : '#f5f5f5',
-      lineHeight: 1,
-      letterSpacing: '-0.02em',
-    }}>
-      {value}
-    </p>
-  </div>
-);
+const MetricCard = ({ label, value, highlight }) => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <div style={{
+      background: '#0D2347',
+      border: hovered ? '1px solid rgba(0, 229, 255, 0.5)' : '1px solid rgba(0, 229, 255, 0.15)',
+      borderRadius: 12,
+      padding: '28px 32px',
+      transition: 'all 0.15s ease',
+    }}
+    onMouseEnter={() => setHovered(true)}
+    onMouseLeave={() => setHovered(false)}
+    >
+      <p style={{
+        fontSize: 10,
+        textTransform: 'uppercase',
+        letterSpacing: '0.08em',
+        color: '#4A6080',
+        fontWeight: 600,
+        marginBottom: 16,
+      }}>
+        {label}
+      </p>
+      <p style={{
+        fontSize: 28,
+        fontWeight: 600,
+        color: highlight ? '#00E5FF' : '#FFFFFF',
+        lineHeight: 1,
+        letterSpacing: '-0.02em',
+        margin: 0,
+      }}>
+        {value}
+      </p>
+    </div>
+  );
+};
 
 /* ─── QUICK ACTION BUTTON ────────────────────────────────── */
-const QuickAction = ({ icon: Icon, label, onClick }) => (
-  <button
-    onClick={onClick}
-    style={{
-      width: '100%',
-      display: 'flex',
-      alignItems: 'center',
-      gap: 10,
-      padding: '12px 16px',
-      background: '#1a1a1a',
-      border: '1px solid #2a2a2a',
-      borderRadius: 9,
-      color: '#f0f0f0',
-      fontSize: 13,
-      fontWeight: 500,
-      cursor: 'pointer',
-      textAlign: 'left',
-      transition: 'border-color 0.15s ease',
-    }}
-    onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.4)'}
-    onMouseLeave={e => e.currentTarget.style.borderColor = '#2a2a2a'}
-  >
-    <Icon size={15} style={{ color: '#facc15', flexShrink: 0 }} />
-    <span style={{ flex: 1 }}>{label}</span>
-    <FiArrowRight size={13} style={{ color: '#555' }} />
-  </button>
-);
+const QuickAction = ({ icon: Icon, label, onClick }) => {
+  const [hovered, setHovered] = useState(false);
+  return (
+    <button
+      onClick={onClick}
+      onMouseEnter={() => setHovered(true)}
+      onMouseLeave={() => setHovered(false)}
+      style={{
+        width: '100%',
+        display: 'flex',
+        alignItems: 'center',
+        gap: 10,
+        padding: '12px 16px',
+        background: '#0D2347',
+        border: hovered ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.15)',
+        borderRadius: 9,
+        color: hovered ? '#FFFFFF' : '#A0B4CC',
+        fontSize: 13,
+        fontWeight: 500,
+        cursor: 'pointer',
+        textAlign: 'left',
+        transition: 'all 0.15s ease',
+      }}
+    >
+      <Icon size={15} style={{ color: '#00E5FF', flexShrink: 0 }} />
+      <span style={{ flex: 1 }}>{label}</span>
+      <FiArrowRight size={13} style={{ color: hovered ? '#FFFFFF' : '#4A6080' }} />
+    </button>
+  );
+};
 
 /* ─── DASHBOARD ──────────────────────────────────────────── */
 const Dashboard = () => {
@@ -177,49 +184,44 @@ const Dashboard = () => {
   /* Status dot color */
   const statusDotColor = (agentId) => {
     const s = agentStatus[agentId]?.status;
-    if (s === 'active') return '#1D9E75';
-    if (s === 'idle')   return '#facc15';
-    if (s === 'error')  return '#ef4444';
-    return '#1D9E75'; /* default active */
+    if (s === 'active') return '#00E5FF';
+    if (s === 'idle')   return '#FFB020';
+    if (s === 'error')  return '#FF4D4D';
+    return '#00E5FF'; /* default active */
   };
 
   const agentColor = (name) => {
-    const a = AGENTS.find(a => a.name === name || a.id === name?.toLowerCase().replace(/\s+/g, ''));
-    return a?.color || '#555';
+    return '#00E5FF';
   };
 
   return (
     <div style={{ maxWidth: 1280, margin: '0 auto' }} className="animate-fadeIn">
 
-      {/* ══════════════════════════════════════
-          ZONE 1 — GREETING BAR
-      ══════════════════════════════════════ */}
+      {/* ── GREETING BAR ── */}
       <div style={{
         display: 'flex',
         alignItems: 'flex-start',
         justifyContent: 'space-between',
         paddingBottom: 28,
-        borderBottom: '1px solid #1e1e1e',
+        borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
         marginBottom: 28,
         flexWrap: 'wrap',
         gap: 8,
       }}>
         <div>
-          <p style={{ fontSize: 18, fontWeight: 500, color: '#f0f0f0', lineHeight: 1.3 }}>
+          <p style={{ fontSize: 18, fontWeight: 500, color: '#FFFFFF', lineHeight: 1.3, margin: 0 }}>
             {getGreeting()}, Akinola ☀️
           </p>
-          <p style={{ fontSize: 12, color: '#555', marginTop: 4 }}>
+          <p style={{ fontSize: 12, color: '#4A6080', marginTop: 4, marginBottom: 0 }}>
             Trendtactics Digital · Admin
           </p>
         </div>
-        <p style={{ fontSize: 12, color: '#555', marginTop: 4 }}>
+        <p style={{ fontSize: 12, color: '#4A6080', marginTop: 4, marginBottom: 0 }}>
           {formatDate()}
         </p>
       </div>
 
-      {/* ══════════════════════════════════════
-          ZONE 2 — METRIC CARDS (4 cols)
-      ══════════════════════════════════════ */}
+      {/* ── METRIC CARDS ── */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
@@ -234,9 +236,7 @@ const Dashboard = () => {
         <MetricCard label="Tasks Today"        value={metrics.tasksToday       ?? '—'} />
       </div>
 
-      {/* ══════════════════════════════════════
-          ZONE 3 — ACTIVITY + ACTIONS
-      ══════════════════════════════════════ */}
+      {/* ── ACTIVITY + ACTIONS ── */}
       <div style={{
         display: 'grid',
         gridTemplateColumns: '3fr 2fr',
@@ -246,22 +246,21 @@ const Dashboard = () => {
 
         {/* ── Left: Recent Activity ── */}
         <div>
-          {/* Eyebrow */}
           <p style={{
             fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-            letterSpacing: '0.1em', color: '#facc15', marginBottom: 14,
+            letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 14,
           }}>
             Recent Activity
           </p>
 
           <div style={{
-            background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 12,
+            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12,
             overflow: 'hidden',
           }}>
             {activityLoad ? (
-              <div style={{ padding: '24px 20px', color: '#555', fontSize: 12 }}>Loading…</div>
+              <div style={{ padding: '24px 20px', color: '#4A6080', fontSize: 12 }}>Loading…</div>
             ) : activity.length === 0 ? (
-              <div style={{ padding: '24px 20px', color: '#555', fontSize: 12 }}>
+              <div style={{ padding: '24px 20px', color: '#4A6080', fontSize: 12 }}>
                 No completed tasks yet. Activity will appear here as agents work.
               </div>
             ) : (
@@ -274,25 +273,26 @@ const Dashboard = () => {
                       alignItems: 'center',
                       gap: 12,
                       padding: '12px 20px',
-                      borderBottom: i < activity.length - 1 ? '1px solid #1e1e1e' : 'none',
+                      borderBottom: i < activity.length - 1 ? '1px solid rgba(0, 229, 255, 0.15)' : 'none',
                     }}
                   >
                     {/* Colored dot */}
                     <span style={{
                       width: 7, height: 7, borderRadius: '50%',
                       background: agentColor(item.agent_name),
+                      boxShadow: '0 0 6px rgba(0, 229, 255, 0.5)',
                       flexShrink: 0,
                     }} />
-                    <p style={{ flex: 1, fontSize: 12, color: '#888', lineHeight: 1.5 }}>
-                      <strong style={{ color: '#f0f0f0', fontWeight: 600 }}>
+                    <p style={{ flex: 1, fontSize: 12, color: '#A0B4CC', lineHeight: 1.5, margin: 0 }}>
+                      <strong style={{ color: '#FFFFFF', fontWeight: 600 }}>
                         {item.agent_name || 'Agent'}
                       </strong>{' '}
                       {item.description || 'completed a task'}
                       {item.client_name ? (
-                        <span style={{ color: '#666' }}> for {item.client_name}</span>
+                        <span style={{ color: '#4A6080' }}> for {item.client_name}</span>
                       ) : null}
                     </p>
-                    <span style={{ fontSize: 11, color: '#555', flexShrink: 0, whiteSpace: 'nowrap' }}>
+                    <span style={{ fontSize: 11, color: '#4A6080', flexShrink: 0, whiteSpace: 'nowrap' }}>
                       {timeAgo(item.completed_at)}
                     </span>
                   </div>
@@ -301,12 +301,12 @@ const Dashboard = () => {
             )}
 
             {/* View all link */}
-            <div style={{ padding: '10px 20px', borderTop: '1px solid #1e1e1e' }}>
+            <div style={{ padding: '10px 20px', borderTop: '1px solid rgba(0, 229, 255, 0.15)' }}>
               <button
                 onClick={() => navigate('/audit-logs')}
                 style={{
                   background: 'none', border: 'none',
-                  color: '#facc15', fontSize: 11, fontWeight: 600,
+                  color: '#00E5FF', fontSize: 11, fontWeight: 600,
                   cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4,
                 }}
               >
@@ -323,7 +323,7 @@ const Dashboard = () => {
           <div>
             <p style={{
               fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-              letterSpacing: '0.1em', color: '#facc15', marginBottom: 14,
+              letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 14,
             }}>
               Quick Actions
             </p>
@@ -350,12 +350,12 @@ const Dashboard = () => {
           <div>
             <p style={{
               fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-              letterSpacing: '0.1em', color: '#facc15', marginBottom: 14,
+              letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 14,
             }}>
               Agent Status
             </p>
             <div style={{
-              background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 12,
+              background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12,
               overflow: 'hidden',
             }}>
               {AGENTS.map((agent, i) => {
@@ -369,18 +369,19 @@ const Dashboard = () => {
                       gap: 10,
                       height: 40,
                       padding: '0 16px',
-                      borderBottom: i < AGENTS.length - 1 ? '1px solid #1e1e1e' : 'none',
+                      borderBottom: i < AGENTS.length - 1 ? '1px solid rgba(0, 229, 255, 0.15)' : 'none',
                     }}
                   >
                     <span style={{
                       width: 7, height: 7, borderRadius: '50%',
                       background: statusDotColor(agent.id),
+                      boxShadow: statusDotColor(agent.id) === '#00E5FF' ? '0 0 6px rgba(0, 229, 255, 0.5)' : 'none',
                       flexShrink: 0,
                     }} />
-                    <span style={{ flex: 1, fontSize: 11, color: '#f0f0f0', fontWeight: 500 }}>
+                    <span style={{ flex: 1, fontSize: 11, color: '#FFFFFF', fontWeight: 500 }}>
                       {agent.name}
                     </span>
-                    <span style={{ fontSize: 10, color: '#555' }}>
+                    <span style={{ fontSize: 10, color: '#4A6080' }}>
                       {meta ? `last run ${timeAgo(meta.last_run)}` : '· Active'}
                     </span>
                   </div>

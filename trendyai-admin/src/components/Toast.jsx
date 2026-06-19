@@ -31,17 +31,17 @@ const Toast = ({ id, type, title, message, duration = 5000, onClose }) => {
   };
 
   const colors = {
-    success: 'bg-green-50 border-green-200 text-green-800',
-    error: 'bg-red-50 border-red-200 text-red-800',
-    warning: 'bg-yellow-50 border-yellow-200 text-yellow-800',
-    info: 'bg-blue-50 border-blue-200 text-blue-800'
+    success: 'bg-brand-card border border-green-500/20 text-green-400',
+    error: 'bg-brand-card border border-red-500/20 text-red-400',
+    warning: 'bg-brand-card border border-amber-500/20 text-amber-400',
+    info: 'bg-brand-card border border-brand-cyan/20 text-brand-cyan'
   };
 
   const iconColors = {
-    success: 'text-green-600',
-    error: 'text-red-600',
-    warning: 'text-yellow-600',
-    info: 'text-blue-600'
+    success: 'text-green-500',
+    error: 'text-red-500',
+    warning: 'text-amber-500',
+    info: 'text-brand-cyan'
   };
 
   return (
