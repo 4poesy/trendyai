@@ -176,7 +176,7 @@ const AgentCard = ({ agent, onSelect }) => {
         background: hovered ? '#1e1e1e' : '#1a1a1a',
         border: `1px solid ${hovered ? 'rgba(250,204,21,0.4)' : '#2a2a2a'}`,
         borderRadius: 14,
-        padding: 24,
+        padding: '32px 28px',
         cursor: 'pointer',
         transition: 'all 0.15s ease',
         display: 'flex',
@@ -185,7 +185,7 @@ const AgentCard = ({ agent, onSelect }) => {
       }}
     >
       {/* ── Top row: Icon + Status dot ── */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 22 }}>
         {/* Icon box */}
         <div style={{
           width: 38, height: 38, borderRadius: 9,
@@ -206,24 +206,24 @@ const AgentCard = ({ agent, onSelect }) => {
       </div>
 
       {/* ── Agent name ── */}
-      <p style={{ fontSize: 15, fontWeight: 700, color: '#f0f0f0', marginBottom: 10, lineHeight: 1.3 }}>
+      <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 16, fontWeight: 700, color: '#f5f5f5', marginBottom: 12, lineHeight: 1.3 }}>
         {agent.name}
       </p>
 
       {/* ── Description — wraps naturally, no ellipsis ── */}
       <p style={{
-        fontSize: 12, color: '#777', lineHeight: 1.7,
-        marginBottom: 16,
+        fontSize: 13, color: '#888', lineHeight: 1.7,
+        marginBottom: 18,
       }}>
         {agent.description}
       </p>
 
       {/* ── Tag pills — max 3 ── */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 24 }}>
         {agent.tags.slice(0, 3).map(tag => (
           <span key={tag} style={{
             fontSize: 10, background: '#222', color: '#888',
-            borderRadius: 4, padding: '2px 7px', lineHeight: '18px',
+            borderRadius: 5, padding: '3px 9px', lineHeight: '16px',
           }}>
             {tag}
           </span>
@@ -231,7 +231,7 @@ const AgentCard = ({ agent, onSelect }) => {
       </div>
 
       {/* ── Divider ── */}
-      <div style={{ borderTop: '1px solid #2a2a2a', marginBottom: 16 }} />
+      <div style={{ borderTop: '1px solid #2a2a2a', marginBottom: 18 }} />
 
       {/* ── Footer: Launch link + task indicator ── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -394,7 +394,7 @@ const AgentGridNew = () => {
               <div style={{
                 display: 'grid',
                 gridTemplateColumns: 'repeat(auto-fill, minmax(240px, 1fr))',
-                gap: 16,
+                gap: 24,
               }}>
                 {group.agents.map(agent => (
                   <AgentCard key={agent.id} agent={agent} onSelect={handleSelect} />

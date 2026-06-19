@@ -48,25 +48,25 @@ export default function ClientProjectTracker() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Campaign List */}
-        <div className="space-y-4">
+        <div className="space-y-6">
           <h3 className="text-sm font-bold uppercase tracking-wider text-text-sub mb-2">Campaigns</h3>
           {campaigns.map(camp => (
             <button
               key={camp.id}
               onClick={() => setSelectedCampaign(camp.id)}
-              className={`w-full text-left p-5 rounded-lg border transition-all text-sm block ${
+              className={`w-full text-left p-7 rounded-xl border transition-all text-sm block ${
                 selectedCampaign === camp.id
                   ? 'border-primary bg-bg-card shadow-sm ring-1 ring-primary'
                   : 'border-border-main bg-bg-panel hover:bg-bg-card'
               }`}
             >
               <div className="flex justify-between items-start">
-                <span className="font-bold text-text-main text-base">{camp.name}</span>
+                <span className="font-bold text-text-main text-base" style={{ fontFamily: "'Outfit', sans-serif" }}>{camp.name}</span>
                 <span className={`badge ${camp.status === 'Reviewing' ? 'badge-warning' : 'badge-info'}`}>
                   {camp.status}
                 </span>
               </div>
-              <p className="text-text-sub text-xs mt-2 line-clamp-2">{camp.description}</p>
+              <p className="text-text-sub text-xs mt-2.5 line-clamp-2 leading-relaxed">{camp.description}</p>
               <div className="text-xs text-text-muted mt-4">Started {camp.created}</div>
             </button>
           ))}
@@ -75,7 +75,7 @@ export default function ClientProjectTracker() {
         {/* Pipeline Details */}
         <div className="lg:col-span-2 space-y-6">
           <div className="crm-card">
-            <h2 className="text-xl font-bold text-text-main mb-2">{activeCampaign.name}</h2>
+            <h2 className="text-xl font-bold text-text-main mb-2" style={{ fontFamily: "'Outfit', sans-serif" }}>{activeCampaign.name}</h2>
             <p className="text-sm text-text-sub mb-6">{activeCampaign.description}</p>
 
             <div className="relative border-l border-border-main ml-4 md:ml-6 space-y-8 py-2">
@@ -99,18 +99,18 @@ export default function ClientProjectTracker() {
                   </div>
 
                   {/* Step details card */}
-                  <div className={`p-4 rounded-lg border transition-all ${
+                  <div className={`p-5 md:p-6 rounded-lg border transition-all ${
                     step.status === 'active' 
                       ? 'border-primary bg-bg-card' 
                       : 'border-border-main bg-bg-panel'
                   }`}>
                     <div className="flex flex-col sm:flex-row sm:items-center justify-between gap-1 mb-2">
-                      <h4 className="font-bold text-text-main text-sm md:text-base">{step.step}</h4>
-                      <span className="inline-flex items-center gap-1 text-xs text-text-sub bg-bg-card border border-border-main px-2 py-0.5 rounded">
+                      <h4 className="font-bold text-text-main text-sm md:text-base" style={{ fontFamily: "'Outfit', sans-serif" }}>{step.step}</h4>
+                      <span className="inline-flex items-center gap-1 text-xs text-text-sub bg-bg-card border border-border-main px-2.5 py-0.5 rounded">
                         <FaRobot className="text-primary" /> {step.agent}
                       </span>
                     </div>
-                    <p className="text-xs md:text-sm text-text-sub">{step.details}</p>
+                    <p className="text-xs md:text-sm text-text-sub leading-relaxed">{step.details}</p>
                   </div>
                 </div>
               ))}

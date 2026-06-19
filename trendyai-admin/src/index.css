@@ -384,3 +384,18 @@ h1, h2, h3, h4, h5, h6 {
 .hover-scale:hover {
   transform: scale(1.01);
 }
+
+/* ─── AGENT DETAIL RESPONSIVE GRID ───────────────────────── */
+.crm-detail-grid {
+  display: grid;
+  grid-template-columns: 2fr 3fr;
+  gap: 28px;
+  align-items: start;
+}
+
+@media (max-width: 1024px) {
+  .crm-detail-grid {
+    grid-template-columns: 1fr;
+    gap: 24px;
+  }
+}

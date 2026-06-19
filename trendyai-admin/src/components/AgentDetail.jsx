@@ -251,22 +251,16 @@ const AgentDetail = () => {
       </button>
 
       {/* ── Two-column layout ── */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: '2fr 3fr',
-        gap: 20,
-        alignItems: 'start',
-        minHeight: 'calc(100vh - 180px)',
-      }}>
+      <div className="crm-detail-grid" style={{ minHeight: 'calc(100vh - 180px)' }}>
 
         {/* ════════════════════════════════════
             LEFT COLUMN — Info & Config
         ════════════════════════════════════ */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16, position: 'sticky', top: 24 }}>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
           {/* Agent identity */}
-          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 12, padding: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 14, marginBottom: 14 }}>
+          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 14, padding: '28px 32px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 16, marginBottom: 18 }}>
               {/* Large icon */}
               <div style={{
                 width: 56, height: 56, borderRadius: 14,
@@ -276,7 +270,7 @@ const AgentDetail = () => {
                 <Icon size={24} style={{ color: agent.iconColor }} />
               </div>
               <div>
-                <h1 style={{ fontSize: 20, fontWeight: 600, color: '#f5f5f5', lineHeight: 1.2, marginBottom: 6 }}>
+                <h1 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 22, fontWeight: 700, color: '#f5f5f5', lineHeight: 1.2, marginBottom: 6 }}>
                   {agent.name}
                 </h1>
                 <div style={{ display: 'flex', alignItems: 'center', gap: 6 }}>
@@ -285,33 +279,33 @@ const AgentDetail = () => {
                 </div>
               </div>
             </div>
-            <p style={{ fontSize: 13, color: '#777', lineHeight: 1.6 }}>
+            <p style={{ fontSize: 13, color: '#888', lineHeight: 1.7 }}>
               {agent.description}
             </p>
           </div>
 
           {/* Performance metrics */}
-          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 12, padding: 20 }}>
-            <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15', marginBottom: 14 }}>
+          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 14, padding: '28px 32px' }}>
+            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#facc15', marginBottom: 16 }}>
               Performance
             </p>
             <MetricRow label="Uptime"        value={metrics.uptime} />
             <MetricRow label="Success Rate"  value={metrics.successRate} />
             <MetricRow label="Response"      value={metrics.response} />
-            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 8 }}>
-              <span style={{ fontSize: 12, color: '#666' }}>Tasks Completed</span>
-              <span style={{ fontSize: 12, fontWeight: 600, color: metrics.tasks === '—' ? '#555' : '#f0f0f0' }}>{metrics.tasks}</span>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', paddingTop: 12 }}>
+              <span style={{ fontSize: 13, color: '#888' }}>Tasks Completed</span>
+              <span style={{ fontSize: 13, fontWeight: 600, color: metrics.tasks === '—' ? '#555' : '#f5f5f5' }}>{metrics.tasks}</span>
             </div>
           </div>
 
           {/* Capabilities */}
-          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 12, padding: 20 }}>
-            <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15', marginBottom: 14 }}>
+          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 14, padding: '28px 32px' }}>
+            <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#facc15', marginBottom: 16 }}>
               Capabilities
             </p>
-            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 8 }}>
+            <ul style={{ listStyle: 'none', display: 'flex', flexDirection: 'column', gap: 10 }}>
               {agent.capabilities.map((cap, i) => (
-                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 8, fontSize: 12, color: '#888', lineHeight: 1.5 }}>
+                <li key={i} style={{ display: 'flex', alignItems: 'flex-start', gap: 10, fontSize: 13, color: '#888', lineHeight: 1.6 }}>
                   <span style={{ color: agent.iconColor, fontWeight: 700, flexShrink: 0, marginTop: 1 }}>•</span>
                   {cap}
                 </li>
@@ -320,9 +314,9 @@ const AgentDetail = () => {
           </div>
 
           {/* Custom Prompt */}
-          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 12, padding: 20 }}>
-            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 12 }}>
-              <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>
+          <div style={{ background: '#1a1a1a', border: '1px solid #2a2a2a', borderRadius: 14, padding: '28px 32px' }}>
+            <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between', marginBottom: 14 }}>
+              <p style={{ fontFamily: "'Outfit', sans-serif", fontSize: 11, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#facc15' }}>
                 Custom Prompt
               </p>
               <span style={{
@@ -337,9 +331,9 @@ const AgentDetail = () => {
               onChange={e => setPromptValue(e.target.value)}
               rows={5}
               style={{
-                width: '100%', padding: '10px 12px',
+                width: '100%', padding: '12px 14px',
                 background: '#111', border: '1px solid #2a2a2a',
-                borderRadius: 8, color: '#f0f0f0', fontSize: 11,
+                borderRadius: 8, color: '#f0f0f0', fontSize: 12,
                 fontFamily: 'monospace', lineHeight: 1.6, resize: 'vertical',
                 outline: 'none', transition: 'border-color 0.15s ease',
               }}
@@ -347,12 +341,12 @@ const AgentDetail = () => {
               onBlur={e => e.target.style.borderColor = '#2a2a2a'}
               placeholder="Edit custom system instructions here…"
             />
-            <div style={{ display: 'flex', gap: 8, marginTop: 10 }}>
+            <div style={{ display: 'flex', gap: 8, marginTop: 14 }}>
               <button
                 onClick={handleSavePrompt}
                 style={{
-                  flex: 1, padding: '8px 0', background: '#facc15', color: '#111',
-                  border: 'none', borderRadius: 7, fontSize: 12, fontWeight: 700,
+                  flex: 1, padding: '10px 0', background: '#facc15', color: '#111',
+                  border: 'none', borderRadius: 8, fontSize: 12, fontWeight: 700,
                   cursor: 'pointer', transition: 'background 0.15s ease',
                 }}
                 onMouseEnter={e => e.currentTarget.style.background = '#eab308'}
@@ -364,11 +358,11 @@ const AgentDetail = () => {
                 onClick={handleRetrain}
                 disabled={retraining}
                 style={{
-                  padding: '8px 14px',
+                  padding: '10px 18px',
                   background: 'none', color: '#555',
-                  border: '1px solid #2a2a2a', borderRadius: 7,
+                  border: '1px solid #2a2a2a', borderRadius: 8,
                   fontSize: 12, fontWeight: 600, cursor: 'pointer',
-                  display: 'flex', alignItems: 'center', gap: 5,
+                  display: 'flex', alignItems: 'center', gap: 6,
                   transition: 'all 0.15s ease', opacity: retraining ? 0.5 : 1,
                 }}
                 onMouseEnter={e => { if (!retraining) { e.currentTarget.style.borderColor = 'rgba(250,204,21,0.4)'; e.currentTarget.style.color = '#facc15'; } }}

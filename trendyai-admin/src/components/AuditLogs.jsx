@@ -1,9 +1,35 @@
 import React, { useState } from 'react';
-import { FaClipboardList, FaSearch, FaFilter, FaCheckCircle, FaExclamationTriangle, FaInfoCircle } from 'react-icons/fa';
+import {
+  FiFileText, FiSearch, FiDownload, FiFilter,
+  FiCheckCircle, FiAlertTriangle, FiInfo, FiUser, FiGlobe
+} from 'react-icons/fi';
 import { useToast } from './Toast';
+
+const SEVERITY_COLOR = {
+  Info:    '#378ADD',
+  Warning: '#facc15',
+  Error:   '#D85A30',
+};
+
+const SEVERITY_BG = {
+  Info:    'rgba(55,138,221,0.12)',
+  Warning: 'rgba(250,204,21,0.12)',
+  Error:   'rgba(216,90,48,0.12)',
+};
+
+const STATUS_COLOR = {
+  Success: '#1D9E75',
+  Failed:  '#D85A30',
+};
+
+const STATUS_BG = {
+  Success: 'rgba(29,158,117,0.12)',
+  Failed:  'rgba(216,90,48,0.12)',
+};
 
 const AuditLogs = () => {
   const { showSuccess } = useToast();
+
   const [logs] = useState([
     {
       id: 1,
@@ -14,7 +40,7 @@ const AuditLogs = () => {
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Success',
       details: 'Successful login from desktop browser',
-      severity: 'Info'
+      severity: 'Info',
     },
     {
       id: 2,
@@ -25,7 +51,7 @@ const AuditLogs = () => {
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Success',
       details: 'Created project "Social Media Campaign" for Acme Corporation',
-      severity: 'Info'
+      severity: 'Info',
     },
     {
       id: 3,
@@ -36,7 +62,7 @@ const AuditLogs = () => {
       userAgent: 'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7)',
       status: 'Success',
       details: 'Added new client "Global Innovations"',
-      severity: 'Info'
+      severity: 'Info',
     },
     {
       id: 4,
@@ -47,7 +73,7 @@ const AuditLogs = () => {
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Success',
       details: 'Rejected approval for "Email Sequence - Welcome Series"',
-      severity: 'Warning'
+      severity: 'Warning',
     },
     {
       id: 5,
@@ -58,7 +84,7 @@ const AuditLogs = () => {
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Failed',
       details: 'Invalid password for user account',
-      severity: 'Error'
+      severity: 'Error',
     },
     {
       id: 6,
@@ -69,7 +95,7 @@ const AuditLogs = () => {
       userAgent: 'TrendyAI-System/1.0',
       status: 'Success',
       details: 'Agent "ContentCreator" status changed to "Active"',
-      severity: 'Info'
+      severity: 'Info',
     },
     {
       id: 7,
@@ -80,7 +106,7 @@ const AuditLogs = () => {
       userAgent: 'Mozilla/5.0 (Windows NT 10.0; Win64; x64)',
       status: 'Success',
       details: 'Exported client data to CSV format',
-      severity: 'Info'
+      severity: 'Info',
     },
     {
       id: 8,
@@ -91,39 +117,15 @@ const AuditLogs = () => {
       userAgent: 'Mozilla/5.0 (iPhone; CPU iPhone OS 14_7_1)',
       status: 'Failed',
       details: 'Attempted to access admin panel without proper permissions',
-      severity: 'Warning'
-    }
+      severity: 'Warning',
+    },
   ]);
 
-  const [searchTerm, setSearchTerm] = useState('');
-  const [userFilter, setUserFilter] = useState('All');
-  const [actionFilter, setActionFilter] = useState('All');
+  const [searchTerm, setSearchTerm]       = useState('');
+  const [userFilter, setUserFilter]       = useState('All');
+  const [actionFilter, setActionFilter]   = useState('All');
   const [severityFilter, setSeverityFilter] = useState('All');
-
-  const getSeverityColor = (severity) => {
-    switch (severity) {
-      case 'Error': return 'badge-danger';
-      case 'Warning': return 'badge-warning';
-      case 'Info': return 'badge-info';
-      default: return 'badge-info';
-    }
-  };
-
-  const getStatusIcon = (status) => {
-    switch (status) {
-      case 'Success': return <FaCheckCircle className="text-green-500" />;
-      case 'Failed': return <FaExclamationTriangle className="text-red-500" />;
-      default: return <FaInfoCircle className="text-primary" />;
-    }
-  };
-
-  const getStatusColor = (status) => {
-    switch (status) {
-      case 'Success': return 'badge-success';
-      case 'Failed': return 'badge-danger';
-      default: return 'badge-info';
-    }
-  };
+  const [focusedInput, setFocusedInput]   = useState(null);
 
   const filteredLogs = logs.filter(log => {
     const matchesSearch =
@@ -131,11 +133,9 @@ const AuditLogs = () => {
       log.user.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.details.toLowerCase().includes(searchTerm.toLowerCase()) ||
       log.ipAddress.includes(searchTerm);
-    
-    const matchesUser = userFilter === 'All' || log.user === userFilter;
-    const matchesAction = actionFilter === 'All' || log.action === actionFilter;
+    const matchesUser     = userFilter     === 'All' || log.user     === userFilter;
+    const matchesAction   = actionFilter   === 'All' || log.action   === actionFilter;
     const matchesSeverity = severityFilter === 'All' || log.severity === severityFilter;
-    
     return matchesSearch && matchesUser && matchesAction && matchesSeverity;
   });
 
@@ -143,145 +143,243 @@ const AuditLogs = () => {
     const csvContent = [
       ['ID', 'Timestamp', 'User', 'Action', 'Severity', 'Status', 'IP Address', 'Details'],
       ...filteredLogs.map(log => [
-        log.id,
-        log.timestamp,
-        log.user,
-        log.action,
-        log.severity,
-        log.status,
-        log.ipAddress,
-        log.details
-      ])
+        log.id, log.timestamp, log.user, log.action,
+        log.severity, log.status, log.ipAddress, log.details,
+      ]),
     ].map(row => row.join(',')).join('\n');
-    
+
     const blob = new Blob([csvContent], { type: 'text/csv' });
-    const url = window.URL.createObjectURL(blob);
-    const a = document.createElement('a');
-    a.href = url;
+    const url  = window.URL.createObjectURL(blob);
+    const a    = document.createElement('a');
+    a.href     = url;
     a.download = `audit-logs-${new Date().toISOString().split('T')[0]}.csv`;
     a.click();
     window.URL.revokeObjectURL(url);
     showSuccess('Audit logs exported successfully');
   };
 
-  const uniqueUsers = Array.from(new Set(logs.map(log => log.user)));
-  const uniqueActions = Array.from(new Set(logs.map(log => log.action)));
-  const uniqueSeverities = Array.from(new Set(logs.map(log => log.severity)));
+  const uniqueUsers      = Array.from(new Set(logs.map(l => l.user)));
+  const uniqueActions    = Array.from(new Set(logs.map(l => l.action)));
+  const uniqueSeverities = Array.from(new Set(logs.map(l => l.severity)));
+
+  /* ── shared styles ── */
+  const inputStyle = (key) => ({
+    width: '100%',
+    background: '#1a1a1a',
+    border: `1px solid ${focusedInput === key ? '#facc15' : '#2a2a2a'}`,
+    borderRadius: '8px',
+    padding: '9px 14px',
+    fontSize: '12px',
+    color: '#f0f0f0',
+    outline: 'none',
+    transition: 'border-color 0.15s',
+    boxSizing: 'border-box',
+  });
+
+  const labelSmall = {
+    fontSize: '10px',
+    fontWeight: 700,
+    textTransform: 'uppercase',
+    letterSpacing: '0.12em',
+    color: '#555',
+    display: 'block',
+    marginBottom: '6px',
+  };
+
+  const pillStyle = (color, bg) => ({
+    display: 'inline-block',
+    background: bg,
+    color: color,
+    border: `1px solid ${color}33`,
+    borderRadius: '20px',
+    padding: '2px 9px',
+    fontSize: '10px',
+    fontWeight: 700,
+    letterSpacing: '0.05em',
+  });
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
-      {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-4">
+    <div className="animate-fadeIn" style={{ maxWidth: '1200px', margin: '0 auto', paddingBottom: '48px' }}>
+
+      {/* ── Header ── */}
+      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '36px' }}>
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-text-main flex items-center gap-2">
-            <FaClipboardList className="text-primary" />
+          <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#facc15', marginBottom: '8px' }}>
+            Audit Logs
+          </p>
+          <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#f0f0f0', margin: 0, lineHeight: 1.3 }}>
             Audit Logs
           </h1>
-          <p className="text-text-sub mt-1 text-sm md:text-base">Comprehensive audit trail of all system activities, agent requests, and login events.</p>
+          <p style={{ fontSize: '13px', color: '#666', marginTop: '6px', lineHeight: 1.7 }}>
+            Comprehensive audit trail of all system activities, agent requests, and login events.
+          </p>
         </div>
+
         <button
           onClick={exportLogs}
-          className="crm-btn crm-btn-primary"
+          style={{
+            display: 'flex',
+            alignItems: 'center',
+            gap: '8px',
+            background: 'rgba(250,204,21,0.10)',
+            border: '1px solid #facc15',
+            borderRadius: '8px',
+            padding: '9px 18px',
+            fontSize: '12px',
+            fontWeight: 700,
+            color: '#facc15',
+            cursor: 'pointer',
+            letterSpacing: '0.04em',
+            flexShrink: 0,
+            marginTop: '4px',
+          }}
         >
+          <FiDownload size={13} />
           Export Logs to CSV
         </button>
       </div>
 
-      {/* Filters (Breathing card space) */}
-      <div className="crm-card">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-text-sub mb-4">Filter Audit Stream</h3>
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+      {/* ── Filter Bar ── */}
+      <div style={{
+        background: '#1a1a1a',
+        border: '1px solid #2a2a2a',
+        borderRadius: '14px',
+        padding: '24px 28px',
+        marginBottom: '24px',
+      }}>
+        <p style={{ ...labelSmall, marginBottom: '16px', color: '#444' }}>
+          <FiFilter size={10} style={{ marginRight: '6px', verticalAlign: 'middle' }} />
+          Filter Audit Stream
+        </p>
+        <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: '16px' }}>
+
+          {/* Search */}
           <div>
-            <label className="block text-[10px] font-bold uppercase text-text-muted mb-2">Search Input</label>
-            <input
-              type="text"
-              placeholder="Search logs..."
-              value={searchTerm}
-              onChange={(e) => setSearchTerm(e.target.value)}
-              className="crm-input text-xs"
-            />
+            <label style={labelSmall}>Search Input</label>
+            <div style={{ position: 'relative' }}>
+              <FiSearch size={12} style={{ position: 'absolute', left: '10px', top: '50%', transform: 'translateY(-50%)', color: '#555' }} />
+              <input
+                type="text"
+                placeholder="Search logs..."
+                value={searchTerm}
+                onChange={e => setSearchTerm(e.target.value)}
+                onFocus={() => setFocusedInput('search')}
+                onBlur={() => setFocusedInput(null)}
+                style={{ ...inputStyle('search'), paddingLeft: '28px' }}
+              />
+            </div>
           </div>
+
+          {/* User Account */}
           <div>
-            <label className="block text-[10px] font-bold uppercase text-text-muted mb-2">User account</label>
+            <label style={labelSmall}>User Account</label>
             <select
               value={userFilter}
-              onChange={(e) => setUserFilter(e.target.value)}
-              className="crm-input text-xs"
+              onChange={e => setUserFilter(e.target.value)}
+              onFocus={() => setFocusedInput('user')}
+              onBlur={() => setFocusedInput(null)}
+              style={inputStyle('user')}
             >
               <option value="All">All Users</option>
-              {uniqueUsers.map(user => (
-                <option key={user} value={user}>{user}</option>
-              ))}
+              {uniqueUsers.map(u => <option key={u} value={u}>{u}</option>)}
             </select>
           </div>
+
+          {/* Action / Operations */}
           <div>
-            <label className="block text-[10px] font-bold uppercase text-text-muted mb-2">Action / Operations</label>
+            <label style={labelSmall}>Action / Operations</label>
             <select
               value={actionFilter}
-              onChange={(e) => setActionFilter(e.target.value)}
-              className="crm-input text-xs"
+              onChange={e => setActionFilter(e.target.value)}
+              onFocus={() => setFocusedInput('action')}
+              onBlur={() => setFocusedInput(null)}
+              style={inputStyle('action')}
             >
               <option value="All">All Actions</option>
-              {uniqueActions.map(action => (
-                <option key={action} value={action}>{action}</option>
-              ))}
+              {uniqueActions.map(a => <option key={a} value={a}>{a}</option>)}
             </select>
           </div>
+
+          {/* Severity Level */}
           <div>
-            <label className="block text-[10px] font-bold uppercase text-text-muted mb-2">Severity Level</label>
+            <label style={labelSmall}>Severity Level</label>
             <select
               value={severityFilter}
-              onChange={(e) => setSeverityFilter(e.target.value)}
-              className="crm-input text-xs"
+              onChange={e => setSeverityFilter(e.target.value)}
+              onFocus={() => setFocusedInput('severity')}
+              onBlur={() => setFocusedInput(null)}
+              style={inputStyle('severity')}
             >
               <option value="All">All Severities</option>
-              {uniqueSeverities.map(severity => (
-                <option key={severity} value={severity}>{severity}</option>
-              ))}
+              {uniqueSeverities.map(s => <option key={s} value={s}>{s}</option>)}
             </select>
           </div>
         </div>
       </div>
 
-      {/* Log Feed List */}
-      <div className="crm-card">
-        <h3 className="text-sm font-bold uppercase tracking-wider text-text-sub mb-6">Logs History</h3>
-        
+      {/* ── Log Entries ── */}
+      <div>
+        <p style={{ fontSize: '10px', fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.12em', color: '#444', marginBottom: '16px' }}>
+          Logs History — {filteredLogs.length} {filteredLogs.length === 1 ? 'entry' : 'entries'}
+        </p>
+
         {filteredLogs.length === 0 ? (
-          <div className="text-center py-10 text-text-muted">
-            <FaClipboardList className="mx-auto text-3xl mb-3" />
-            <p className="text-sm">No log entries matched your search criteria.</p>
+          <div style={{
+            background: '#1a1a1a',
+            border: '1px solid #222',
+            borderRadius: '14px',
+            padding: '48px 32px',
+            textAlign: 'center',
+          }}>
+            <FiFileText size={28} style={{ color: '#333', marginBottom: '12px' }} />
+            <p style={{ fontSize: '13px', color: '#555' }}>No log entries matched your search criteria.</p>
           </div>
         ) : (
-          <div className="space-y-4">
-            {filteredLogs.map(log => (
-              <div 
-                key={log.id} 
-                className="p-5 bg-bg-panel border border-border-main rounded-lg flex flex-col md:flex-row justify-between items-start md:items-center gap-4 hover:border-primary/50 transition-colors"
-              >
-                <div className="flex-1 min-w-0 space-y-2">
-                  <div className="flex flex-wrap items-center gap-2">
-                    <span className="font-mono text-xs text-text-muted">{log.timestamp}</span>
-                    <h4 className="font-bold text-text-main text-sm md:text-base">{log.action}</h4>
-                    <span className={`badge ${getSeverityColor(log.severity)}`}>
-                      {log.severity}
-                    </span>
-                    <span className={`badge ${getStatusColor(log.status)}`}>
-                      {log.status}
-                    </span>
-                  </div>
-                  
-                  <p className="text-xs md:text-sm text-text-sub font-semibold">
-                    User: <span className="font-mono font-medium text-text-main">{log.user}</span> | IP: <span className="font-mono font-medium text-text-main">{log.ipAddress}</span>
-                  </p>
-                  
-                  <p className="text-xs text-text-sub leading-relaxed font-sans bg-bg-card border border-border-main/50 px-3 py-2 rounded">
-                    {log.details}
-                  </p>
-                </div>
+          filteredLogs.map(log => (
+            <div
+              key={log.id}
+              style={{
+                background: '#1a1a1a',
+                border: '1px solid #222',
+                borderRadius: '10px',
+                padding: '20px 24px',
+                marginBottom: '8px',
+              }}
+            >
+              {/* Row 1: timestamp + action + badges */}
+              <div style={{ display: 'flex', alignItems: 'center', flexWrap: 'wrap', gap: '10px', marginBottom: '8px' }}>
+                <span style={{ fontFamily: 'monospace', fontSize: '10px', color: '#444' }}>
+                  {log.timestamp}
+                </span>
+                <span style={{ fontSize: '13px', fontWeight: 700, color: '#f0f0f0' }}>
+                  {log.action}
+                </span>
+                <span style={pillStyle(SEVERITY_COLOR[log.severity] || '#555', SEVERITY_BG[log.severity] || 'rgba(85,85,85,0.15)')}>
+                  {log.severity}
+                </span>
+                <span style={pillStyle(STATUS_COLOR[log.status] || '#555', STATUS_BG[log.status] || 'rgba(85,85,85,0.15)')}>
+                  {log.status}
+                </span>
               </div>
-            ))}
-          </div>
+
+              {/* Row 2: user + IP */}
+              <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#555' }}>
+                  <FiUser size={10} />
+                  {log.user}
+                </span>
+                <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#555' }}>
+                  <FiGlobe size={10} />
+                  {log.ipAddress}
+                </span>
+              </div>
+
+              {/* Row 3: description */}
+              <p style={{ fontSize: '12px', color: '#777', lineHeight: 1.6, margin: 0 }}>
+                {log.details}
+              </p>
+            </div>
+          ))
         )}
       </div>
     </div>

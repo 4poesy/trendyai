@@ -97,7 +97,17 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
         `}
       >
         {/* ── Brand ── */}
-        <div style={{ padding: '20px 16px 16px', borderBottom: '1px solid #1e1e1e' }}>
+        <Link
+          to={role === 'client' ? '/client' : '/'}
+          style={{
+            padding: '20px 16px 16px',
+            borderBottom: '1px solid #1e1e1e',
+            display: 'block',
+            textDecoration: 'none',
+            cursor: 'pointer'
+          }}
+          className="sidebar-brand-link"
+        >
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
             <span style={{ color: '#facc15', fontSize: 15 }}>⚡</span>
             <span style={{ color: '#f5f5f5', fontSize: 15, fontWeight: 700, letterSpacing: '-0.01em' }}>
@@ -107,7 +117,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
           <p style={{ color: '#444', fontSize: 10, paddingLeft: 23 }}>
             Trendtactics Digital
           </p>
-        </div>
+        </Link>
 
         {/* ── Nav ── */}
         <nav style={{ flex: 1, overflowY: 'auto', padding: '12px 8px' }} className="custom-scrollbar">
@@ -292,12 +302,33 @@ const Layout = () => {
     navigate(newRole === 'client' ? '/client' : '/');
   };
 
-  /* Page title from path */
-  const pageTitle = (() => {
+  /* Breadcrumbs logic */
+  const breadcrumbs = (() => {
     const p = location.pathname;
-    if (p === '/')                return 'Dashboard';
-    if (p.startsWith('/agent-grid')) return 'Agent Grid';
-    return p.substring(1).replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+    const isClient = p.startsWith('/client');
+    const rootLabel = isClient ? 'Client' : 'Admin';
+    const rootPath = isClient ? '/client' : '/';
+    
+    if (p === '/' || p === '/client') {
+      return [{ label: rootLabel, to: rootPath }, { label: 'Dashboard' }];
+    }
+    
+    const list = [{ label: rootLabel, to: rootPath }];
+    const parts = p.split('/').filter(Boolean);
+    
+    const startIndex = (isClient && parts[0] === 'client') ? 1 : 0;
+    
+    for (let i = startIndex; i < parts.length; i++) {
+      const part = parts[i];
+      const label = part.replace(/-/g, ' ').replace(/\b\w/g, c => c.toUpperCase());
+      const isLast = i === parts.length - 1;
+      const to = (isClient ? '/client' : '') + '/' + parts.slice(startIndex, i + 1).join('/');
+      list.push({
+        label,
+        to: isLast ? null : to
+      });
+    }
+    return list;
   })();
 
   return (
@@ -345,10 +376,33 @@ const Layout = () => {
             >
               {mobileOpen ? <FiX size={18} /> : <FiMenu size={18} />}
             </button>
-            <span style={{ color: '#888', fontSize: 13, fontWeight: 500 }}
-                  className="hidden sm:inline-block">
-              {pageTitle}
-            </span>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 500, color: '#555' }}
+                  className="hidden sm:inline-flex">
+              {breadcrumbs.map((crumb, idx) => {
+                return (
+                  <React.Fragment key={idx}>
+                    {idx > 0 && <span style={{ color: '#333' }}>/</span>}
+                    {crumb.to ? (
+                      <Link
+                        to={crumb.to}
+                        style={{
+                          color: '#555',
+                          textDecoration: 'none',
+                          transition: 'color 0.15s ease',
+                          cursor: 'pointer',
+                        }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#facc15'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#555'}
+                      >
+                        {crumb.label}
+                      </Link>
+                    ) : (
+                      <span style={{ color: '#888' }}>{crumb.label}</span>
+                    )}
+                  </React.Fragment>
+                );
+              })}
+            </div>
           </div>
 
           {/* Right */}

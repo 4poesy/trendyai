@@ -224,19 +224,21 @@ export default function ClientDashboard() {
       </div>
 
       {/* ── Zone 1: Metric cards ── */}
-      <div style={{
-        display: 'grid',
-        gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))',
-        gap: 16, marginBottom: 28,
-      }}>
+      <div 
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        style={{
+          display: 'grid',
+          marginBottom: '40px',
+        }}
+      >
         {stats.map((s, i) => <MetricCard key={i} {...s} />)}
       </div>
 
       {/* ── Zone 2: Main content + sidebar ── */}
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20, alignItems: 'start' }}>
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" style={{ display: 'grid', alignItems: 'start' }}>
 
         {/* LEFT — Campaigns + Deliverables */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+        <div className="lg:col-span-2" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
           {/* Active Campaigns */}
           <div style={{
@@ -244,7 +246,7 @@ export default function ClientDashboard() {
             borderRadius: 14, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ fontSize: 16, fontWeight: 700, color: '#f5f5f5' }}>Active Campaigns</h2>
+              <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#f5f5f5' }}>Active Campaigns</h2>
               <button
                 onClick={() => navigate('/client/projects')}
                 style={{
@@ -257,48 +259,50 @@ export default function ClientDashboard() {
               </button>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
-              {/* Table header */}
-              <div style={{
-                display: 'grid',
-                gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
-                gap: 12, padding: '0 0 12px 0',
-                borderBottom: '1px solid #222',
-              }}>
-                {['Project', 'Lead Agent', 'Status', 'Progress', 'Last Active'].map(h => (
-                  <span key={h} style={{
-                    fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
-                    letterSpacing: '0.08em', color: '#444',
-                  }}>
-                    {h}
-                  </span>
-                ))}
-              </div>
-
-              {/* Table rows */}
-              {activeProjects.map(proj => (
-                <div key={proj.id} style={{
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0, overflowX: 'auto' }} className="custom-scrollbar">
+              <div style={{ minWidth: 600, display: 'flex', flexDirection: 'column' }}>
+                {/* Table header */}
+                <div style={{
                   display: 'grid',
                   gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
-                  gap: 12, padding: '18px 0',
-                  borderBottom: '1px solid #1e1e1e',
-                  alignItems: 'center',
+                  gap: 12, padding: '0 0 12px 0',
+                  borderBottom: '1px solid #222',
                 }}>
-                  <span style={{ fontSize: 13, fontWeight: 600, color: '#f0f0f0' }}>{proj.name}</span>
-                  <span style={{
-                    display: 'inline-flex', alignItems: 'center', gap: 5,
-                    fontSize: 11, color: '#888',
-                    background: '#222', borderRadius: 5, padding: '3px 8px',
-                    width: 'fit-content',
-                  }}>
-                    <FiCpu size={10} style={{ color: '#facc15' }} />
-                    {proj.leadAgent}
-                  </span>
-                  <StatusBadge status={proj.status} />
-                  <ProgressBar pct={proj.progress} />
-                  <span style={{ fontSize: 11, color: '#555' }}>{proj.lastActive}</span>
+                  {['Project', 'Lead Agent', 'Status', 'Progress', 'Last Active'].map(h => (
+                    <span key={h} style={{
+                      fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+                      letterSpacing: '0.08em', color: '#555',
+                    }}>
+                      {h}
+                    </span>
+                  ))}
                 </div>
-              ))}
+
+                {/* Table rows */}
+                {activeProjects.map(proj => (
+                  <div key={proj.id} style={{
+                    display: 'grid',
+                    gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
+                    gap: 12, padding: '18px 0',
+                    borderBottom: '1px solid #1e1e1e',
+                    alignItems: 'center',
+                  }}>
+                    <span style={{ fontSize: 13, fontWeight: 600, color: '#f0f0f0' }}>{proj.name}</span>
+                    <span style={{
+                      display: 'inline-flex', alignItems: 'center', gap: 5,
+                      fontSize: 11, color: '#888',
+                      background: '#222', borderRadius: 5, padding: '3px 8px',
+                      width: 'fit-content',
+                    }}>
+                      <FiCpu size={10} style={{ color: '#facc15' }} />
+                      {proj.leadAgent}
+                    </span>
+                    <StatusBadge status={proj.status} />
+                    <ProgressBar pct={proj.progress} />
+                    <span style={{ fontSize: 11, color: '#555' }}>{proj.lastActive}</span>
+                  </div>
+                ))}
+              </div>
             </div>
           </div>
 
@@ -308,7 +312,7 @@ export default function ClientDashboard() {
             borderRadius: 14, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
-              <h2 style={{ fontSize: 16, fontWeight: 700, color: '#f5f5f5' }}>Recent Deliverables</h2>
+              <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#f5f5f5' }}>Recent Deliverables</h2>
               <button
                 onClick={() => navigate('/client/deliverables')}
                 style={{
@@ -321,11 +325,11 @@ export default function ClientDashboard() {
               </button>
             </div>
 
-            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 12 }}>
               {deliverables.map(d => (
                 <div key={d.id} style={{
                   display: 'flex', alignItems: 'center', justifyContent: 'space-between',
-                  padding: '14px 16px',
+                  padding: '16px 20px',
                   background: '#141414',
                   border: '1px solid #222',
                   borderRadius: 10,
@@ -378,7 +382,7 @@ export default function ClientDashboard() {
         </div>
 
         {/* RIGHT — AI Process + Automation CTA */}
-        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+        <div className="lg:col-span-1" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
 
           {/* Campaign Health Summary */}
           <div style={{
