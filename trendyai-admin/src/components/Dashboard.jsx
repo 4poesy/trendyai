@@ -45,25 +45,25 @@ const MetricCard = ({ label, value, highlight }) => (
   <div style={{
     background: '#1a1a1a',
     border: '1px solid #2a2a2a',
-    borderRadius: 14,
-    padding: '28px 32px',
+    borderRadius: 16,
+    padding: '32px 36px',
     transition: 'border-color 0.15s ease',
   }}
   onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.3)'}
   onMouseLeave={e => e.currentTarget.style.borderColor = '#2a2a2a'}
   >
     <p style={{
-      fontSize: 10,
+      fontSize: 11,
       textTransform: 'uppercase',
       letterSpacing: '0.12em',
       color: '#555',
       fontWeight: 700,
-      marginBottom: 14,
+      marginBottom: 16,
     }}>
       {label}
     </p>
     <p style={{
-      fontSize: 32,
+      fontSize: 34,
       fontWeight: 600,
       color: highlight ? '#facc15' : '#f5f5f5',
       lineHeight: 1,
@@ -223,8 +223,8 @@ const Dashboard = () => {
       <div style={{
         display: 'grid',
         gridTemplateColumns: 'repeat(4, 1fr)',
-        gap: 14,
-        marginBottom: 32,
+        gap: 20,
+        marginBottom: 40,
       }}
       className="grid-cols-2 lg:grid-cols-4"
       >
@@ -240,7 +240,7 @@ const Dashboard = () => {
       <div style={{
         display: 'grid',
         gridTemplateColumns: '3fr 2fr',
-        gap: 20,
+        gap: 28,
         alignItems: 'start',
       }}>
 

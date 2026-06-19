@@ -51,7 +51,7 @@ const StudioMode = () => {
   };
 
   return (
-    <div className="space-y-6 max-w-7xl mx-auto text-text-main">
+    <div className="space-y-10 max-w-7xl mx-auto text-text-main">
       {/* Title Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-4">
         <div>
@@ -90,7 +90,7 @@ const StudioMode = () => {
       {activeView === 'workspace' ? (
         <div className="space-y-6">
           {/* Stats Cards */}
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6" style={{ marginBottom: '28px' }}>
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7" style={{ marginTop: '36px', marginBottom: '36px' }}>
             <div className="crm-card flex items-center gap-4">
               <div className="p-3 bg-bg-panel border border-border-main rounded-lg text-lg text-primary">
                 <FaRobot />
@@ -132,7 +132,7 @@ const StudioMode = () => {
             </div>
           </div>
           
-          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" style={{ marginTop: '28px' }}>
+          <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" style={{ marginTop: '36px' }}>
             {/* Left: Smart Workflow Section */}
             <div className="lg:col-span-2">
               <div className="crm-card h-full">

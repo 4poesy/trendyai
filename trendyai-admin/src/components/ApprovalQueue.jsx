@@ -174,7 +174,7 @@ const ApprovalQueue = () => {
   });
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto p-4 animate-fadeIn">
+    <div className="space-y-10 max-w-7xl mx-auto p-4 animate-fadeIn">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border-main pb-4">
         <div>
@@ -245,7 +245,7 @@ const ApprovalQueue = () => {
       )}
 
       {error && !loading && (
-        <div className="crm-card bg-red-500/5 border-red-500/20 text-center py-8 text-red-500 max-w-lg mx-auto flex flex-col items-center gap-2">
+        <div className="crm-card bg-red-500/5 border-red-500/20 text-center py-8 text-red-500 max-w-lg mx-auto flex flex-col items-center gap-2 mt-10">
           <FaExclamationCircle className="text-3xl" />
           <p className="font-semibold text-sm">Failed to connect to the Railway backend API</p>
           <p className="text-xs text-text-sub font-mono">{error}</p>
@@ -255,7 +255,7 @@ const ApprovalQueue = () => {
 
       {/* Approval Tasks List */}
       {!loading && !error && (
-        <div className="space-y-6">
+        <div className="space-y-8 mt-10">
           {filteredApprovals.map((approval) => {
             const summary = approval.output_summary || 'No output summary available.';
             const isTruncated = summary.length > 200;

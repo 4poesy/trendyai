@@ -211,7 +211,7 @@ const ProjectsPage = () => {
       )}
 
       {/* Projects Grid */}
-      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+      <div className="grid grid-cols-1 lg:grid-cols-2 gap-8 mt-10">
         {projects.map((project) => (
           <div key={project.id} className="crm-card flex flex-col justify-between">
             <div>

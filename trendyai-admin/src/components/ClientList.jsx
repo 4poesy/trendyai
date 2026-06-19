@@ -4,7 +4,7 @@ import { FaUser, FaEnvelope, FaBuilding, FaEdit, FaTrash } from 'react-icons/fa'
 export default function ClientList({ clients, onEdit, onDelete, onView }) {
   return (
     <div className="crm-card">
-      <h2 className="text-xl font-bold text-text-main mb-6 border-b border-border-main pb-3">Accounts Overview</h2>
+      <h2 className="text-xl font-bold text-text-main mb-8 border-b border-border-main pb-4">Accounts Overview</h2>
       
       {clients.length === 0 ? (
         <div className="text-center py-10 text-text-muted">
@@ -12,11 +12,11 @@ export default function ClientList({ clients, onEdit, onDelete, onView }) {
           <p className="text-sm">No client accounts match your search filters.</p>
         </div>
       ) : (
-        <div className="space-y-6">
+        <div className="space-y-8">
           {clients.map(client => (
             <div 
               key={client.id} 
-              className="p-7 md:p-8 bg-bg-panel border border-border-main rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-6 hover:border-primary/50 transition-colors"
+              className="p-8 md:p-9 bg-bg-panel border border-border-main rounded-xl flex flex-col md:flex-row md:items-center justify-between gap-7 hover:border-primary/50 transition-colors"
             >
               {/* Account details */}
               <button

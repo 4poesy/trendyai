@@ -175,7 +175,7 @@ const AgentCard = ({ agent, onSelect }) => {
       style={{
         background: hovered ? '#1e1e1e' : '#1a1a1a',
         border: `1px solid ${hovered ? 'rgba(250,204,21,0.4)' : '#2a2a2a'}`,
-        borderRadius: 14,
+        borderRadius: 16,
         padding: '32px 28px',
         cursor: 'pointer',
         transition: 'all 0.15s ease',
@@ -375,12 +375,12 @@ const AgentGridNew = () => {
       ) : (
         <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
           {filtered.map((group, gi) => (
-            <section key={group.label} style={{ marginTop: gi === 0 ? 0 : 24 }}>
+            <section key={group.label} style={{ marginTop: gi === 0 ? 0 : 32 }}>
               {/* Suite section label */}
               <div style={{
-                paddingBottom: 10,
+                paddingBottom: 12,
                 borderBottom: '1px solid #222',
-                marginBottom: 16,
+                marginBottom: 20,
               }}>
                 <span style={{
                   fontSize: 10, fontWeight: 600, textTransform: 'uppercase',

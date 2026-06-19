@@ -6,8 +6,8 @@ const MetricCard = ({ title, value, change }) => {
       <div>
         <p className="text-xs font-semibold uppercase tracking-wider text-text-sub">{title}</p>
         <p className="text-3xl font-extrabold text-text-main mt-2">{value}</p>
-        {change && (
-          <p className={`text-xs font-semibold mt-3 flex items-center gap-1 ${change >= 0 ? 'text-primary' : 'text-text-muted'}`}>
+        {change !== undefined && (
+          <p className={`text-xs font-semibold mt-3 flex items-center gap-1 ${change >= 0 ? 'text-green-500' : 'text-red-400'}`}>
             {change >= 0 ? '+' : ''}{change}% <span className="text-text-muted font-normal">from last month</span>
           </p>
         )}
@@ -27,11 +27,11 @@ const SimpleBarChart = ({ data }) => {
   const maxValue = Math.max(...data.map(d => d.value));
   
   return (
-    <div className="flex items-end justify-between h-48 space-x-3 pt-4 px-2">
+    <div className="flex items-end justify-between h-48 pt-4 px-2">
       {data.map((item, index) => (
         <div key={index} className="flex-1 flex flex-col items-center h-full justify-end">
           <div 
-            className="w-full bg-primary rounded-t transition-all duration-300 hover:bg-primary-hover"
+            className="w-8 sm:w-10 md:w-12 max-w-[48px] bg-gradient-to-t from-blue-600 to-cyan-400 rounded-t transition-all duration-300 hover:from-blue-500 hover:to-cyan-300"
             style={{ 
               height: `${(item.value / maxValue) * 100}%`,
               minHeight: '4px'
@@ -48,7 +48,7 @@ const ActivityFeed = ({ activities }) => (
   <div className="space-y-4">
     {activities.map((activity, index) => (
       <div key={index} className="flex items-start space-x-3 p-2 hover:bg-bg-panel/40 rounded transition-colors">
-        <span className="w-1.5 h-1.5 rounded-full bg-primary mt-1.5 shrink-0"></span>
+        <span className="w-1.5 h-1.5 rounded-full bg-teal-500 mt-1.5 shrink-0"></span>
         <div className="flex-1 min-w-0">
           <p className="text-sm font-semibold text-text-main truncate">{activity.title}</p>
           <p className="text-xs text-text-muted mt-0.5">{activity.time}</p>
@@ -129,15 +129,15 @@ const AnalyticsDashboard = () => {
   }
 
   return (
-    <div className="space-y-12 max-w-7xl mx-auto pb-12">
+    <div className="space-y-10 max-w-7xl mx-auto pb-12">
       {/* Header */}
-      <div className="border-b border-border-main pb-6 mb-10">
+      <div className="border-b border-border-main pb-6">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Analytics Dashboard</h1>
         <p className="text-text-sub mt-2 text-sm md:text-base font-medium">Track your automation performance, client acquisition, and operations insights.</p>
       </div>
 
       {/* Metrics Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8">
         <MetricCard
           title="Total Clients"
           value={metrics.totalClients}
@@ -161,7 +161,7 @@ const AnalyticsDashboard = () => {
       </div>
 
       {/* Charts and Activity */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8 mt-16">
+      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Performance Chart */}
         <div className="lg:col-span-2">
           <ChartCard title="Performance Trends">
@@ -178,36 +178,36 @@ const AnalyticsDashboard = () => {
       </div>
 
       {/* Additional Insights */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-10 mt-12">
+      <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
         <ChartCard title="Agent Performance Accuracy">
           <div className="space-y-6 pt-2">
             <div>
               <div className="flex justify-between items-center text-sm mb-2 font-semibold">
                 <span className="text-text-main">MarketingBot</span>
-                <span className="text-primary">95%</span>
+                <span className="text-teal-400">95%</span>
               </div>
               <div className="w-full bg-bg-panel border border-border-main rounded-full h-3 overflow-hidden">
-                <div className="bg-primary h-full rounded-full" style={{ width: '95%' }}></div>
+                <div className="bg-gradient-to-r from-teal-600 to-emerald-400 h-full rounded-full" style={{ width: '95%' }}></div>
               </div>
             </div>
             
             <div>
               <div className="flex justify-between items-center text-sm mb-2 font-semibold">
                 <span className="text-text-main">ContentBot</span>
-                <span className="text-primary">87%</span>
+                <span className="text-blue-400">87%</span>
               </div>
               <div className="w-full bg-bg-panel border border-border-main rounded-full h-3 overflow-hidden">
-                <div className="bg-amber-500 h-full rounded-full" style={{ width: '87%' }}></div>
+                <div className="bg-gradient-to-r from-blue-600 to-indigo-400 h-full rounded-full" style={{ width: '87%' }}></div>
               </div>
             </div>
             
             <div>
               <div className="flex justify-between items-center text-sm mb-2 font-semibold">
                 <span className="text-text-main">AnalyticsBot</span>
-                <span className="text-primary">92%</span>
+                <span className="text-purple-400">92%</span>
               </div>
               <div className="w-full bg-bg-panel border border-border-main rounded-full h-3 overflow-hidden">
-                <div className="bg-amber-600 h-full rounded-full" style={{ width: '92%' }}></div>
+                <div className="bg-gradient-to-r from-purple-600 to-violet-400 h-full rounded-full" style={{ width: '92%' }}></div>
               </div>
             </div>
           </div>

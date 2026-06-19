@@ -103,7 +103,7 @@ const AgentTrainingDashboard = () => {
 
       {/* Training Overview */}
       {trainingReport && (
-        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mb-12">
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 mt-10 mb-12">
           <div className="crm-card">
             <span className="text-sm font-semibold uppercase tracking-wider text-text-sub">Trained Workers</span>
             <h3 className="text-3xl font-bold text-text-main mt-2">{trainingReport.totalAgents}</h3>

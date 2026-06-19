@@ -128,21 +128,21 @@ const AgentStatus = () => {
   const cardStyle = {
     background: '#1a1a1a',
     border: '1px solid #2a2a2a',
-    borderRadius: '14px',
-    padding: '28px 32px',
+    borderRadius: '16px',
+    padding: '32px 36px',
   };
 
   const metricRowStyle = {
     display: 'grid',
     gridTemplateColumns: 'repeat(4, 1fr)',
-    gap: '16px',
-    marginBottom: '40px',
+    gap: '20px',
+    marginBottom: '44px',
   };
 
   const agentGridStyle = {
     display: 'grid',
     gridTemplateColumns: 'repeat(2, 1fr)',
-    gap: '20px',
+    gap: '24px',
   };
 
   const rowStyle = {

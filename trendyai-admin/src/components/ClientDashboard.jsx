@@ -12,8 +12,8 @@ const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) 
   <div style={{
     background: '#1a1a1a',
     border: `1px solid ${highlight ? 'rgba(250,204,21,0.3)' : '#2a2a2a'}`,
-    borderRadius: 14,
-    padding: '28px 32px',
+    borderRadius: 16,
+    padding: '32px 36px',
     display: 'flex',
     flexDirection: 'column',
     gap: 0,
@@ -22,30 +22,30 @@ const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) 
   onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.3)'}
   onMouseLeave={e => e.currentTarget.style.borderColor = highlight ? 'rgba(250,204,21,0.3)' : '#2a2a2a'}
   >
-    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
       <p style={{
-        fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+        fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
         letterSpacing: '0.12em', color: '#555',
       }}>
         {label}
       </p>
       <div style={{
-        width: 32, height: 32, borderRadius: 8,
+        width: 34, height: 34, borderRadius: 8,
         background: iconBg, flexShrink: 0,
         display: 'flex', alignItems: 'center', justifyContent: 'center',
       }}>
-        <Icon size={14} style={{ color: iconColor }} />
+        <Icon size={15} style={{ color: iconColor }} />
       </div>
     </div>
     <p style={{
-      fontSize: 34, fontWeight: 600, lineHeight: 1,
+      fontSize: 36, fontWeight: 600, lineHeight: 1,
       color: highlight ? '#facc15' : '#f5f5f5',
       letterSpacing: '-0.025em',
-      marginBottom: 10,
+      marginBottom: 12,
     }}>
       {value}
     </p>
-    <p style={{ fontSize: 11, color: '#555', lineHeight: 1.5 }}>{desc}</p>
+    <p style={{ fontSize: 12, color: '#555', lineHeight: 1.6 }}>{desc}</p>
   </div>
 );
 
@@ -190,7 +190,7 @@ export default function ClientDashboard() {
       <div style={{
         display: 'flex', alignItems: 'flex-start',
         justifyContent: 'space-between', flexWrap: 'wrap', gap: 16,
-        marginBottom: 36,
+        marginBottom: 48,
       }}>
         <div>
           <p style={{
@@ -225,10 +225,11 @@ export default function ClientDashboard() {
 
       {/* ── Zone 1: Metric cards ── */}
       <div 
-        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6"
+        className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-7"
         style={{
           display: 'grid',
-          marginBottom: '40px',
+          marginTop: '24px',
+          marginBottom: '48px',
         }}
       >
         {stats.map((s, i) => <MetricCard key={i} {...s} />)}
@@ -238,12 +239,12 @@ export default function ClientDashboard() {
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8" style={{ display: 'grid', alignItems: 'start' }}>
 
         {/* LEFT — Campaigns + Deliverables */}
-        <div className="lg:col-span-2" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div className="lg:col-span-2" style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
 
           {/* Active Campaigns */}
           <div style={{
             background: '#1a1a1a', border: '1px solid #2a2a2a',
-            borderRadius: 14, padding: '28px 32px',
+            borderRadius: 16, padding: '32px 36px',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#f5f5f5' }}>Active Campaigns</h2>
@@ -309,7 +310,7 @@ export default function ClientDashboard() {
           {/* Recent Deliverables */}
           <div style={{
             background: '#1a1a1a', border: '1px solid #2a2a2a',
-            borderRadius: 14, padding: '28px 32px',
+            borderRadius: 16, padding: '32px 36px',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
               <h2 style={{ fontFamily: "'Outfit', sans-serif", fontSize: 18, fontWeight: 700, color: '#f5f5f5' }}>Recent Deliverables</h2>
@@ -382,12 +383,12 @@ export default function ClientDashboard() {
         </div>
 
         {/* RIGHT — AI Process + Automation CTA */}
-        <div className="lg:col-span-1" style={{ display: 'flex', flexDirection: 'column', gap: 24 }}>
+        <div className="lg:col-span-1" style={{ display: 'flex', flexDirection: 'column', gap: 28 }}>
 
           {/* Campaign Health Summary */}
           <div style={{
             background: '#1a1a1a', border: '1px solid #2a2a2a',
-            borderRadius: 14, padding: '24px 28px',
+            borderRadius: 16, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
               <FiTrendingUp size={14} style={{ color: '#facc15' }} />
@@ -409,7 +410,7 @@ export default function ClientDashboard() {
           {/* AI Agency Process */}
           <div style={{
             background: '#1a1a1a', border: '1px solid #2a2a2a',
-            borderRadius: 14, padding: '24px 28px',
+            borderRadius: 16, padding: '28px 32px',
           }}>
             <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15', marginBottom: 20 }}>
               AI Agency Process
@@ -436,7 +437,7 @@ export default function ClientDashboard() {
           <div style={{
             background: '#141414',
             border: '1px dashed #2a2a2a',
-            borderRadius: 14, padding: '24px 28px',
+            borderRadius: 16, padding: '28px 32px',
           }}>
             <p style={{ fontSize: 13, fontWeight: 700, color: '#f0f0f0', marginBottom: 10 }}>
               Need a Custom Automation?
