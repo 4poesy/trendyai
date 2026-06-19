@@ -49,7 +49,7 @@ const clientNavGroups = [
     label: 'CLIENT PORTAL',
     links: [
       { to: '/client',              label: 'Dashboard',       icon: FiGrid       },
-      { to: '/client/projects',     label: 'Campaign Tracker', icon: FiFolderOpen },
+      { to: '/client/projects',     label: 'Campaign Tracker', icon: FiFolder },
       { to: '/client/requests',     label: 'Request Campaign', icon: FiZap        },
       { to: '/client/deliverables', label: 'Asset Review',    icon: FiFileText   },
     ],
