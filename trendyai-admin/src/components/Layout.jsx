@@ -3,7 +3,7 @@ import { Link, Outlet, useLocation, useNavigate } from 'react-router-dom';
 import {
   FiGrid, FiZap, FiUsers, FiFolder, FiCheckSquare,
   FiBarChart2, FiActivity, FiCpu, FiFileText, FiLogOut,
-  FiMenu, FiX, FiSun, FiMoon, FiChevronDown
+  FiMenu, FiX, FiSun, FiMoon, FiChevronDown, FiHome
 } from 'react-icons/fi';
 import DomainSwitcher from './DomainSwitcher';
 import { useTheme } from '../contexts/ThemeContext';
@@ -16,6 +16,7 @@ const adminNavGroups = [
   {
     label: 'WORKSPACE',
     links: [
+      { to: '/',             label: 'Dashboard',    icon: FiHome },
       { to: '/agent-grid',   label: 'Agent Grid',   icon: FiGrid },
       { to: '/studio-mode',  label: 'Studio Mode',  icon: FiZap  },
     ],

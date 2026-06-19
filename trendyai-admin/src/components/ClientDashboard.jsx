@@ -1,169 +1,374 @@
 import React, { useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
-import { FaTasks, FaCheckCircle, FaFileAlt, FaClock, FaPlus, FaArrowRight, FaRobot, FaExternalLinkAlt } from 'react-icons/fa';
+import {
+  FiLayers, FiClock, FiCheckCircle, FiZap,
+  FiArrowRight, FiExternalLink, FiFileText,
+  FiCpu, FiPlus, FiTrendingUp,
+} from 'react-icons/fi';
 import { useToast } from './Toast';
 
+/* ─── METRIC CARD ────────────────────────────────────────── */
+const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) => (
+  <div style={{
+    background: '#1a1a1a',
+    border: `1px solid ${highlight ? 'rgba(250,204,21,0.3)' : '#2a2a2a'}`,
+    borderRadius: 14,
+    padding: '28px 32px',
+    display: 'flex',
+    flexDirection: 'column',
+    gap: 0,
+    transition: 'border-color 0.15s ease',
+  }}
+  onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.3)'}
+  onMouseLeave={e => e.currentTarget.style.borderColor = highlight ? 'rgba(250,204,21,0.3)' : '#2a2a2a'}
+  >
+    <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 16 }}>
+      <p style={{
+        fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+        letterSpacing: '0.12em', color: '#555',
+      }}>
+        {label}
+      </p>
+      <div style={{
+        width: 32, height: 32, borderRadius: 8,
+        background: iconBg, flexShrink: 0,
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+      }}>
+        <Icon size={14} style={{ color: iconColor }} />
+      </div>
+    </div>
+    <p style={{
+      fontSize: 34, fontWeight: 600, lineHeight: 1,
+      color: highlight ? '#facc15' : '#f5f5f5',
+      letterSpacing: '-0.025em',
+      marginBottom: 10,
+    }}>
+      {value}
+    </p>
+    <p style={{ fontSize: 11, color: '#555', lineHeight: 1.5 }}>{desc}</p>
+  </div>
+);
+
+/* ─── PROGRESS BAR ───────────────────────────────────────── */
+const ProgressBar = ({ pct }) => (
+  <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
+    <div style={{
+      flex: 1, height: 3, background: '#222',
+      borderRadius: 2, overflow: 'hidden',
+    }}>
+      <div style={{
+        width: `${pct}%`, height: '100%',
+        background: '#facc15', borderRadius: 2,
+        transition: 'width 0.4s ease',
+      }} />
+    </div>
+    <span style={{ fontSize: 11, fontWeight: 700, color: '#facc15', minWidth: 30 }}>{pct}%</span>
+  </div>
+);
+
+/* ─── STATUS BADGE ───────────────────────────────────────── */
+const StatusBadge = ({ status }) => {
+  const map = {
+    'In Progress': { bg: 'rgba(55,138,221,0.12)', color: '#378ADD' },
+    'Reviewing':   { bg: 'rgba(250,204,21,0.12)', color: '#facc15' },
+    'Completed':   { bg: 'rgba(29,158,117,0.12)', color: '#1D9E75' },
+    'Paused':      { bg: 'rgba(120,120,120,0.12)', color: '#666' },
+  };
+  const s = map[status] || map['Paused'];
+  return (
+    <span style={{
+      fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+      letterSpacing: '0.06em', padding: '3px 9px', borderRadius: 5,
+      background: s.bg, color: s.color,
+    }}>
+      {status}
+    </span>
+  );
+};
+
+/* ─── PROCESS STEP ───────────────────────────────────────── */
+const ProcessStep = ({ num, title, desc, isLast }) => (
+  <div style={{ display: 'flex', gap: 14 }}>
+    <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
+      <div style={{
+        width: 28, height: 28, borderRadius: 8,
+        background: 'rgba(250,204,21,0.12)',
+        border: '1px solid rgba(250,204,21,0.3)',
+        display: 'flex', alignItems: 'center', justifyContent: 'center',
+        fontSize: 11, fontWeight: 800, color: '#facc15',
+      }}>
+        {num}
+      </div>
+      {!isLast && (
+        <div style={{ width: 1, flex: 1, background: '#222', margin: '6px 0' }} />
+      )}
+    </div>
+    <div style={{ paddingBottom: isLast ? 0 : 20 }}>
+      <p style={{ fontSize: 13, fontWeight: 700, color: '#f0f0f0', marginBottom: 5, lineHeight: 1.3 }}>{title}</p>
+      <p style={{ fontSize: 12, color: '#666', lineHeight: 1.6 }}>{desc}</p>
+    </div>
+  </div>
+);
+
+/* ─── MAIN CLIENT DASHBOARD ──────────────────────────────── */
 export default function ClientDashboard() {
   const navigate = useNavigate();
   const { showInfo } = useToast();
   const [loading, setLoading] = useState(true);
 
-  // Mock statistics
-  const stats = [
-    { label: 'Active Projects', value: '2', icon: <FaTasks className="text-primary" />, desc: 'Running AI campaigns' },
-    { label: 'Pending Approvals', value: '3', icon: <FaClock className="text-yellow-500" />, desc: 'Requires your feedback' },
-    { label: 'Completed Deliverables', value: '18', icon: <FaCheckCircle className="text-green-500" />, desc: 'Ready for use' },
-    { label: 'AI Actions Today', value: '142', icon: <FaRobot className="text-purple-500" />, desc: 'Automated workflow runs' },
-  ];
-
-  // Mock Active Projects
-  const activeProjects = [
-    { id: 1, name: 'SaaS Launch SEO', status: 'In Progress', progress: 65, lastActive: '5m ago', leadAgent: 'RankRover' },
-    { id: 2, name: 'Social Lead Campaign', status: 'Reviewing', progress: 90, lastActive: '1h ago', leadAgent: 'WebWiz' },
-  ];
-
-  // Mock Deliverables
-  const deliverables = [
-    { id: 101, name: 'Blog Post: "Intro to Agentic AI"', type: 'Content copy', project: 'SaaS Launch SEO', date: 'Today, 2:14 PM' },
-    { id: 102, name: 'Landing Page Mockup', type: 'Design asset', project: 'Social Lead Campaign', date: 'Yesterday' },
-    { id: 103, name: 'Keywords Research Pack', type: 'SEO config', project: 'SaaS Launch SEO', date: 'June 16, 2026' },
-  ];
-
   useEffect(() => {
-    const timer = setTimeout(() => setLoading(false), 800);
-    return () => clearTimeout(timer);
+    const t = setTimeout(() => setLoading(false), 600);
+    return () => clearTimeout(t);
   }, []);
 
+  const stats = [
+    {
+      label: 'Active Projects',
+      value: '2',
+      desc: 'Running AI campaigns',
+      Icon: FiLayers,
+      iconColor: '#378ADD',
+      iconBg: 'rgba(55,138,221,0.12)',
+    },
+    {
+      label: 'Pending Approvals',
+      value: '3',
+      desc: 'Requires your feedback',
+      Icon: FiClock,
+      iconColor: '#facc15',
+      iconBg: 'rgba(250,204,21,0.12)',
+      highlight: true,
+    },
+    {
+      label: 'Completed Deliverables',
+      value: '18',
+      desc: 'Ready for use',
+      Icon: FiCheckCircle,
+      iconColor: '#1D9E75',
+      iconBg: 'rgba(29,158,117,0.12)',
+    },
+    {
+      label: 'AI Actions Today',
+      value: '142',
+      desc: 'Automated workflow runs',
+      Icon: FiZap,
+      iconColor: '#D85A30',
+      iconBg: 'rgba(216,90,48,0.12)',
+    },
+  ];
+
+  const activeProjects = [
+    { id: 1, name: 'SaaS Launch SEO',      status: 'In Progress', progress: 65, lastActive: '5m ago',  leadAgent: 'StratoBoss' },
+    { id: 2, name: 'Social Lead Campaign', status: 'Reviewing',   progress: 90, lastActive: '1h ago',  leadAgent: 'WebWiz'     },
+  ];
+
+  const deliverables = [
+    { id: 101, name: 'Blog Post: "Intro to Agentic AI"', type: 'Content copy', project: 'SaaS Launch SEO',      date: 'Today, 2:14 PM' },
+    { id: 102, name: 'Landing Page Mockup',               type: 'Design asset', project: 'Social Lead Campaign', date: 'Yesterday'      },
+    { id: 103, name: 'Keywords Research Pack',             type: 'SEO config',  project: 'SaaS Launch SEO',      date: 'Jun 16, 2026'   },
+  ];
+
+  /* ── Loading ── */
   if (loading) {
     return (
-      <div className="flex justify-center items-center min-h-[50vh]">
-        <div className="animate-spin rounded-full h-10 w-10 border-t-2 border-b-2 border-primary"></div>
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
+        <div style={{
+          width: 32, height: 32, borderRadius: '50%',
+          border: '2px solid #2a2a2a',
+          borderTop: '2px solid #facc15',
+          animation: 'spin 0.7s linear infinite',
+        }} />
+        <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
       </div>
     );
   }
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
-      {/* Welcome Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+    <div style={{ maxWidth: 1280, margin: '0 auto' }} className="animate-fadeIn">
+
+      {/* ── Page header ── */}
+      <div style={{
+        display: 'flex', alignItems: 'flex-start',
+        justifyContent: 'space-between', flexWrap: 'wrap', gap: 16,
+        marginBottom: 36,
+      }}>
         <div>
-          <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Client Portal</h1>
-          <p className="text-text-sub mt-1 text-sm md:text-base">Welcome to your TrendyAI workspace. Monitor campaigns and approve deliverables.</p>
+          <p style={{
+            fontSize: 11, fontWeight: 700, textTransform: 'uppercase',
+            letterSpacing: '0.1em', color: '#facc15', marginBottom: 6,
+          }}>
+            Client Portal
+          </p>
+          <h1 style={{ fontSize: 24, fontWeight: 700, color: '#f5f5f5', marginBottom: 8, lineHeight: 1.2 }}>
+            Client Dashboard
+          </h1>
+          <p style={{ fontSize: 13, color: '#666', lineHeight: 1.5 }}>
+            Monitor your campaigns, review deliverables, and approve assets.
+          </p>
         </div>
+
         <button
-          onClick={() => {
-            navigate('/client/requests');
-            showInfo('Opening intake brief form');
+          onClick={() => { navigate('/client/requests'); showInfo('Opening intake brief form'); }}
+          style={{
+            display: 'flex', alignItems: 'center', gap: 7,
+            background: '#facc15', color: '#111', border: 'none',
+            borderRadius: 8, padding: '10px 20px', fontSize: 13,
+            fontWeight: 700, cursor: 'pointer', flexShrink: 0,
+            transition: 'background 0.15s ease',
           }}
-          className="crm-btn crm-btn-primary"
+          onMouseEnter={e => e.currentTarget.style.background = '#eab308'}
+          onMouseLeave={e => e.currentTarget.style.background = '#facc15'}
         >
-          <FaPlus /> New Campaign Request
+          <FiPlus size={14} /> New Campaign Request
         </button>
       </div>
 
-      {/* Stats Grid */}
-      <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-12">
-        {stats.map((stat, idx) => (
-          <div key={idx} className="crm-card flex flex-col justify-between">
-            <div className="flex items-start justify-between">
-              <div>
-                <span className="text-sm font-medium text-text-sub">{stat.label}</span>
-                <h3 className="text-3xl font-bold text-text-main mt-1">{stat.value}</h3>
-              </div>
-              <div className="p-3 bg-bg-panel border border-border-main rounded-lg text-lg">
-                {stat.icon}
-              </div>
-            </div>
-            <p className="text-xs text-text-muted mt-4">{stat.desc}</p>
-          </div>
-        ))}
+      {/* ── Zone 1: Metric cards ── */}
+      <div style={{
+        display: 'grid',
+        gridTemplateColumns: 'repeat(auto-fill, minmax(210px, 1fr))',
+        gap: 16, marginBottom: 28,
+      }}>
+        {stats.map((s, i) => <MetricCard key={i} {...s} />)}
       </div>
 
-      {/* Main Content Layout */}
-      <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-        {/* Left column: Active Projects */}
-        <div className="lg:col-span-2 space-y-6">
-          <div className="crm-card">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-text-main">Active Campaigns</h2>
-              <button 
-                onClick={() => navigate('/client/projects')} 
-                className="text-primary hover:underline text-sm font-semibold flex items-center gap-1"
+      {/* ── Zone 2: Main content + sidebar ── */}
+      <div style={{ display: 'grid', gridTemplateColumns: '1fr 320px', gap: 20, alignItems: 'start' }}>
+
+        {/* LEFT — Campaigns + Deliverables */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 20 }}>
+
+          {/* Active Campaigns */}
+          <div style={{
+            background: '#1a1a1a', border: '1px solid #2a2a2a',
+            borderRadius: 14, padding: '28px 32px',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              <h2 style={{ fontSize: 16, fontWeight: 700, color: '#f5f5f5' }}>Active Campaigns</h2>
+              <button
+                onClick={() => navigate('/client/projects')}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  background: 'none', border: 'none',
+                  color: '#facc15', fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                }}
               >
-                Track Pipelines <FaArrowRight size={12} />
+                Track Pipelines <FiArrowRight size={12} />
               </button>
             </div>
-            <div className="overflow-x-auto">
-              <table className="crm-table">
-                <thead>
-                  <tr>
-                    <th>Project Name</th>
-                    <th>Lead Agent</th>
-                    <th>Status</th>
-                    <th>Progress</th>
-                    <th>Activity</th>
-                  </tr>
-                </thead>
-                <tbody>
-                  {activeProjects.map(proj => (
-                    <tr key={proj.id}>
-                      <td className="font-semibold">{proj.name}</td>
-                      <td>
-                        <span className="inline-flex items-center gap-1.5 px-2 py-1 rounded bg-bg-panel border border-border-main text-xs text-text-main">
-                          <FaRobot className="text-primary" /> {proj.leadAgent}
-                        </span>
-                      </td>
-                      <td>
-                        <span className={`badge ${proj.status === 'Reviewing' ? 'badge-warning' : 'badge-info'}`}>
-                          {proj.status}
-                        </span>
-                      </td>
-                      <td>
-                        <div className="flex items-center gap-2">
-                          <div className="w-20 bg-bg-panel rounded-full h-1.5 overflow-hidden border border-border-main">
-                            <div className="bg-primary h-full rounded-full" style={{ width: `${proj.progress}%` }}></div>
-                          </div>
-                          <span className="text-xs font-semibold">{proj.progress}%</span>
-                        </div>
-                      </td>
-                      <td className="text-xs text-text-muted">{proj.lastActive}</td>
-                    </tr>
-                  ))}
-                </tbody>
-              </table>
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 0 }}>
+              {/* Table header */}
+              <div style={{
+                display: 'grid',
+                gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
+                gap: 12, padding: '0 0 12px 0',
+                borderBottom: '1px solid #222',
+              }}>
+                {['Project', 'Lead Agent', 'Status', 'Progress', 'Last Active'].map(h => (
+                  <span key={h} style={{
+                    fontSize: 10, fontWeight: 700, textTransform: 'uppercase',
+                    letterSpacing: '0.08em', color: '#444',
+                  }}>
+                    {h}
+                  </span>
+                ))}
+              </div>
+
+              {/* Table rows */}
+              {activeProjects.map(proj => (
+                <div key={proj.id} style={{
+                  display: 'grid',
+                  gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
+                  gap: 12, padding: '18px 0',
+                  borderBottom: '1px solid #1e1e1e',
+                  alignItems: 'center',
+                }}>
+                  <span style={{ fontSize: 13, fontWeight: 600, color: '#f0f0f0' }}>{proj.name}</span>
+                  <span style={{
+                    display: 'inline-flex', alignItems: 'center', gap: 5,
+                    fontSize: 11, color: '#888',
+                    background: '#222', borderRadius: 5, padding: '3px 8px',
+                    width: 'fit-content',
+                  }}>
+                    <FiCpu size={10} style={{ color: '#facc15' }} />
+                    {proj.leadAgent}
+                  </span>
+                  <StatusBadge status={proj.status} />
+                  <ProgressBar pct={proj.progress} />
+                  <span style={{ fontSize: 11, color: '#555' }}>{proj.lastActive}</span>
+                </div>
+              ))}
             </div>
           </div>
 
-          {/* Deliverables review block */}
-          <div className="crm-card">
-            <div className="flex justify-between items-center mb-6">
-              <h2 className="text-xl font-bold text-text-main">Recent Generated Deliverables</h2>
-              <button 
-                onClick={() => navigate('/client/deliverables')} 
-                className="text-primary hover:underline text-sm font-semibold flex items-center gap-1"
+          {/* Recent Deliverables */}
+          <div style={{
+            background: '#1a1a1a', border: '1px solid #2a2a2a',
+            borderRadius: 14, padding: '28px 32px',
+          }}>
+            <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+              <h2 style={{ fontSize: 16, fontWeight: 700, color: '#f5f5f5' }}>Recent Deliverables</h2>
+              <button
+                onClick={() => navigate('/client/deliverables')}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 5,
+                  background: 'none', border: 'none',
+                  color: '#facc15', fontSize: 12, fontWeight: 700, cursor: 'pointer',
+                }}
               >
-                View Asset Center <FaArrowRight size={12} />
+                View Asset Center <FiArrowRight size={12} />
               </button>
             </div>
-            <div className="space-y-4">
-              {deliverables.map(deliv => (
-                <div key={deliv.id} className="p-4 bg-bg-panel border border-border-main rounded-lg flex items-center justify-between hover:border-primary/50 transition-colors">
-                  <div className="flex items-start gap-3">
-                    <div className="p-2.5 bg-bg-card border border-border-main rounded text-primary mt-0.5">
-                      <FaFileAlt />
+
+            <div style={{ display: 'flex', flexDirection: 'column', gap: 10 }}>
+              {deliverables.map(d => (
+                <div key={d.id} style={{
+                  display: 'flex', alignItems: 'center', justifyContent: 'space-between',
+                  padding: '14px 16px',
+                  background: '#141414',
+                  border: '1px solid #222',
+                  borderRadius: 10,
+                  gap: 12,
+                  transition: 'border-color 0.15s ease',
+                }}
+                onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.3)'}
+                onMouseLeave={e => e.currentTarget.style.borderColor = '#222'}
+                >
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
+                    <div style={{
+                      width: 34, height: 34, borderRadius: 8,
+                      background: 'rgba(250,204,21,0.08)',
+                      display: 'flex', alignItems: 'center', justifyContent: 'center',
+                      flexShrink: 0,
+                    }}>
+                      <FiFileText size={14} style={{ color: '#facc15' }} />
                     </div>
-                    <div>
-                      <h4 className="font-semibold text-sm text-text-main">{deliv.name}</h4>
-                      <p className="text-xs text-text-sub mt-0.5">{deliv.type} • {deliv.project}</p>
+                    <div style={{ minWidth: 0 }}>
+                      <p style={{ fontSize: 13, fontWeight: 600, color: '#f0f0f0', marginBottom: 3, lineHeight: 1.3 }}>
+                        {d.name}
+                      </p>
+                      <p style={{ fontSize: 11, color: '#555' }}>
+                        {d.type} · {d.project}
+                      </p>
                     </div>
                   </div>
-                  <div className="flex items-center gap-3">
-                    <span className="text-xs text-text-muted hidden sm:inline">{deliv.date}</span>
+                  <div style={{ display: 'flex', alignItems: 'center', gap: 12, flexShrink: 0 }}>
+                    <span style={{ fontSize: 11, color: '#444' }}>{d.date}</span>
                     <button
                       onClick={() => navigate('/client/deliverables')}
-                      className="crm-btn crm-btn-secondary py-1.5 px-3 text-xs"
+                      style={{
+                        display: 'flex', alignItems: 'center', gap: 5,
+                        background: 'none',
+                        border: '1px solid #2a2a2a',
+                        borderRadius: 6, padding: '5px 12px',
+                        color: '#888', fontSize: 11, fontWeight: 600, cursor: 'pointer',
+                        transition: 'all 0.15s ease',
+                      }}
+                      onMouseEnter={e => { e.currentTarget.style.borderColor = 'rgba(250,204,21,0.4)'; e.currentTarget.style.color = '#facc15'; }}
+                      onMouseLeave={e => { e.currentTarget.style.borderColor = '#2a2a2a'; e.currentTarget.style.color = '#888'; }}
                     >
-                      Review <FaExternalLinkAlt size={10} className="ml-1" />
+                      Review <FiExternalLink size={10} />
                     </button>
                   </div>
                 </div>
@@ -172,45 +377,80 @@ export default function ClientDashboard() {
           </div>
         </div>
 
-        {/* Right column: Activity feed / instructions */}
-        <div className="space-y-6">
-          <div className="crm-card">
-            <h2 className="text-lg font-bold text-text-main mb-4">AI Agency Process</h2>
-            <div className="space-y-4">
-              <div className="flex gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold shrink-0">1</div>
-                <div>
-                  <h4 className="text-sm font-semibold text-text-main">Submit briefing</h4>
-                  <p className="text-xs text-text-sub mt-0.5">Fill out an intake form specifying your keywords, outline, or landing page needs.</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold shrink-0">2</div>
-                <div>
-                  <h4 className="text-sm font-semibold text-text-main">Agents execute</h4>
-                  <p className="text-xs text-text-sub mt-0.5">AI Agents auto-verify website metrics, write content, design assets, and audit SEO.</p>
-                </div>
-              </div>
-              <div className="flex gap-3">
-                <div className="w-6 h-6 rounded-full bg-primary text-white flex items-center justify-center text-xs font-bold shrink-0">3</div>
-                <div>
-                  <h4 className="text-sm font-semibold text-text-main">Approve deliverables</h4>
-                  <p className="text-xs text-text-sub mt-0.5">Review the generated marketing assets, request modifications, or approve for distribution.</p>
-                </div>
-              </div>
+        {/* RIGHT — AI Process + Automation CTA */}
+        <div style={{ display: 'flex', flexDirection: 'column', gap: 16 }}>
+
+          {/* Campaign Health Summary */}
+          <div style={{
+            background: '#1a1a1a', border: '1px solid #2a2a2a',
+            borderRadius: 14, padding: '24px 28px',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+              <FiTrendingUp size={14} style={{ color: '#facc15' }} />
+              <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15' }}>
+                Campaign Health
+              </p>
             </div>
+            {activeProjects.map(p => (
+              <div key={p.id} style={{ marginBottom: 16 }}>
+                <div style={{ display: 'flex', justifyContent: 'space-between', marginBottom: 7 }}>
+                  <span style={{ fontSize: 12, color: '#888', fontWeight: 500 }}>{p.name}</span>
+                  <StatusBadge status={p.status} />
+                </div>
+                <ProgressBar pct={p.progress} />
+              </div>
+            ))}
           </div>
 
-          <div className="crm-card bg-bg-panel border-dashed border-2">
-            <h3 className="font-bold text-text-main mb-2">Need a Custom Automation?</h3>
-            <p className="text-xs text-text-sub leading-relaxed">
-              As a client, you can request custom n8n automations to sync approved content directly to your WordPress, Webflow, or Shopify store. Reach out to support to set this up.
+          {/* AI Agency Process */}
+          <div style={{
+            background: '#1a1a1a', border: '1px solid #2a2a2a',
+            borderRadius: 14, padding: '24px 28px',
+          }}>
+            <p style={{ fontSize: 10, fontWeight: 700, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#facc15', marginBottom: 20 }}>
+              AI Agency Process
             </p>
-            <a 
-              href="mailto:support@trendtacticsdigital.com" 
-              className="inline-block mt-4 text-xs font-bold text-primary hover:underline"
+            <ProcessStep
+              num={1}
+              title="Submit briefing"
+              desc="Fill out an intake form specifying your keywords, outline, or landing page needs."
+            />
+            <ProcessStep
+              num={2}
+              title="Agents execute"
+              desc="AI Agents auto-verify website metrics, write content, design assets, and audit SEO."
+            />
+            <ProcessStep
+              num={3}
+              title="Approve deliverables"
+              desc="Review generated marketing assets, request modifications, or approve for distribution."
+              isLast
+            />
+          </div>
+
+          {/* Custom Automation CTA */}
+          <div style={{
+            background: '#141414',
+            border: '1px dashed #2a2a2a',
+            borderRadius: 14, padding: '24px 28px',
+          }}>
+            <p style={{ fontSize: 13, fontWeight: 700, color: '#f0f0f0', marginBottom: 10 }}>
+              Need a Custom Automation?
+            </p>
+            <p style={{ fontSize: 12, color: '#666', lineHeight: 1.7, marginBottom: 14 }}>
+              Request custom n8n automations to sync approved content directly to your WordPress, Webflow, or Shopify store.
+            </p>
+            <a
+              href="mailto:support@trendtacticsdigital.com"
+              style={{
+                fontSize: 12, fontWeight: 700, color: '#facc15',
+                textDecoration: 'none', display: 'inline-flex',
+                alignItems: 'center', gap: 5,
+              }}
+              onMouseEnter={e => e.currentTarget.style.textDecoration = 'underline'}
+              onMouseLeave={e => e.currentTarget.style.textDecoration = 'none'}
             >
-              Contact Integrations Team &rarr;
+              Contact Integrations Team <FiArrowRight size={11} />
             </a>
           </div>
         </div>

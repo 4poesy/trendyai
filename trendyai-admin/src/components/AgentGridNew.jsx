@@ -175,8 +175,8 @@ const AgentCard = ({ agent, onSelect }) => {
       style={{
         background: hovered ? '#1e1e1e' : '#1a1a1a',
         border: `1px solid ${hovered ? 'rgba(250,204,21,0.4)' : '#2a2a2a'}`,
-        borderRadius: 12,
-        padding: 20,
+        borderRadius: 14,
+        padding: 24,
         cursor: 'pointer',
         transition: 'all 0.15s ease',
         display: 'flex',
@@ -185,7 +185,7 @@ const AgentCard = ({ agent, onSelect }) => {
       }}
     >
       {/* ── Top row: Icon + Status dot ── */}
-      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 14 }}>
+      <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', marginBottom: 18 }}>
         {/* Icon box */}
         <div style={{
           width: 38, height: 38, borderRadius: 9,
@@ -206,21 +206,20 @@ const AgentCard = ({ agent, onSelect }) => {
       </div>
 
       {/* ── Agent name ── */}
-      <p style={{ fontSize: 14, fontWeight: 600, color: '#f0f0f0', marginBottom: 8, lineHeight: 1.3 }}>
+      <p style={{ fontSize: 15, fontWeight: 700, color: '#f0f0f0', marginBottom: 10, lineHeight: 1.3 }}>
         {agent.name}
       </p>
 
       {/* ── Description — wraps naturally, no ellipsis ── */}
       <p style={{
-        fontSize: 12, color: '#666', lineHeight: 1.6,
-        marginBottom: 12,
-        /* explicitly no overflow:hidden / text-overflow */
+        fontSize: 12, color: '#777', lineHeight: 1.7,
+        marginBottom: 16,
       }}>
         {agent.description}
       </p>
 
       {/* ── Tag pills — max 3 ── */}
-      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 5, marginBottom: 16 }}>
+      <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 20 }}>
         {agent.tags.slice(0, 3).map(tag => (
           <span key={tag} style={{
             fontSize: 10, background: '#222', color: '#888',
@@ -232,7 +231,7 @@ const AgentCard = ({ agent, onSelect }) => {
       </div>
 
       {/* ── Divider ── */}
-      <div style={{ borderTop: '1px solid #2a2a2a', marginBottom: 14 }} />
+      <div style={{ borderTop: '1px solid #2a2a2a', marginBottom: 16 }} />
 
       {/* ── Footer: Launch link + task indicator ── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>

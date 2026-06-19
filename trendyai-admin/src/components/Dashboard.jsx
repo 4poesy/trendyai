@@ -45,8 +45,8 @@ const MetricCard = ({ label, value, highlight }) => (
   <div style={{
     background: '#1a1a1a',
     border: '1px solid #2a2a2a',
-    borderRadius: 12,
-    padding: '20px 24px',
+    borderRadius: 14,
+    padding: '28px 32px',
     transition: 'border-color 0.15s ease',
   }}
   onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250,204,21,0.3)'}
@@ -55,18 +55,19 @@ const MetricCard = ({ label, value, highlight }) => (
     <p style={{
       fontSize: 10,
       textTransform: 'uppercase',
-      letterSpacing: '0.1em',
+      letterSpacing: '0.12em',
       color: '#555',
-      fontWeight: 600,
-      marginBottom: 10,
+      fontWeight: 700,
+      marginBottom: 14,
     }}>
       {label}
     </p>
     <p style={{
-      fontSize: 28,
+      fontSize: 32,
       fontWeight: 600,
       color: highlight ? '#facc15' : '#f5f5f5',
       lineHeight: 1,
+      letterSpacing: '-0.02em',
     }}>
       {value}
     </p>
