@@ -39,9 +39,9 @@ export default function ClientProjectTracker() {
   const activeCampaign = campaigns.find(c => c.id === selectedCampaign) || campaigns[0];
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-10 max-w-7xl mx-auto pt-6">
       {/* Header */}
-      <div>
+      <div className="mb-10">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Campaign Tracker</h1>
         <p className="text-text-sub mt-1 text-sm md:text-base">Track your campaign progress through the AI agent pipeline.</p>
       </div>

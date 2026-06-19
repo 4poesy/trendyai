@@ -43,9 +43,9 @@ export default function ClientRequestPanel() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-8">
+    <div className="max-w-3xl mx-auto space-y-10 pt-6">
       {/* Header */}
-      <div>
+      <div className="mb-10">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Request Campaign</h1>
         <p className="text-text-sub mt-1 text-sm md:text-base">Provide a brief and configure the scope. Our AI agent team will immediately begin execution.</p>
       </div>

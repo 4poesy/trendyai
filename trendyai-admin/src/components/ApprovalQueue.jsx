@@ -174,9 +174,9 @@ const ApprovalQueue = () => {
   });
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto p-4 animate-fadeIn">
+    <div className="space-y-10 max-w-7xl mx-auto p-4 pt-6 animate-fadeIn">
       {/* Header Section */}
-      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border-main pb-4">
+      <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border-main pb-6 mb-10">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-text-main flex items-center gap-2 font-heading">
             <FaClipboardCheck className="text-primary" />

@@ -129,9 +129,9 @@ const AnalyticsDashboard = () => {
   }
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto pb-12">
+    <div className="space-y-10 max-w-7xl mx-auto pb-12 pt-6">
       {/* Header */}
-      <div className="border-b border-border-main pb-6">
+      <div className="border-b border-border-main pb-6 mb-10">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Analytics Dashboard</h1>
         <p className="text-text-sub mt-2 text-sm md:text-base font-medium">Track your automation performance, client acquisition, and operations insights.</p>
       </div>

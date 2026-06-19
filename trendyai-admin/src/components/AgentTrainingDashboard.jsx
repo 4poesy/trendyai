@@ -70,9 +70,9 @@ const AgentTrainingDashboard = () => {
   };
 
   return (
-    <div className="space-y-8 max-w-7xl mx-auto">
+    <div className="space-y-10 max-w-7xl mx-auto pt-6">
       {/* Header */}
-      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-4">
+      <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-6 mb-10">
         <div>
           <h1 className="text-3xl font-extrabold tracking-tight text-text-main flex items-center gap-2">
             <FaGraduationCap className="text-primary" />

@@ -184,7 +184,7 @@ export default function ClientDashboard() {
   }
 
   return (
-    <div style={{ maxWidth: 1280, margin: '0 auto' }} className="animate-fadeIn">
+    <div style={{ maxWidth: 1280, margin: '0 auto', paddingTop: 24 }} className="animate-fadeIn">
 
       {/* ── Page header ── */}
       <div style={{
