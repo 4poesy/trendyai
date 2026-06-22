@@ -1,0 +1,12 @@
+tunnel: 900e20a3-dccc-4d07-b5cd-a726b42506f2
+credentials-file: /etc/cloudflared/credentials.json
+protocol: http2
+
+ingress:
+  - hostname: flowise.trendtacticsdigital.com
+    service: http://flowise:3001
+  - hostname: activepieces.trendtacticsdigital.com
+    service: http://activepieces:80
+  - hostname: n8n.trendtacticsdigital.com
+    service: http://n8n:5678
+  - service: http_status:404

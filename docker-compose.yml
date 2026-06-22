@@ -120,6 +120,19 @@ services:
     environment:
       - SUNO_COOKIE=${SUNO_COOKIE}
 
+  # Cloudflare Tunnel running inside Docker to bypass host DNS issues
+  cloudflared:
+    image: cloudflare/cloudflared:latest
+    container_name: trendyai-cloudflared
+    restart: unless-stopped
+    dns:
+      - 8.8.8.8
+      - 1.1.1.1
+    volumes:
+      - ./cloudflared-config.yml:/etc/cloudflared/config.yml
+      - C:\Users\Akinola Olujobi\.cloudflared\900e20a3-dccc-4d07-b5cd-a726b42506f2.json:/etc/cloudflared/credentials.json
+    command: tunnel run
+
 volumes:
   trendyai_n8n_data:
     name: trendyai_n8n_data
