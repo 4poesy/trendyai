@@ -21,6 +21,7 @@ const StudioMode = React.lazy(() => import('./components/StudioMode'));
 const AgentGridNew = React.lazy(() => import('./components/AgentGridNew'));
 const AgentDetail  = React.lazy(() => import('./components/AgentDetail'));
 const LazyLogin = React.lazy(() => import('./components/UnifiedLogin'));
+const Audits = React.lazy(() => import('./components/Audits'));
 
 // Lazy load client portal components
 const LazyClientDashboard = React.lazy(() => import('./components/ClientDashboard'));
@@ -58,6 +59,7 @@ const App = () => {
                   <Route path="agent-grid/:agentId" element={<AgentDetail />} />
                   <Route path="analytics" element={<LazyAnalytics />} />
                   <Route path="agent-training" element={<LazyAgentTraining />} />
+                  <Route path="audits" element={<Audits />} />
                   
                   {/* Client Portal Routes */}
                   <Route path="client" element={<LazyClientDashboard />} />

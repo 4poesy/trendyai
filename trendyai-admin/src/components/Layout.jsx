@@ -35,6 +35,7 @@ const adminNavGroups = [
       { to: '/analytics',      label: 'Analytics',       icon: FiBarChart2 },
       { to: '/agent-status',   label: 'Agent Status',    icon: FiActivity  },
       { to: '/agent-training', label: 'Agent Training',  icon: FiCpu       },
+      { to: '/audits',         label: 'Audits & Reports', icon: FiBarChart2 },
     ],
   },
   {

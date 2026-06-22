@@ -3,9 +3,12 @@ import { useNavigate } from 'react-router-dom';
 import {
   FiLayers, FiClock, FiCheckCircle, FiZap,
   FiArrowRight, FiExternalLink, FiFileText,
-  FiCpu, FiPlus, FiTrendingUp,
+  FiCpu, FiPlus, FiTrendingUp, FiLoader, FiEye, FiX, FiDownload
 } from 'react-icons/fi';
 import { useToast } from './Toast';
+import { supabase } from '../utils/supabaseClient';
+import { crossDomainAuth } from '../utils/domainIntegration';
+import ReactMarkdown from 'react-markdown';
 
 /* ─── METRIC CARD ────────────────────────────────────────── */
 const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) => (
@@ -173,17 +176,161 @@ const DeliverableRow = ({ d, navigate }) => {
 /* ─── MAIN CLIENT DASHBOARD ──────────────────────────────── */
 export default function ClientDashboard() {
   const navigate = useNavigate();
-  const { showInfo } = useToast();
+  const { showInfo, showSuccess, showError } = useToast();
   const [loading, setLoading] = useState(true);
 
   const [hoveredNewRequest, setHoveredNewRequest] = useState(false);
   const [hoveredTrack, setHoveredTrack] = useState(false);
   const [hoveredAssetBtn, setHoveredAssetBtn] = useState(false);
 
+  // Audits & Reports integration state
+  const auth = crossDomainAuth.getAuth();
+  const user = auth?.user;
+  const [clientId, setClientId] = useState(null);
+  const [url, setUrl] = useState('');
+  const [running, setRunning] = useState(false);
+  const [reports, setReports] = useState([]);
+  const [activeTasks, setActiveTasks] = useState([]);
+  const [viewingReport, setViewingReport] = useState(null);
+
   useEffect(() => {
     const t = setTimeout(() => setLoading(false), 600);
     return () => clearTimeout(t);
   }, []);
+
+  // Fetch client ID, reports, and active tasks dynamically
+  const loadClientAndReports = async () => {
+    if (!supabase || !user?.email) return;
+    try {
+      // Find client record by email
+      const { data: clientRecord } = await supabase
+        .from('clients')
+        .eq('email', user.email)
+        .maybeSingle();
+        
+      if (clientRecord) {
+        setClientId(clientRecord.id);
+        if (clientRecord.website_url) {
+          setUrl(clientRecord.website_url);
+        }
+        
+        // Fetch reports
+        const { data: repData } = await supabase
+          .from('audit_reports')
+          .select('*')
+          .eq('client_id', clientRecord.id)
+          .order('created_at', { ascending: false });
+        setReports(repData || []);
+        
+        // Fetch active tasks
+        const { data: tskData } = await supabase
+          .from('agent_tasks')
+          .select('*')
+          .eq('client_id', clientRecord.id)
+          .in('status', ['pending', 'running'])
+          .order('created_at', { ascending: false });
+        setActiveTasks(tskData || []);
+      }
+    } catch (err) {
+      console.error('Error loading client audits data:', err.message);
+    }
+  };
+
+  useEffect(() => {
+    loadClientAndReports();
+    
+    // Subscribe to database changes
+    if (!supabase || !user?.email) return;
+    
+    const channel = supabase
+      .channel('client-audits-channel')
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'audit_reports' }, () => {
+        loadClientAndReports();
+      })
+      .on('postgres_changes', { event: '*', schema: 'public', table: 'agent_tasks' }, () => {
+        loadClientAndReports();
+      })
+      .subscribe();
+      
+    return () => {
+      supabase.removeChannel(channel);
+    };
+  }, [user]);
+
+  const handleRequestAudit = async (pkgType) => {
+    if (!url) {
+      showError('Please enter a website URL');
+      return;
+    }
+    
+    setRunning(true);
+    const skillToRun = pkgType === 'full' ? 'agency_full' : 'geo_audit';
+    
+    try {
+      const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
+      const response = await fetch(`${backendUrl}/audits/run`, {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json',
+        },
+        body: JSON.stringify({
+          client_id: clientId,
+          url,
+          skill_type: skillToRun,
+          package_type: pkgType
+        })
+      });
+
+      const result = await response.json();
+      if (response.ok && result.success) {
+        showSuccess('Audit request successfully received! AI agents are running the audit.');
+        loadClientAndReports();
+      } else {
+        throw new Error(result.error || 'Failed to request audit');
+      }
+    } catch (err) {
+      console.error(err);
+      showError(err.message);
+    } finally {
+      setRunning(false);
+    }
+  };
+
+  const handleDownloadPDF = (report) => {
+    const printWindow = window.open('', '_blank');
+    printWindow.document.write(`
+      <html>
+        <head>
+          <title>${report.skill_type.toUpperCase()} Report - ${report.url_audited}</title>
+          <style>
+            body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 40px; color: #333; line-height: 1.6; }
+            h1, h2, h3 { color: #0A1E3F; }
+            h1 { border-bottom: 2px solid #00E5FF; padding-bottom: 10px; }
+            pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
+            code { font-family: monospace; }
+            .meta { margin-bottom: 30px; font-size: 0.9em; color: #666; }
+            @media print {
+              body { padding: 0; }
+              button { display: none; }
+            }
+          </style>
+        </head>
+        <body>
+          <button onclick="window.print()" style="padding: 10px 20px; background: #00E5FF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 20px;">Print / Save as PDF</button>
+          <h1>AI Audit Report: ${report.skill_type.toUpperCase()}</h1>
+          <div class="meta">
+            <strong>Audited URL:</strong> ${report.url_audited}<br/>
+            <strong>Date:</strong> ${new Date(report.created_at).toLocaleString()}<br/>
+            <strong>Overall Evaluation Score:</strong> ${report.score_overall || 'N/A'}/100
+          </div>
+          <div>
+            ${report.report_text.replace(/\n/g, '<br/>')}
+          </div>
+        </body>
+      </html>
+    `);
+    printWindow.document.close();
+  };
 
   const stats = [
     {
@@ -425,6 +572,98 @@ export default function ClientDashboard() {
             ))}
           </div>
 
+          {/* Request a Website Audit Card */}
+          <div style={{
+            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            borderRadius: 12, padding: '28px 32px',
+          }}>
+            <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
+              <FiTrendingUp size={14} style={{ color: '#00E5FF' }} />
+              <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', margin: 0 }}>
+                Request Website Audit
+              </p>
+            </div>
+            <p style={{ fontSize: 12, color: '#A0B4CC', lineHeight: 1.7, marginBottom: 14 }}>
+              Get a full AI-powered analysis of your digital presence across SEO, marketing, advertising, and AI search visibility.
+            </p>
+            
+            {activeTasks.length > 0 ? (
+              <div style={{ padding: 12, background: 'rgba(0, 229, 255, 0.05)', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 8, marginBottom: 14 }}>
+                <p style={{ fontSize: 11, color: '#00E5FF', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+                  <FiLoader className="animate-spin" />
+                  Your audit is running...
+                </p>
+              </div>
+            ) : (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 10, marginBottom: 14 }}>
+                <input
+                  type="url"
+                  placeholder="https://yourwebsite.com"
+                  value={url}
+                  onChange={e => setUrl(e.target.value)}
+                  style={{
+                    width: '100%', padding: '8px 12px', background: '#0A1E3F',
+                    border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 6,
+                    color: '#FFFFFF', fontSize: 12, outline: 'none'
+                  }}
+                />
+                <div style={{ display: 'flex', gap: 8 }}>
+                  <button
+                    onClick={() => handleRequestAudit('starter')}
+                    disabled={running}
+                    style={{
+                      flex: 1, padding: '8px 0', background: 'rgba(0, 229, 255, 0.10)',
+                      border: '1px solid rgba(0, 229, 255, 0.25)', borderRadius: 6,
+                      color: '#00E5FF', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    Request Starter
+                  </button>
+                  <button
+                    onClick={() => handleRequestAudit('full')}
+                    disabled={running}
+                    style={{
+                      flex: 1, padding: '8px 0', background: '#00E5FF',
+                      border: 'none', borderRadius: 6,
+                      color: '#0A1E3F', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                      transition: 'all 0.15s ease'
+                    }}
+                  >
+                    Request Full
+                  </button>
+                </div>
+              </div>
+            )}
+
+            {reports.length > 0 && (
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, borderTop: '1px solid rgba(0, 229, 255, 0.15)', paddingTop: 14 }}>
+                <p style={{ fontSize: 10, fontWeight: 600, color: '#4A6080', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Your Reports</p>
+                {reports.slice(0, 3).map(rep => (
+                  <div key={rep.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                    <span style={{ fontSize: 11, color: '#A0B4CC', textOverflow: 'ellipsis', overflow: 'hidden', whiteSpace: 'nowrap', maxWidth: 120 }}>
+                      {rep.skill_type === 'agency_full' ? 'Full Audit' : 'SEO/GEO Audit'}
+                    </span>
+                    <div style={{ display: 'flex', gap: 6 }}>
+                      <button
+                        onClick={() => setViewingReport(rep)}
+                        style={{ background: 'none', border: 'none', color: '#00E5FF', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}
+                      >
+                        View
+                      </button>
+                      <button
+                        onClick={() => handleDownloadPDF(rep)}
+                        style={{ background: 'none', border: 'none', color: '#00E5FF', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}
+                      >
+                        PDF
+                      </button>
+                    </div>
+                  </div>
+                ))}
+              </div>
+            )}
+          </div>
+
           {/* AI Agency Process */}
           <div style={{
             background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
@@ -478,6 +717,77 @@ export default function ClientDashboard() {
           </div>
         </div>
       </div>
+
+      {/* Markdown View Modal */}
+      {viewingReport && (
+        <div style={{
+          position: 'fixed', inset: 0, background: 'rgba(0,0,0,0.6)',
+          display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 16
+        }}>
+          <div style={{
+            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            borderRadius: 12, width: '100%', maxWidth: 800, maxHeight: '85vh',
+            display: 'flex', flexDirection: 'column', overflow: 'hidden'
+          }}>
+            <div style={{
+              padding: '20px 24px', borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0A1E3F'
+            }}>
+              <div>
+                <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', margin: 0 }}>
+                  AI Audit Report: {viewingReport.skill_type.replace('_', ' ').toUpperCase()}
+                </h3>
+                <p style={{ fontSize: 11, color: '#A0B4CC', margin: '4px 0 0 0' }}>
+                  URL: {viewingReport.url_audited} | Date: {new Date(viewingReport.created_at).toLocaleDateString()}
+                </p>
+              </div>
+              <button
+                onClick={() => setViewingReport(null)}
+                style={{ background: 'none', border: 'none', color: '#A0B4CC', cursor: 'pointer', padding: 4 }}
+              >
+                <FiX size={18} />
+              </button>
+            </div>
+            
+            <div className="custom-scrollbar" style={{ padding: 32, overflowY: 'auto', flex: 1, background: '#0D2347', color: '#FFFFFF' }}>
+              <div style={{ marginBottom: 24, padding: 16, background: 'rgba(0, 229, 255, 0.08)', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+                <span style={{ fontSize: 12, fontWeight: 600, color: '#FFFFFF' }}>Evaluation Score:</span>
+                <span style={{ fontSize: 20, fontWeight: 900, color: '#00E5FF' }}>
+                  {viewingReport.score_overall ? `${viewingReport.score_overall}/100` : 'N/A'}
+                </span>
+              </div>
+              <div className="prose prose-invert prose-cyan" style={{ fontSize: 13, lineHeight: 1.8 }}>
+                <ReactMarkdown>{viewingReport.report_text}</ReactMarkdown>
+              </div>
+            </div>
+
+            <div style={{
+              padding: '20px 24px', borderTop: '1px solid rgba(0, 229, 255, 0.15)',
+              display: 'flex', justifyContent: 'flex-end', gap: 12, background: '#0A1E3F'
+            }}>
+              <button
+                onClick={() => handleDownloadPDF(viewingReport)}
+                style={{
+                  display: 'flex', alignItems: 'center', gap: 6,
+                  background: '#00E5FF', color: '#0A1E3F', border: 'none',
+                  borderRadius: 6, padding: '8px 16px', fontSize: 12, fontWeight: 700, cursor: 'pointer'
+                }}
+              >
+                <FiDownload /> Print / PDF
+              </button>
+              <button
+                onClick={() => setViewingReport(null)}
+                style={{
+                  background: 'none', border: '1px solid rgba(0, 229, 255, 0.25)',
+                  borderRadius: 6, padding: '8px 16px', fontSize: 12, fontWeight: 700, color: '#A0B4CC', cursor: 'pointer'
+                }}
+              >
+                Close
+              </button>
+            </div>
+          </div>
+        </div>
+      )}
     </div>
   );
 }
