@@ -3,6 +3,7 @@ import express from "express";
 import helmet from "helmet";
 import morgan from "morgan";
 
+import agentRoutes from "./api/agents.js";
 import api from "./api/index.js";
 
 import * as middlewares from "./middlewares.js";
@@ -20,6 +21,7 @@ app.get("/", (req, res) => {
   });
 });
 
+app.use("/api/agent", agentRoutes);
 app.use("/api/v1", api);
 
 app.use(middlewares.notFound);

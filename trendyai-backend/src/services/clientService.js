@@ -1,109 +1,121 @@
-import { supabase } from './supabaseClient.js';
+import { supabase } from "./supabaseClient.js";
 
 /**
  * Client Service - Handles client operations with Supabase
  */
 
 // Get all clients
-export const getClients = async () => {
+export async function getClients() {
   try {
     const { data, error } = await supabase
-      .from('clients')
-      .select('*')
-      .order('created_at', { ascending: false });
+      .from("clients")
+      .select("*")
+      .order("created_at", { ascending: false });
 
-    if (error) throw error;
+    if (error)
+      throw error;
     return { success: true, data };
-  } catch (error) {
-    console.error('Error fetching clients:', error);
+  }
+  catch (error) {
+    console.error("Error fetching clients:", error);
     return { success: false, error: error.message };
   }
-};
+}
 
 // Get client by ID
-export const getClientById = async (id) => {
+export async function getClientById(id) {
   try {
     const { data, error } = await supabase
-      .from('clients')
-      .select('*')
-      .eq('id', id)
+      .from("clients")
+      .select("*")
+      .eq("id", id)
       .single();
 
-    if (error) throw error;
+    if (error)
+      throw error;
     return { success: true, data };
-  } catch (error) {
-    console.error('Error fetching client:', error);
+  }
+  catch (error) {
+    console.error("Error fetching client:", error);
     return { success: false, error: error.message };
   }
-};
+}
 
 // Create new client
-export const createClient = async (clientData) => {
+export async function createClient(clientData) {
   try {
     const { data, error } = await supabase
-      .from('clients')
+      .from("clients")
       .insert([clientData])
       .select()
       .single();
 
-    if (error) throw error;
+    if (error)
+      throw error;
     return { success: true, data };
-  } catch (error) {
-    console.error('Error creating client:', error);
+  }
+  catch (error) {
+    console.error("Error creating client:", error);
     return { success: false, error: error.message };
   }
-};
+}
 
 // Update client
-export const updateClient = async (id, clientData) => {
+export async function updateClient(id, clientData) {
   try {
     const { data, error } = await supabase
-      .from('clients')
+      .from("clients")
       .update(clientData)
-      .eq('id', id)
+      .eq("id", id)
       .select()
       .single();
 
-    if (error) throw error;
+    if (error)
+      throw error;
     return { success: true, data };
-  } catch (error) {
-    console.error('Error updating client:', error);
+  }
+  catch (error) {
+    console.error("Error updating client:", error);
     return { success: false, error: error.message };
   }
-};
+}
 
 // Delete client
-export const deleteClient = async (id) => {
+export async function deleteClient(id) {
   try {
     const { data, error } = await supabase
-      .from('clients')
+      .from("clients")
       .delete()
-      .eq('id', id);
+      .eq("id", id);
 
-    if (error) throw error;
+    if (error)
+      throw error;
     return { success: true, data };
-  } catch (error) {
-    console.error('Error deleting client:', error);
+  }
+  catch (error) {
+    console.error("Error deleting client:", error);
     return { success: false, error: error.message };
   }
-};
+}
 
 // Search clients
-export const searchClients = async (query) => {
+export async function searchClients(query) {
   try {
     const { data, error } = await supabase
-      .from('clients')
-      .select('*')
+      .from("clients")
+      .select("*")
       .or(`name.ilike.%${query}%,email.ilike.%${query}%,company.ilike.%${query}%`)
-      .order('created_at', { ascending: false });
+      .order("created_at", { ascending: false });
 
-    if (error) throw error;
+    if (error)
+      throw error;
     return { success: true, data };
-  } catch (error) {
-    console.error('Error searching clients:', error);
+  }
+  catch (error) {
+    console.error("Error searching clients:", error);
     return { success: false, error: error.message };
   }
-};
+}
 
 export default {
   getClients,
@@ -111,5 +123,5 @@ export default {
   createClient,
   updateClient,
   deleteClient,
-  searchClients
+  searchClients,
 };

@@ -10,7 +10,7 @@ export const AGENT_IDS = {
   web_wiz: "PASTE_FLOWISE_ID_HERE",
   pixel_dex: "PASTE_FLOWISE_ID_HERE",
   media_wiz: "PASTE_FLOWISE_ID_HERE",
-  pulse_pilot: "PASTE_FLOWISE_ID_HERE"
+  pulse_pilot: "PASTE_FLOWISE_ID_HERE",
 };
 
 export const FLOWISE_BASE_URL = process.env.FLOWISE_URL || "http://localhost:3002";
