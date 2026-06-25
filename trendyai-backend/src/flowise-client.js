@@ -2,6 +2,7 @@
 // Calls Flowise agents from Railway backend
 
 import { env } from "./env.js";
+import { supabase } from "./services/supabaseClient.js";
 
 const FLOWISE_BASE_URL = env.FLOWISE_URL || "http://localhost:3002";
 const FLOWISE_API_KEY = env.FLOWISE_API_KEY || "trendyai";
@@ -16,6 +17,40 @@ const AGENT_IDS = {
   media_wiz: env.AGENT_MEDIA_WIZ,
   pulse_pilot: env.AGENT_PULSE_PILOT,
 };
+
+export async function callAgentWithContext(agentSlug, message, clientId = null) {
+  let enrichedMessage = message;
+  
+  if (clientId) {
+    try {
+      const { data: client } = await supabase
+        .from('clients')
+        .select('*')
+        .eq('id', clientId)
+        .single();
+      
+      if (client) {
+        enrichedMessage = `
+CLIENT CONTEXT:
+Name: ${client.name}
+Company: ${client.company}
+Industry: ${client.industry || 'Not specified'}
+Service Interest: ${client.service_interest}
+Brand Voice: ${client.brand_voice || 'Professional'}
+Location: ${client.location || 'Nigeria'}
+Previous Notes: ${client.notes || 'None'}
+---
+TASK:
+${message}
+        `.trim();
+      }
+    } catch (err) {
+      console.log('No client context available:', err.message);
+    }
+  }
+  
+  return callAgent(agentSlug, enrichedMessage, clientId);
+}
 
 export async function callAgent(agentSlug, message, sessionId = null) {
   const chatflowId = AGENT_IDS[agentSlug];

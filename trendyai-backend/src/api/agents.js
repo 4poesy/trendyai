@@ -1,7 +1,7 @@
 import { createClient } from "@supabase/supabase-js";
 import express from "express";
 import { env } from "../env.js";
-import { callAgent, routeRequest } from "../flowise-client.js";
+import { callAgent, callAgentWithContext, routeRequest } from "../flowise-client.js";
 import defaultSupabaseClient from "../services/supabaseClient.js";
 
 const router = express.Router();
@@ -52,8 +52,8 @@ router.post("/run", async (req, res) => {
       throw new Error(`Failed to log task start in Supabase: ${insertError.message}`);
     }
 
-    // Call Flowise agent
-    const result = await callAgent(agent, message, cleanClientId);
+    // Call Flowise agent with client context
+    const result = await callAgentWithContext(agent, message, cleanClientId);
 
     // Save result
     const { error: updateError } = await supabase
@@ -80,6 +80,72 @@ router.post("/run", async (req, res) => {
   }
   catch (err) {
     console.error("Agent error:", err);
+    res.status(500).json({
+      success: false,
+      error: err.message,
+    });
+  }
+});
+
+// POST /api/agent/chain
+// Sequential agent chaining (ContentSmith -> PulsePilot)
+router.post("/chain", async (req, res) => {
+  const { initial_agent, message, client_id, chain_to } = req.body;
+
+  if (!initial_agent || !message || !chain_to) {
+    return res.status(400).json({ error: "initial_agent, message, and chain_to are required" });
+  }
+
+  const cleanClientId = isValidUUID(client_id) ? client_id : null;
+
+  try {
+    // Step 1: Run first agent
+    const firstResult = await callAgentWithContext(
+      initial_agent,
+      message,
+      cleanClientId
+    );
+
+    // Step 2: Chain to second agent
+    const chainedResult = await callAgentWithContext(
+      chain_to,
+      `Based on this content, create social media posts: ${firstResult}`,
+      cleanClientId
+    );
+
+    // Save both tasks to Supabase as awaiting_approval
+    const { error: insertError } = await supabase.from("agent_tasks").insert([
+      {
+        agent: initial_agent,
+        message: message,
+        output: typeof firstResult === "string" ? { text: firstResult } : firstResult,
+        client_id: cleanClientId,
+        status: "awaiting_approval",
+        completed_at: new Date()
+      },
+      {
+        agent: chain_to,
+        message: `Based on this content, create social media posts: ${firstResult}`,
+        output: typeof chainedResult === "string" ? { text: chainedResult } : chainedResult,
+        client_id: cleanClientId,
+        status: "awaiting_approval",
+        completed_at: new Date()
+      }
+    ]);
+
+    if (insertError) {
+      console.error("Failed to save chained tasks to Supabase:", insertError.message);
+    }
+
+    res.json({
+      success: true,
+      [initial_agent]: firstResult,
+      [chain_to]: chainedResult,
+      requires_approval: true
+    });
+  }
+  catch (err) {
+    console.error("Chain error:", err);
     res.status(500).json({
       success: false,
       error: err.message,
