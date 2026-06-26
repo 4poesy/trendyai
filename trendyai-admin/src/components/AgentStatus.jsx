@@ -3,6 +3,7 @@ import {
   FiPlay, FiPause, FiSquare,
 } from 'react-icons/fi';
 import { useToast } from './Toast';
+import { agentDefinitions } from '../utils/agentDefinitions';
 
 const STATUS_COLORS = {
   Active:      'var(--accent-primary)',
@@ -20,82 +21,41 @@ const STATUS_BG = {
 
 const AVATAR_COLOR = 'var(--accent-primary)';
 
+// Map agent definitions to status entries with realistic data
+const buildAgentList = () => agentDefinitions.map((def, idx) => {
+  // Cycle through statuses to simulate a realistic dashboard
+  const statuses = ['Active', 'Active', 'Active', 'Idle', 'Active', 'Active', 'Active', 'Maintenance'];
+  const status = statuses[idx] || 'Active';
+  const taskMessages = {
+    Active: `Processing ${def.role.toLowerCase()} tasks`,
+    Idle: 'Awaiting new task assignments',
+    Offline: 'Agent offline',
+    Maintenance: 'System maintenance in progress',
+  };
+  const logMessages = {
+    Active: 'All systems operational',
+    Idle: 'Waiting for new assignments',
+    Offline: 'Connection lost - attempting reconnect',
+    Maintenance: 'Updating agent model and embeddings',
+  };
+  return {
+    id: idx + 1,
+    name: def.name,
+    type: def.role,
+    status,
+    lastActivity: status === 'Active' ? `${(idx + 1) * 2} minutes ago` : status === 'Idle' ? '1 hour ago' : '30 minutes ago',
+    uptime: status === 'Active' ? '99.8%' : status === 'Idle' ? '99.5%' : '98.2%',
+    tasksCompleted: Math.floor(Math.random() * 200) + 50,
+    currentTask: taskMessages[status],
+    performance: status === 'Active' ? 90 + Math.floor(Math.random() * 8) : status === 'Idle' ? 85 + Math.floor(Math.random() * 10) : 75,
+    logs: logMessages[status],
+  };
+});
+
 const AgentStatus = () => {
   const { showSuccess } = useToast();
-  const [agents, setAgents] = useState([
-    {
-      id: 1,
-      name: 'ContentCreator',
-      type: 'Content Generation',
-      status: 'Active',
-      lastActivity: '2 minutes ago',
-      uptime: '99.8%',
-      tasksCompleted: 156,
-      currentTask: 'Writing blog post for Acme Corp',
-      performance: 95,
-      logs: 'All systems operational',
-    },
-    {
-      id: 2,
-      name: 'DesignMaster',
-      type: 'Graphic Design',
-      status: 'Active',
-      lastActivity: '5 minutes ago',
-      uptime: '99.5%',
-      tasksCompleted: 89,
-      currentTask: 'Creating social media graphics',
-      performance: 92,
-      logs: 'Processing design request',
-    },
-    {
-      id: 3,
-      name: 'EmailBot',
-      type: 'Email Marketing',
-      status: 'Idle',
-      lastActivity: '1 hour ago',
-      uptime: '99.9%',
-      tasksCompleted: 234,
-      currentTask: 'No active tasks',
-      performance: 88,
-      logs: 'Waiting for new email campaigns',
-    },
-    {
-      id: 4,
-      name: 'SocialManager',
-      type: 'Social Media',
-      status: 'Maintenance',
-      lastActivity: '30 minutes ago',
-      uptime: '98.2%',
-      tasksCompleted: 67,
-      currentTask: 'System maintenance in progress',
-      performance: 75,
-      logs: 'Updating social media APIs',
-    },
-    {
-      id: 5,
-      name: 'AnalyticsPro',
-      type: 'Data Analytics',
-      status: 'Active',
-      lastActivity: '1 minute ago',
-      uptime: '99.7%',
-      tasksCompleted: 312,
-      currentTask: 'Generating monthly reports',
-      performance: 96,
-      logs: 'Processing analytics data',
-    },
-    {
-      id: 6,
-      name: 'SEOOptimizer',
-      type: 'SEO',
-      status: 'Offline',
-      lastActivity: '3 hours ago',
-      uptime: '95.1%',
-      tasksCompleted: 45,
-      currentTask: 'Agent offline',
-      performance: 82,
-      logs: 'Connection lost - attempting reconnect',
-    },
-  ]);
+  const [agents, setAgents] = useState(buildAgentList);
+
 
   const [hoveredBtn, setHoveredBtn] = useState(null);
 

@@ -400,22 +400,21 @@ const Layout = () => {
             </button>
             <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 500, color: '#555555' }}
                   className="hidden sm:inline-flex">
-              {breadcrumbs.map((crumb, idx) => {
-                const [hoveredCrumb, setHoveredCrumb] = useState(false);
-                return (
+              {breadcrumbs.map((crumb, idx) => (
                   <React.Fragment key={idx}>
                     {idx > 0 && <span style={{ color: 'rgba(250, 204, 21, 0.2)' }}>/</span>}
                     {crumb.to ? (
                       <Link
                         to={crumb.to}
-                        onMouseEnter={() => setHoveredCrumb(true)}
-                        onMouseLeave={() => setHoveredCrumb(false)}
+                        className="breadcrumb-link"
                         style={{
-                          color: hoveredCrumb ? '#facc15' : '#888888',
+                          color: '#888888',
                           textDecoration: 'none',
                           transition: 'color 0.15s ease',
                           cursor: 'pointer',
                         }}
+                        onMouseEnter={e => e.currentTarget.style.color = '#facc15'}
+                        onMouseLeave={e => e.currentTarget.style.color = '#888888'}
                       >
                         {crumb.label}
                       </Link>
@@ -423,8 +422,7 @@ const Layout = () => {
                       <span style={{ color: '#f5f5f5' }}>{crumb.label}</span>
                     )}
                   </React.Fragment>
-                );
-              })}
+                ))}
             </div>
           </div>
 
@@ -455,27 +453,30 @@ const Layout = () => {
                   background: '#1a1a1a', border: '1px solid #2a2a2a',
                   borderRadius: 8, overflow: 'hidden', zIndex: 50, minWidth: 140,
                 }}>
-                  {['admin', 'client'].map(r => {
-                    const [hoveredItem, setHoveredItem] = useState(false);
-                    return (
+                  {['admin', 'client'].map(r => (
                       <button
                         key={r}
                         onClick={() => { handleRoleChange(r); setRoleDropdownOpen(false); }}
-                        onMouseEnter={() => setHoveredItem(true)}
-                        onMouseLeave={() => setHoveredItem(false)}
+                        onMouseEnter={e => {
+                          e.currentTarget.style.background = '#222222';
+                          if (role !== r) e.currentTarget.style.color = '#FFFFFF';
+                        }}
+                        onMouseLeave={e => {
+                          e.currentTarget.style.background = 'none';
+                          if (role !== r) e.currentTarget.style.color = '#888888';
+                        }}
                         style={{
                           display: 'block', width: '100%', textAlign: 'left',
-                          padding: '8px 14px', background: hoveredItem ? '#222222' : 'none',
+                          padding: '8px 14px', background: 'none',
                           border: 'none', fontSize: 12, fontWeight: 600,
-                          color: role === r ? '#facc15' : (hoveredItem ? '#FFFFFF' : '#888888'),
+                          color: role === r ? '#facc15' : '#888888',
                           cursor: 'pointer',
                           transition: 'all 0.15s ease',
                         }}
                       >
                         {r === 'admin' ? 'Admin Portal' : 'Client Portal'}
                       </button>
-                    );
-                  })}
+                    ))}
                 </div>
               )}
             </div>
