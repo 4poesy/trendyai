@@ -1,6 +1,43 @@
 // Environment Configuration for Vite
 // This file handles environment variables with proper fallbacks
 
+// Helper to sanitize backend URL
+const sanitizeBackendURL = (url) => {
+  if (!url) return 'http://localhost:3000/api/v1';
+  let sanitized = url.trim();
+  
+  // 1. Check and prepend protocol if missing
+  if (!/^https?:\/\//i.test(sanitized)) {
+    if (sanitized.includes('localhost') || sanitized.includes('127.0.0.1')) {
+      sanitized = `http://${sanitized}`;
+    } else {
+      sanitized = `https://${sanitized}`;
+    }
+  }
+  
+  // 2. Strip trailing slash if present
+  if (sanitized.endsWith('/')) {
+    sanitized = sanitized.slice(0, -1);
+  }
+  
+  // 3. Ensure the path ends with /api/v1
+  if (!sanitized.endsWith('/api/v1')) {
+    if (sanitized.endsWith('/api')) {
+      sanitized = `${sanitized}/v1`;
+    } else {
+      sanitized = `${sanitized}/api/v1`;
+    }
+  }
+  
+  return sanitized;
+};
+
+const rawBaseURL = import.meta.env.VITE_BACKEND_API_URL || 
+                   import.meta.env.VITE_API_URL || 
+                   localStorage.getItem('VITE_BACKEND_API_URL') || 
+                   localStorage.getItem('VITE_API_URL') || 
+                   'http://localhost:3000/api/v1';
+
 export const environment = {
   // OpenRouter API Configuration
   openrouter: {
@@ -36,11 +73,7 @@ export const environment = {
   
   // Backend Express API Configuration
   backend: {
-    baseURL: import.meta.env.VITE_BACKEND_API_URL || 
-             import.meta.env.VITE_API_URL || 
-             localStorage.getItem('VITE_BACKEND_API_URL') || 
-             localStorage.getItem('VITE_API_URL') || 
-             'http://localhost:3000/api/v1'
+    baseURL: sanitizeBackendURL(rawBaseURL)
   },
   
   // Development Mode
