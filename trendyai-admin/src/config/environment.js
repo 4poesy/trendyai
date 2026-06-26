@@ -37,7 +37,9 @@ export const environment = {
   // Backend Express API Configuration
   backend: {
     baseURL: import.meta.env.VITE_BACKEND_API_URL || 
+             import.meta.env.VITE_API_URL || 
              localStorage.getItem('VITE_BACKEND_API_URL') || 
+             localStorage.getItem('VITE_API_URL') || 
              'http://localhost:3000/api/v1'
   },
   

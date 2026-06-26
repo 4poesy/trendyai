@@ -39,7 +39,7 @@ export default function ClientProjectTracker() {
   const activeCampaign = campaigns.find(c => c.id === selectedCampaign) || campaigns[0];
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto pt-6">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto pt-6">
       {/* Header */}
       <div className="mb-10">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Campaign Tracker</h1>
@@ -48,9 +48,10 @@ export default function ClientProjectTracker() {
 
       <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
         {/* Campaign List */}
-        <div className="space-y-6">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-text-sub mb-2">Campaigns</h3>
-          {campaigns.map(camp => (
+        <div className="flex flex-col gap-4">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-text-sub">Campaigns</h3>
+          <div className="flex flex-col gap-4">
+            {campaigns.map(camp => (
             <button
               key={camp.id}
               onClick={() => setSelectedCampaign(camp.id)}
@@ -69,7 +70,8 @@ export default function ClientProjectTracker() {
               <p className="text-text-sub text-xs mt-2.5 line-clamp-2 leading-relaxed">{camp.description}</p>
               <div className="text-xs text-text-muted mt-4">Started {camp.created}</div>
             </button>
-          ))}
+            ))}
+          </div>
         </div>
 
         {/* Pipeline Details */}
@@ -78,7 +80,7 @@ export default function ClientProjectTracker() {
             <h2 className="text-xl font-bold text-text-main mb-2" style={{ fontFamily: "'Outfit', sans-serif" }}>{activeCampaign.name}</h2>
             <p className="text-sm text-text-sub mb-6">{activeCampaign.description}</p>
 
-            <div className="relative border-l border-border-main ml-4 md:ml-6 space-y-8 py-2">
+            <div className="relative border-l border-border-main ml-4 md:ml-6 py-2 flex flex-col gap-8">
               {activeCampaign.pipeline.map((step, idx) => (
                 <div key={idx} className="relative pl-8 md:pl-10">
                   {/* Status Indicator Icon */}

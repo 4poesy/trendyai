@@ -3,7 +3,7 @@ import { FaEnvelope, FaBuilding, FaEdit, FaTrash, FaExternalLinkAlt } from 'reac
 
 export default function ClientList({ clients, onEdit, onDelete, onView }) {
   return (
-    <div className="space-y-6">
+    <div className="flex flex-col gap-6">
       <div className="flex justify-between items-center border-b border-border-main pb-4 mb-6">
         <h2 className="text-xl font-bold text-text-main" style={{ fontFamily: "'Outfit', sans-serif" }}>Accounts Overview</h2>
         <span className="text-xs text-text-muted font-medium">{clients.length} Clients Registered</span>

@@ -174,7 +174,7 @@ const ApprovalQueue = () => {
   });
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto p-4 pt-6 animate-fadeIn">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto p-4 pt-6 animate-fadeIn">
       {/* Header Section */}
       <div className="flex flex-col sm:flex-row justify-between items-start sm:items-center gap-4 border-b border-border-main pb-6 mb-10">
         <div>
@@ -255,7 +255,7 @@ const ApprovalQueue = () => {
 
       {/* Approval Tasks List */}
       {!loading && !error && (
-        <div className="space-y-8 mt-10">
+        <div className="flex flex-col gap-8 mt-10">
           {filteredApprovals.map((approval) => {
             const summary = approval.output_summary || 'No output summary available.';
             const isTruncated = summary.length > 200;

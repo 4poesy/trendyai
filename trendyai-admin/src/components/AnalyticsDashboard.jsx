@@ -129,7 +129,7 @@ const AnalyticsDashboard = () => {
   }
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto pb-12 pt-6">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto pb-12 pt-6">
       {/* Header */}
       <div className="border-b border-border-main pb-6 mb-10">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Analytics Dashboard</h1>

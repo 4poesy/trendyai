@@ -114,7 +114,7 @@ const ProjectsPage = () => {
   };
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto pt-6">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto pt-6">
       {/* Header Section */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-6 mb-10">
         <div>

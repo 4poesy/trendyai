@@ -43,7 +43,7 @@ export default function ClientRequestPanel() {
   };
 
   return (
-    <div className="max-w-3xl mx-auto space-y-10 pt-6">
+    <div className="max-w-3xl mx-auto flex flex-col gap-10 pt-6">
       {/* Header */}
       <div className="mb-10">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Request Campaign</h1>

@@ -51,7 +51,7 @@ const StudioMode = () => {
   };
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto text-text-main">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto text-text-main">
       {/* Title Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-4">
         <div>

@@ -3,6 +3,7 @@ import { supabase } from '../utils/supabaseClient';
 import { useToast } from './Toast';
 import { FaPlay, FaSync, FaEye, FaDownload, FaSpinner, FaPlus, FaTimes } from 'react-icons/fa';
 import ReactMarkdown from 'react-markdown';
+import environment from '../config/environment';
 
 const Audits = () => {
   const [clients, setClients] = useState([]);
@@ -136,7 +137,7 @@ const Audits = () => {
         : selectedSkill;
 
     try {
-      const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
+      const backendUrl = environment.backend.baseURL;
       const response = await fetch(`${backendUrl}/audits/run`, {
         method: 'POST',
         headers: {
@@ -205,7 +206,7 @@ const Audits = () => {
   };
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto pt-6">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto pt-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-6 mb-10">
         <div>
@@ -256,7 +257,7 @@ const Audits = () => {
 
           <div className="space-y-3">
             <label className="block text-sm font-semibold text-text-sub">Select Audit Package</label>
-            <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
               <div 
                 onClick={() => setPackageType('starter')}
                 className={`p-4 border rounded-lg cursor-pointer transition-all ${packageType === 'starter' ? 'border-primary bg-primary/10' : 'border-border-main bg-bg-card hover:bg-bg-panel'}`}

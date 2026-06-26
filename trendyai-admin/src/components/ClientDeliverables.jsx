@@ -100,7 +100,7 @@ export default function ClientDeliverables() {
   };
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto pt-6">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto pt-6">
       {/* Header */}
       <div className="mb-10">
         <h1 className="text-3xl font-extrabold tracking-tight text-text-main">Asset Review Center</h1>
@@ -109,9 +109,10 @@ export default function ClientDeliverables() {
 
       <div className="grid grid-cols-1 lg:grid-cols-4 gap-8">
         {/* Left Side: Asset list */}
-        <div className="lg:col-span-1 space-y-3">
-          <h3 className="text-sm font-bold uppercase tracking-wider text-text-sub mb-2">Deliverables</h3>
-          {assets.map(asset => (
+        <div className="flex flex-col gap-4 lg:col-span-1">
+          <h3 className="text-sm font-bold uppercase tracking-wider text-text-sub">Deliverables</h3>
+          <div className="flex flex-col gap-3">
+            {assets.map(asset => (
             <button
               key={asset.id}
               onClick={() => setSelectedAssetId(asset.id)}
@@ -136,6 +137,7 @@ export default function ClientDeliverables() {
               </div>
             </button>
           ))}
+          </div>
         </div>
 
         {/* Right Side: Detailed preview and action panel */}

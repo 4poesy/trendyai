@@ -70,7 +70,7 @@ const AgentTrainingDashboard = () => {
   };
 
   return (
-    <div className="space-y-10 max-w-7xl mx-auto pt-6">
+    <div className="flex flex-col gap-10 max-w-7xl mx-auto pt-6">
       {/* Header */}
       <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4 border-b border-border-main pb-6 mb-10">
         <div>
@@ -223,7 +223,7 @@ const AgentTrainingDashboard = () => {
                 <FaLightbulb className="text-cyan-400" />
                 Training Suggestions
               </h3>
-              <div className="space-y-3">
+              <div className="flex flex-col gap-3">
                 {trainingReport.recommendations.map((rec, idx) => (
                   <div key={idx} className="p-3 bg-bg-panel border border-border-main rounded text-xs text-text-sub leading-relaxed font-semibold">
                     {rec}

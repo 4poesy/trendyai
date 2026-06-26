@@ -9,6 +9,7 @@ import { useToast } from './Toast';
 import { supabase } from '../utils/supabaseClient';
 import { crossDomainAuth } from '../utils/domainIntegration';
 import ReactMarkdown from 'react-markdown';
+import environment from '../config/environment';
 
 /* ─── METRIC CARD ────────────────────────────────────────── */
 const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) => (
@@ -267,7 +268,7 @@ export default function ClientDashboard() {
     const skillToRun = pkgType === 'full' ? 'agency_full' : 'geo_audit';
     
     try {
-      const backendUrl = import.meta.env.VITE_API_URL || 'http://localhost:3000/api/v1';
+      const backendUrl = environment.backend.baseURL;
       const response = await fetch(`${backendUrl}/audits/run`, {
         method: 'POST',
         headers: {
