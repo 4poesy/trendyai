@@ -83,8 +83,8 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
       <aside
         style={{
           width: 220,
-          background: '#071629',
-          borderRight: '1px solid rgba(0, 229, 255, 0.1)',
+          background: '#0d0d0d',
+          borderRight: '1px solid #2a2a2a',
           display: 'flex',
           flexDirection: 'column',
           flexShrink: 0,
@@ -104,7 +104,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
           to={role === 'client' ? '/client' : '/'}
           style={{
             padding: '20px 16px 16px',
-            borderBottom: '1px solid rgba(0, 229, 255, 0.1)',
+            borderBottom: '1px solid #2a2a2a',
             display: 'block',
             textDecoration: 'none',
             cursor: 'pointer'
@@ -112,17 +112,17 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
           className="sidebar-brand-link"
         >
           <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-            {/* Yellow bar chart icon (keep as-is, do not recolour) */}
             <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
               <rect x="3" y="14" width="4" height="6" rx="1" fill="#facc15" />
               <rect x="10" y="8" width="4" height="12" rx="1" fill="#facc15" />
-              <rect x="17" y="3" width="4" height="17" rx="1" fill="#facc15" />
+              <rect x="17" y="3" width="4" height="17" rx="1" fill="#2563eb" />
             </svg>
-            <span style={{ color: '#FFFFFF', fontSize: 13, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-              Trendtactics Digital
+            <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
+              <span style={{ color: '#facc15' }}>Trendtactics</span>{' '}
+              <span style={{ color: '#2563eb' }}>Digital</span>
             </span>
           </div>
-          <p style={{ color: '#4A6080', fontSize: 10, paddingLeft: 26, margin: 0, fontWeight: 600 }}>
+          <p style={{ color: '#888888', fontSize: 10, paddingLeft: 26, margin: 0, fontWeight: 600 }}>
             TrendyAI Platform
           </p>
         </Link>
@@ -163,34 +163,34 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
                       textDecoration: 'none',
                       fontSize: 13,
                       fontWeight: active ? 600 : 500,
-                      color: active ? '#00E5FF' : '#4A6080',
-                      background: active ? 'rgba(0, 229, 255, 0.10)' : 'transparent',
+                      color: active ? '#facc15' : '#555555',
+                      background: active ? 'rgba(250, 204, 21, 0.08)' : 'transparent',
                       transition: 'all 0.15s ease',
                       marginBottom: 2,
                     }}
                     className="sidebar-nav-link"
                     onMouseEnter={e => {
                       if (!active) {
-                        e.currentTarget.style.background = '#112B55';
+                        e.currentTarget.style.background = '#1a1a1a';
                         e.currentTarget.style.color = '#FFFFFF';
                       }
                     }}
                     onMouseLeave={e => {
                       if (!active) {
                         e.currentTarget.style.background = 'transparent';
-                        e.currentTarget.style.color = '#4A6080';
+                        e.currentTarget.style.color = '#555555';
                       }
                     }}
                   >
                     <Icon
                       size={16}
-                      style={{ color: active ? '#00E5FF' : '#4A6080', flexShrink: 0 }}
+                      style={{ color: active ? '#facc15' : '#555555', flexShrink: 0 }}
                     />
                     <span style={{ flex: 1 }}>{link.label}</span>
                     {showBadge && (
                       <span style={{
-                        background: '#00E5FF',
-                        color: '#0A1E3F',
+                        background: '#2563eb',
+                        color: '#ffffff',
                         fontSize: 10,
                         fontWeight: 700,
                         borderRadius: 10,
@@ -208,7 +208,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
         </nav>
 
         {/* ── Footer ── */}
-        <div style={{ padding: '12px 8px', borderTop: '1px solid rgba(0, 229, 255, 0.1)' }}>
+        <div style={{ padding: '12px 8px', borderTop: '1px solid #2a2a2a' }}>
           <div style={{
             display: 'flex', alignItems: 'center', gap: 10,
             padding: '8px 12px', borderRadius: 8,
@@ -216,8 +216,8 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
             {/* Avatar */}
             <div style={{
               width: 28, height: 28, borderRadius: '50%',
-              background: 'rgba(0, 229, 255, 0.10)', color: '#00E5FF',
-              border: '1px solid rgba(0, 229, 255, 0.25)',
+              background: 'rgba(37, 99, 235, 0.15)', color: '#2563eb',
+              border: '1px solid rgba(37, 99, 235, 0.25)',
               display: 'flex', alignItems: 'center', justifyContent: 'center',
               fontSize: 11, fontWeight: 800, flexShrink: 0,
             }}>
@@ -227,7 +227,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
             <div style={{ flex: 1, minWidth: 0 }}>
               <p style={{ color: '#FFFFFF', fontSize: 11, fontWeight: 700, lineHeight: 1.3, margin: 0 }}>ADMIN</p>
               <p style={{
-                color: '#4A6080', fontSize: 10,
+                color: '#888888', fontSize: 10,
                 overflow: 'hidden', textOverflow: 'ellipsis', whiteSpace: 'nowrap',
                 margin: 0,
               }}>
@@ -242,7 +242,7 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
               onMouseLeave={() => setHoveredLogout(false)}
               style={{
                 background: 'none', border: 'none',
-                color: hoveredLogout ? '#00E5FF' : '#4A6080', cursor: 'pointer', padding: 4,
+                color: hoveredLogout ? '#facc15' : '#555555', cursor: 'pointer', padding: 4,
                 borderRadius: 6, display: 'flex', alignItems: 'center',
                 transition: 'color 0.15s ease',
               }}
@@ -349,7 +349,7 @@ const Layout = () => {
       className="dark"
       style={{
         minHeight: '100vh', display: 'flex',
-        background: '#0A1E3F', color: '#FFFFFF',
+        background: '#111111', color: '#f5f5f5',
       }}
     >
       {/* Sidebar */}
@@ -366,8 +366,8 @@ const Layout = () => {
         {/* ── Topbar ── */}
         <header style={{
           height: 52,
-          background: '#071629',
-          borderBottom: '1px solid rgba(0, 229, 255, 0.1)',
+          background: '#0d0d0d',
+          position: 'relative',
           display: 'flex',
           alignItems: 'center',
           justifyContent: 'space-between',
@@ -375,12 +375,21 @@ const Layout = () => {
           flexShrink: 0,
           zIndex: 20,
         }}>
+          {/* Bottom border gradient split */}
+          <div style={{
+            position: 'absolute',
+            bottom: 0,
+            left: 0,
+            right: 0,
+            height: 1,
+            background: 'linear-gradient(90deg, #facc15 0%, #2563eb 100%)',
+          }} />
           {/* Left */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
             <button
               onClick={() => setMobileOpen(!mobileOpen)}
               style={{
-                background: 'none', border: 'none', color: '#4A6080',
+                background: 'none', border: 'none', color: '#555555',
                 cursor: 'pointer', padding: 6, borderRadius: 6,
                 display: 'flex', alignItems: 'center',
               }}
@@ -389,20 +398,20 @@ const Layout = () => {
             >
               {mobileOpen ? <FiX size={18} /> : <FiMenu size={18} />}
             </button>
-            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 500, color: '#4A6080' }}
+            <div style={{ display: 'flex', alignItems: 'center', gap: 6, fontSize: 13, fontWeight: 500, color: '#555555' }}
                   className="hidden sm:inline-flex">
               {breadcrumbs.map((crumb, idx) => {
                 const [hoveredCrumb, setHoveredCrumb] = useState(false);
                 return (
                   <React.Fragment key={idx}>
-                    {idx > 0 && <span style={{ color: 'rgba(0, 229, 255, 0.15)' }}>/</span>}
+                    {idx > 0 && <span style={{ color: 'rgba(250, 204, 21, 0.2)' }}>/</span>}
                     {crumb.to ? (
                       <Link
                         to={crumb.to}
                         onMouseEnter={() => setHoveredCrumb(true)}
                         onMouseLeave={() => setHoveredCrumb(false)}
                         style={{
-                          color: hoveredCrumb ? '#00E5FF' : '#4A6080',
+                          color: hoveredCrumb ? '#facc15' : '#888888',
                           textDecoration: 'none',
                           transition: 'color 0.15s ease',
                           cursor: 'pointer',
@@ -411,7 +420,7 @@ const Layout = () => {
                         {crumb.label}
                       </Link>
                     ) : (
-                      <span style={{ color: '#A0B4CC' }}>{crumb.label}</span>
+                      <span style={{ color: '#f5f5f5' }}>{crumb.label}</span>
                     )}
                   </React.Fragment>
                 );
@@ -431,8 +440,8 @@ const Layout = () => {
                 style={{
                   display: 'flex', alignItems: 'center', gap: 6,
                   padding: '5px 12px',
-                  background: '#0D2347', border: hoveredRoleBtn ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.15)',
-                  borderRadius: 7, color: hoveredRoleBtn ? '#FFFFFF' : '#A0B4CC', fontSize: 11,
+                  background: '#1a1a1a', border: hoveredRoleBtn ? '1px solid #2563eb' : '1px solid #2a2a2a',
+                  borderRadius: 7, color: hoveredRoleBtn ? '#FFFFFF' : '#888888', fontSize: 11,
                   fontWeight: 600, cursor: 'pointer',
                   transition: 'all 0.15s ease',
                 }}
@@ -443,7 +452,7 @@ const Layout = () => {
               {roleDropdownOpen && (
                 <div style={{
                   position: 'absolute', right: 0, top: '110%',
-                  background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+                  background: '#1a1a1a', border: '1px solid #2a2a2a',
                   borderRadius: 8, overflow: 'hidden', zIndex: 50, minWidth: 140,
                 }}>
                   {['admin', 'client'].map(r => {
@@ -456,9 +465,9 @@ const Layout = () => {
                         onMouseLeave={() => setHoveredItem(false)}
                         style={{
                           display: 'block', width: '100%', textAlign: 'left',
-                          padding: '8px 14px', background: hoveredItem ? '#112B55' : 'none',
+                          padding: '8px 14px', background: hoveredItem ? '#222222' : 'none',
                           border: 'none', fontSize: 12, fontWeight: 600,
-                          color: role === r ? '#00E5FF' : (hoveredItem ? '#FFFFFF' : '#A0B4CC'),
+                          color: role === r ? '#facc15' : (hoveredItem ? '#FFFFFF' : '#888888'),
                           cursor: 'pointer',
                           transition: 'all 0.15s ease',
                         }}
@@ -480,8 +489,8 @@ const Layout = () => {
               onMouseEnter={() => setHoveredThemeBtn(true)}
               onMouseLeave={() => setHoveredThemeBtn(false)}
               style={{
-                background: '#0D2347', border: hoveredThemeBtn ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.15)',
-                borderRadius: 7, color: hoveredThemeBtn ? '#00E5FF' : '#4A6080', cursor: 'pointer',
+                background: '#1a1a1a', border: hoveredThemeBtn ? '1px solid #2563eb' : '1px solid #2a2a2a',
+                borderRadius: 7, color: hoveredThemeBtn ? '#facc15' : '#555555', cursor: 'pointer',
                 padding: 7, display: 'flex', alignItems: 'center',
                 transition: 'color 0.15s ease, border-color 0.15s ease',
               }}
@@ -493,7 +502,7 @@ const Layout = () => {
         </header>
 
         {/* ── Page body ── */}
-        <main style={{ flex: 1, overflowY: 'auto', background: '#0A1E3F' }} className="crm-layout-main">
+        <main style={{ flex: 1, overflowY: 'auto', background: '#111111' }} className="crm-layout-main">
           <Outlet />
         </main>
       </div>

@@ -5,14 +5,14 @@ import supabase from '../utils/supabaseClient';
 
 /* ─── AGENT CONFIG ───────────────────────────────────────── */
 const AGENTS = [
-  { id: 'trendyai-core',  name: 'TrendyAI Core',  color: '#00E5FF' },
-  { id: 'clientflow',     name: 'ClientFlow',      color: '#00E5FF' },
-  { id: 'stratoboss',     name: 'StratoBoss',      color: '#00E5FF' },
-  { id: 'pulsepilot',     name: 'PulsePilot',      color: '#00E5FF' },
-  { id: 'contentsmith',   name: 'ContentSmith',    color: '#00E5FF' },
-  { id: 'pixeldex',       name: 'PixelDex',        color: '#00E5FF' },
-  { id: 'webwiz',         name: 'WebWiz',          color: '#00E5FF' },
-  { id: 'mediawiz',       name: 'MediaWiz',        color: '#00E5FF' },
+  { id: 'trendyai-core',  name: 'TrendyAI Core',  color: 'var(--accent-primary)' },
+  { id: 'clientflow',     name: 'ClientFlow',      color: 'var(--accent-primary)' },
+  { id: 'stratoboss',     name: 'StratoBoss',      color: 'var(--accent-primary)' },
+  { id: 'pulsepilot',     name: 'PulsePilot',      color: 'var(--accent-primary)' },
+  { id: 'contentsmith',   name: 'ContentSmith',    color: 'var(--accent-primary)' },
+  { id: 'pixeldex',       name: 'PixelDex',        color: 'var(--accent-primary)' },
+  { id: 'webwiz',         name: 'WebWiz',          color: 'var(--accent-primary)' },
+  { id: 'mediawiz',       name: 'MediaWiz',        color: 'var(--accent-primary)' },
 ];
 
 /* ─── HELPERS ────────────────────────────────────────────── */
@@ -45,8 +45,8 @@ const MetricCard = ({ label, value, highlight }) => {
   const [hovered, setHovered] = useState(false);
   return (
     <div style={{
-      background: '#0D2347',
-      border: hovered ? '1px solid rgba(0, 229, 255, 0.5)' : '1px solid rgba(0, 229, 255, 0.15)',
+      background: 'var(--bg-secondary)',
+      border: hovered ? '1px solid rgba(250, 204, 21, 0.5)' : '1px solid rgba(250, 204, 21, 0.15)',
       borderRadius: 12,
       padding: '28px 32px',
       transition: 'all 0.15s ease',
@@ -67,7 +67,7 @@ const MetricCard = ({ label, value, highlight }) => {
       <p style={{
         fontSize: 28,
         fontWeight: 600,
-        color: highlight ? '#00E5FF' : '#FFFFFF',
+        color: highlight ? 'var(--accent-primary)' : '#FFFFFF',
         lineHeight: 1,
         letterSpacing: '-0.02em',
         margin: 0,
@@ -92,8 +92,8 @@ const QuickAction = ({ icon: Icon, label, onClick }) => {
         alignItems: 'center',
         gap: 10,
         padding: '12px 16px',
-        background: '#0D2347',
-        border: hovered ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.15)',
+        background: 'var(--bg-secondary)',
+        border: hovered ? '1px solid rgba(250, 204, 21, 0.4)' : '1px solid rgba(250, 204, 21, 0.15)',
         borderRadius: 9,
         color: hovered ? '#FFFFFF' : '#A0B4CC',
         fontSize: 13,
@@ -103,7 +103,7 @@ const QuickAction = ({ icon: Icon, label, onClick }) => {
         transition: 'all 0.15s ease',
       }}
     >
-      <Icon size={15} style={{ color: '#00E5FF', flexShrink: 0 }} />
+      <Icon size={15} style={{ color: 'var(--accent-primary)', flexShrink: 0 }} />
       <span style={{ flex: 1 }}>{label}</span>
       <FiArrowRight size={13} style={{ color: hovered ? '#FFFFFF' : '#4A6080' }} />
     </button>
@@ -184,14 +184,14 @@ const Dashboard = () => {
   /* Status dot color */
   const statusDotColor = (agentId) => {
     const s = agentStatus[agentId]?.status;
-    if (s === 'active') return '#00E5FF';
+    if (s === 'active') return 'var(--accent-primary)';
     if (s === 'idle')   return '#FFB020';
     if (s === 'error')  return '#FF4D4D';
-    return '#00E5FF'; /* default active */
+    return 'var(--accent-primary)'; /* default active */
   };
 
   const agentColor = (name) => {
-    return '#00E5FF';
+    return 'var(--accent-primary)';
   };
 
   return (
@@ -203,7 +203,7 @@ const Dashboard = () => {
         alignItems: 'flex-start',
         justifyContent: 'space-between',
         paddingBottom: 28,
-        borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
+        borderBottom: '1px solid rgba(250, 204, 21, 0.15)',
         marginBottom: 28,
         flexWrap: 'wrap',
         gap: 8,
@@ -248,13 +248,13 @@ const Dashboard = () => {
         <div>
           <p style={{
             fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-            letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 14,
+            letterSpacing: '0.1em', color: 'var(--accent-primary)', marginBottom: 14,
           }}>
             Recent Activity
           </p>
 
           <div style={{
-            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12,
+            background: 'var(--bg-secondary)', border: '1px solid rgba(250, 204, 21, 0.15)', borderRadius: 12,
             overflow: 'hidden',
           }}>
             {activityLoad ? (
@@ -273,14 +273,14 @@ const Dashboard = () => {
                       alignItems: 'center',
                       gap: 12,
                       padding: '12px 20px',
-                      borderBottom: i < activity.length - 1 ? '1px solid rgba(0, 229, 255, 0.15)' : 'none',
+                      borderBottom: i < activity.length - 1 ? '1px solid rgba(250, 204, 21, 0.15)' : 'none',
                     }}
                   >
                     {/* Colored dot */}
                     <span style={{
                       width: 7, height: 7, borderRadius: '50%',
                       background: agentColor(item.agent_name),
-                      boxShadow: '0 0 6px rgba(0, 229, 255, 0.5)',
+                      boxShadow: '0 0 6px rgba(250, 204, 21, 0.5)',
                       flexShrink: 0,
                     }} />
                     <p style={{ flex: 1, fontSize: 12, color: '#A0B4CC', lineHeight: 1.5, margin: 0 }}>
@@ -301,12 +301,12 @@ const Dashboard = () => {
             )}
 
             {/* View all link */}
-            <div style={{ padding: '10px 20px', borderTop: '1px solid rgba(0, 229, 255, 0.15)' }}>
+            <div style={{ padding: '10px 20px', borderTop: '1px solid rgba(250, 204, 21, 0.15)' }}>
               <button
                 onClick={() => navigate('/audit-logs')}
                 style={{
                   background: 'none', border: 'none',
-                  color: '#00E5FF', fontSize: 11, fontWeight: 600,
+                  color: 'var(--accent-primary)', fontSize: 11, fontWeight: 600,
                   cursor: 'pointer', display: 'flex', alignItems: 'center', gap: 4,
                 }}
               >
@@ -323,7 +323,7 @@ const Dashboard = () => {
           <div>
             <p style={{
               fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-              letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 14,
+              letterSpacing: '0.1em', color: 'var(--accent-primary)', marginBottom: 14,
             }}>
               Quick Actions
             </p>
@@ -350,12 +350,12 @@ const Dashboard = () => {
           <div>
             <p style={{
               fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-              letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 14,
+              letterSpacing: '0.1em', color: 'var(--accent-primary)', marginBottom: 14,
             }}>
               Agent Status
             </p>
             <div style={{
-              background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 12,
+              background: 'var(--bg-secondary)', border: '1px solid rgba(250, 204, 21, 0.15)', borderRadius: 12,
               overflow: 'hidden',
             }}>
               {AGENTS.map((agent, i) => {
@@ -369,13 +369,13 @@ const Dashboard = () => {
                       gap: 10,
                       height: 40,
                       padding: '0 16px',
-                      borderBottom: i < AGENTS.length - 1 ? '1px solid rgba(0, 229, 255, 0.15)' : 'none',
+                      borderBottom: i < AGENTS.length - 1 ? '1px solid rgba(250, 204, 21, 0.15)' : 'none',
                     }}
                   >
                     <span style={{
                       width: 7, height: 7, borderRadius: '50%',
                       background: statusDotColor(agent.id),
-                      boxShadow: statusDotColor(agent.id) === '#00E5FF' ? '0 0 6px rgba(0, 229, 255, 0.5)' : 'none',
+                      boxShadow: statusDotColor(agent.id) === 'var(--accent-primary)' ? '0 0 6px rgba(250, 204, 21, 0.5)' : 'none',
                       flexShrink: 0,
                     }} />
                     <span style={{ flex: 1, fontSize: 11, color: '#FFFFFF', fontWeight: 500 }}>

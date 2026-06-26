@@ -13,8 +13,8 @@ import ReactMarkdown from 'react-markdown';
 /* ─── METRIC CARD ────────────────────────────────────────── */
 const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) => (
   <div style={{
-    background: '#0D2347',
-    border: `1px solid ${highlight ? 'rgba(0, 229, 255, 0.4)' : 'rgba(0, 229, 255, 0.15)'}`,
+    background: 'var(--bg-secondary)',
+    border: `1px solid ${highlight ? 'rgba(250, 204, 21, 0.4)' : 'rgba(250, 204, 21, 0.15)'}`,
     borderRadius: 12,
     padding: '28px 32px',
     display: 'flex',
@@ -22,8 +22,8 @@ const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) 
     gap: 0,
     transition: 'border-color 0.15s ease',
   }}
-  onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(0, 229, 255, 0.6)'}
-  onMouseLeave={e => e.currentTarget.style.borderColor = highlight ? 'rgba(0, 229, 255, 0.4)' : 'rgba(0, 229, 255, 0.15)'}
+  onMouseEnter={e => e.currentTarget.style.borderColor = 'rgba(250, 204, 21, 0.6)'}
+  onMouseLeave={e => e.currentTarget.style.borderColor = highlight ? 'rgba(250, 204, 21, 0.4)' : 'rgba(250, 204, 21, 0.15)'}
   >
     <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: 18 }}>
       <p style={{
@@ -42,7 +42,7 @@ const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) 
     </div>
     <p style={{
       fontSize: 28, fontWeight: 600, lineHeight: 1,
-      color: highlight ? '#00E5FF' : '#FFFFFF',
+      color: highlight ? 'var(--accent-primary)' : '#FFFFFF',
       letterSpacing: '-0.025em',
       marginBottom: 12,
     }}>
@@ -56,25 +56,25 @@ const MetricCard = ({ label, value, desc, Icon, iconColor, iconBg, highlight }) 
 const ProgressBar = ({ pct }) => (
   <div style={{ display: 'flex', alignItems: 'center', gap: 10 }}>
     <div style={{
-      flex: 1, height: 3, background: '#0A1E3F',
+      flex: 1, height: 3, background: 'var(--bg-primary)',
       borderRadius: 2, overflow: 'hidden',
     }}>
       <div style={{
         width: `${pct}%`, height: '100%',
-        background: '#00E5FF', borderRadius: 2,
+        background: 'var(--accent-primary)', borderRadius: 2,
         transition: 'width 0.4s ease',
       }} />
     </div>
-    <span style={{ fontSize: 11, fontWeight: 700, color: '#00E5FF', minWidth: 30 }}>{pct}%</span>
+    <span style={{ fontSize: 11, fontWeight: 700, color: 'var(--accent-primary)', minWidth: 30 }}>{pct}%</span>
   </div>
 );
 
 /* ─── STATUS BADGE ───────────────────────────────────────── */
 const StatusBadge = ({ status }) => {
   const map = {
-    'In Progress': { bg: 'rgba(0, 229, 255, 0.10)', color: '#00E5FF' },
+    'In Progress': { bg: 'rgba(250, 204, 21, 0.10)', color: 'var(--accent-primary)' },
     'Reviewing':   { bg: 'rgba(255, 176, 32, 0.10)', color: '#FFB020' },
-    'Completed':   { bg: 'rgba(0, 229, 255, 0.15)', color: '#00E5FF' },
+    'Completed':   { bg: 'rgba(250, 204, 21, 0.15)', color: 'var(--accent-primary)' },
     'Paused':      { bg: 'rgba(74, 96, 128, 0.10)', color: '#4A6080' },
   };
   const s = map[status] || map['Paused'];
@@ -95,15 +95,15 @@ const ProcessStep = ({ num, title, desc, isLast }) => (
     <div style={{ display: 'flex', flexDirection: 'column', alignItems: 'center', flexShrink: 0 }}>
       <div style={{
         width: 28, height: 28, borderRadius: 8,
-        background: 'rgba(0, 229, 255, 0.10)',
-        border: '1px solid rgba(0, 229, 255, 0.25)',
+        background: 'rgba(250, 204, 21, 0.10)',
+        border: '1px solid rgba(250, 204, 21, 0.25)',
         display: 'flex', alignItems: 'center', justifyContent: 'center',
-        fontSize: 11, fontWeight: 800, color: '#00E5FF',
+        fontSize: 11, fontWeight: 800, color: 'var(--accent-primary)',
       }}>
         {num}
       </div>
       {!isLast && (
-        <div style={{ width: 1, flex: 1, background: 'rgba(0, 229, 255, 0.15)', margin: '6px 0' }} />
+        <div style={{ width: 1, flex: 1, background: 'rgba(250, 204, 21, 0.15)', margin: '6px 0' }} />
       )}
     </div>
     <div style={{ paddingBottom: isLast ? 0 : 20 }}>
@@ -122,8 +122,8 @@ const DeliverableRow = ({ d, navigate }) => {
     <div key={d.id} style={{
       display: 'flex', alignItems: 'center', justifyContent: 'space-between',
       padding: '16px 20px',
-      background: hoveredRow ? '#112B55' : '#0A1E3F',
-      border: hoveredRow ? '1px solid rgba(0, 229, 255, 0.5)' : '1px solid rgba(0, 229, 255, 0.15)',
+      background: hoveredRow ? 'var(--bg-tertiary)' : 'var(--bg-primary)',
+      border: hoveredRow ? '1px solid rgba(250, 204, 21, 0.5)' : '1px solid rgba(250, 204, 21, 0.15)',
       borderRadius: 8,
       gap: 12,
       transition: 'all 0.15s ease',
@@ -136,11 +136,11 @@ const DeliverableRow = ({ d, navigate }) => {
       <div style={{ display: 'flex', alignItems: 'center', gap: 12, flex: 1, minWidth: 0 }}>
         <div style={{
           width: 34, height: 34, borderRadius: 8,
-          background: 'rgba(0, 229, 255, 0.08)',
+          background: 'rgba(250, 204, 21, 0.08)',
           display: 'flex', alignItems: 'center', justifyContent: 'center',
           flexShrink: 0,
         }}>
-          <FiFileText size={14} style={{ color: '#00E5FF' }} />
+          <FiFileText size={14} style={{ color: 'var(--accent-primary)' }} />
         </div>
         <div style={{ minWidth: 0 }}>
           <p style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF', marginBottom: 3, lineHeight: 1.3 }}>
@@ -160,9 +160,9 @@ const DeliverableRow = ({ d, navigate }) => {
           style={{
             display: 'flex', alignItems: 'center', gap: 5,
             background: 'none',
-            border: hoveredRevBtn ? '1px solid rgba(0, 229, 255, 0.4)' : '1px solid rgba(0, 229, 255, 0.25)',
+            border: hoveredRevBtn ? '1px solid rgba(250, 204, 21, 0.4)' : '1px solid rgba(250, 204, 21, 0.25)',
             borderRadius: 6, padding: '5px 12px',
-            color: hoveredRevBtn ? '#00E5FF' : '#4A6080', fontSize: 11, fontWeight: 600, cursor: 'pointer',
+            color: hoveredRevBtn ? 'var(--accent-primary)' : '#4A6080', fontSize: 11, fontWeight: 600, cursor: 'pointer',
             transition: 'all 0.15s ease',
           }}
         >
@@ -304,8 +304,8 @@ export default function ClientDashboard() {
           <title>${report.skill_type.toUpperCase()} Report - ${report.url_audited}</title>
           <style>
             body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 40px; color: #333; line-height: 1.6; }
-            h1, h2, h3 { color: #0A1E3F; }
-            h1 { border-bottom: 2px solid #00E5FF; padding-bottom: 10px; }
+            h1, h2, h3 { color: var(--bg-primary); }
+            h1 { border-bottom: 2px solid var(--accent-primary); padding-bottom: 10px; }
             pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
             code { font-family: monospace; }
             .meta { margin-bottom: 30px; font-size: 0.9em; color: #666; }
@@ -316,7 +316,7 @@ export default function ClientDashboard() {
           </style>
         </head>
         <body>
-          <button onclick="window.print()" style="padding: 10px 20px; background: #00E5FF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 20px;">Print / Save as PDF</button>
+          <button onclick="window.print()" style="padding: 10px 20px; background: var(--accent-primary); border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 20px;">Print / Save as PDF</button>
           <h1>AI Audit Report: ${report.skill_type.toUpperCase()}</h1>
           <div class="meta">
             <strong>Audited URL:</strong> ${report.url_audited}<br/>
@@ -338,16 +338,16 @@ export default function ClientDashboard() {
       value: '2',
       desc: 'Running campaigns',
       Icon: FiLayers,
-      iconColor: '#00E5FF',
-      iconBg: 'rgba(0, 229, 255, 0.10)',
+      iconColor: 'var(--accent-primary)',
+      iconBg: 'rgba(250, 204, 21, 0.10)',
     },
     {
       label: 'Pending Approvals',
       value: '3',
       desc: 'Requires your feedback',
       Icon: FiClock,
-      iconColor: '#00E5FF',
-      iconBg: 'rgba(0, 229, 255, 0.12)',
+      iconColor: 'var(--accent-primary)',
+      iconBg: 'rgba(250, 204, 21, 0.12)',
       highlight: true,
     },
     {
@@ -355,16 +355,16 @@ export default function ClientDashboard() {
       value: '18',
       desc: 'Ready for use',
       Icon: FiCheckCircle,
-      iconColor: '#00E5FF',
-      iconBg: 'rgba(0, 229, 255, 0.10)',
+      iconColor: 'var(--accent-primary)',
+      iconBg: 'rgba(250, 204, 21, 0.10)',
     },
     {
       label: 'Actions Today',
       value: '142',
       desc: 'Automated runs',
       Icon: FiZap,
-      iconColor: '#00E5FF',
-      iconBg: 'rgba(0, 229, 255, 0.10)',
+      iconColor: 'var(--accent-primary)',
+      iconBg: 'rgba(250, 204, 21, 0.10)',
     },
   ];
 
@@ -385,8 +385,8 @@ export default function ClientDashboard() {
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', minHeight: '50vh' }}>
         <div style={{
           width: 32, height: 32, borderRadius: '50%',
-          border: '2px solid rgba(0, 229, 255, 0.15)',
-          borderTop: '2px solid #00E5FF',
+          border: '2px solid rgba(250, 204, 21, 0.15)',
+          borderTop: '2px solid var(--accent-primary)',
           animation: 'spin 0.7s linear infinite',
         }} />
         <style>{`@keyframes spin { to { transform: rotate(360deg); } }`}</style>
@@ -406,7 +406,7 @@ export default function ClientDashboard() {
         <div>
           <p style={{
             fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-            letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 6,
+            letterSpacing: '0.1em', color: 'var(--accent-primary)', marginBottom: 6,
           }}>
             Client Portal
           </p>
@@ -424,7 +424,7 @@ export default function ClientDashboard() {
           onMouseLeave={() => setHoveredNewRequest(false)}
           style={{
             display: 'flex', alignItems: 'center', gap: 7,
-            background: hoveredNewRequest ? '#00CFEA' : '#00E5FF', color: '#0A1E3F', border: 'none',
+            background: hoveredNewRequest ? 'var(--accent-hover)' : 'var(--accent-primary)', color: 'var(--bg-primary)', border: 'none',
             borderRadius: 8, padding: '10px 20px', fontSize: 13,
             fontWeight: 700, cursor: 'pointer', flexShrink: 0,
             transition: 'background 0.15s ease',
@@ -449,7 +449,7 @@ export default function ClientDashboard() {
 
           {/* Active Campaigns */}
           <div style={{
-            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            background: 'var(--bg-secondary)', border: '1px solid rgba(250, 204, 21, 0.15)',
             borderRadius: 12, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
@@ -461,7 +461,7 @@ export default function ClientDashboard() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: 5,
                   background: 'none', border: 'none',
-                  color: hoveredTrack ? '#FFFFFF' : '#00E5FF', fontSize: 11, fontWeight: 500, cursor: 'pointer',
+                  color: hoveredTrack ? '#FFFFFF' : 'var(--accent-primary)', fontSize: 11, fontWeight: 500, cursor: 'pointer',
                   transition: 'color 0.15s ease',
                 }}
               >
@@ -476,7 +476,7 @@ export default function ClientDashboard() {
                   display: 'grid',
                   gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
                   gap: 12, padding: '0 0 12px 0',
-                  borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
+                  borderBottom: '1px solid rgba(250, 204, 21, 0.15)',
                 }}>
                   {['Project', 'Lead Agent', 'Status', 'Progress', 'Last Active'].map(h => (
                     <span key={h} style={{
@@ -494,18 +494,18 @@ export default function ClientDashboard() {
                     display: 'grid',
                     gridTemplateColumns: '2fr 1fr 1fr 1.5fr 80px',
                     gap: 12, padding: '18px 0',
-                    borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
+                    borderBottom: '1px solid rgba(250, 204, 21, 0.15)',
                     alignItems: 'center',
                   }}>
                     <span style={{ fontSize: 13, fontWeight: 600, color: '#FFFFFF' }}>{proj.name}</span>
                     <span style={{
                       display: 'inline-flex', alignItems: 'center', gap: 5,
-                      fontSize: 11, color: '#00E5FF',
-                      background: 'rgba(0, 229, 255, 0.08)', border: '1px solid rgba(0, 229, 255, 0.15)',
+                      fontSize: 11, color: 'var(--accent-primary)',
+                      background: 'rgba(250, 204, 21, 0.08)', border: '1px solid rgba(250, 204, 21, 0.15)',
                       borderRadius: 4, padding: '3px 8px',
                       width: 'fit-content',
                     }}>
-                      <FiCpu size={10} style={{ color: '#00E5FF' }} />
+                      <FiCpu size={10} style={{ color: 'var(--accent-primary)' }} />
                       {proj.leadAgent}
                     </span>
                     <StatusBadge status={proj.status} />
@@ -519,7 +519,7 @@ export default function ClientDashboard() {
 
           {/* Recent Deliverables */}
           <div style={{
-            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            background: 'var(--bg-secondary)', border: '1px solid rgba(250, 204, 21, 0.15)',
             borderRadius: 12, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
@@ -531,7 +531,7 @@ export default function ClientDashboard() {
                 style={{
                   display: 'flex', alignItems: 'center', gap: 5,
                   background: 'none', border: 'none',
-                  color: hoveredAssetBtn ? '#FFFFFF' : '#00E5FF', fontSize: 11, fontWeight: 500, cursor: 'pointer',
+                  color: hoveredAssetBtn ? '#FFFFFF' : 'var(--accent-primary)', fontSize: 11, fontWeight: 500, cursor: 'pointer',
                   transition: 'color 0.15s ease',
                 }}
               >
@@ -552,12 +552,12 @@ export default function ClientDashboard() {
 
           {/* Campaign Health Summary */}
           <div style={{
-            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            background: 'var(--bg-secondary)', border: '1px solid rgba(250, 204, 21, 0.15)',
             borderRadius: 12, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-              <FiTrendingUp size={14} style={{ color: '#00E5FF' }} />
-              <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', margin: 0 }}>
+              <FiTrendingUp size={14} style={{ color: 'var(--accent-primary)' }} />
+              <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-primary)', margin: 0 }}>
                 Campaign Health
               </p>
             </div>
@@ -574,12 +574,12 @@ export default function ClientDashboard() {
 
           {/* Request a Website Audit Card */}
           <div style={{
-            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            background: 'var(--bg-secondary)', border: '1px solid rgba(250, 204, 21, 0.15)',
             borderRadius: 12, padding: '28px 32px',
           }}>
             <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 20 }}>
-              <FiTrendingUp size={14} style={{ color: '#00E5FF' }} />
-              <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', margin: 0 }}>
+              <FiTrendingUp size={14} style={{ color: 'var(--accent-primary)' }} />
+              <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-primary)', margin: 0 }}>
                 Request Website Audit
               </p>
             </div>
@@ -588,8 +588,8 @@ export default function ClientDashboard() {
             </p>
             
             {activeTasks.length > 0 ? (
-              <div style={{ padding: 12, background: 'rgba(0, 229, 255, 0.05)', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 8, marginBottom: 14 }}>
-                <p style={{ fontSize: 11, color: '#00E5FF', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
+              <div style={{ padding: 12, background: 'rgba(250, 204, 21, 0.05)', border: '1px solid rgba(250, 204, 21, 0.15)', borderRadius: 8, marginBottom: 14 }}>
+                <p style={{ fontSize: 11, color: 'var(--accent-primary)', fontWeight: 600, display: 'flex', alignItems: 'center', gap: 6 }}>
                   <FiLoader className="animate-spin" />
                   Your audit is running...
                 </p>
@@ -602,8 +602,8 @@ export default function ClientDashboard() {
                   value={url}
                   onChange={e => setUrl(e.target.value)}
                   style={{
-                    width: '100%', padding: '8px 12px', background: '#0A1E3F',
-                    border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 6,
+                    width: '100%', padding: '8px 12px', background: 'var(--bg-primary)',
+                    border: '1px solid rgba(250, 204, 21, 0.15)', borderRadius: 6,
                     color: '#FFFFFF', fontSize: 12, outline: 'none'
                   }}
                 />
@@ -612,9 +612,9 @@ export default function ClientDashboard() {
                     onClick={() => handleRequestAudit('starter')}
                     disabled={running}
                     style={{
-                      flex: 1, padding: '8px 0', background: 'rgba(0, 229, 255, 0.10)',
-                      border: '1px solid rgba(0, 229, 255, 0.25)', borderRadius: 6,
-                      color: '#00E5FF', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                      flex: 1, padding: '8px 0', background: 'rgba(250, 204, 21, 0.10)',
+                      border: '1px solid rgba(250, 204, 21, 0.25)', borderRadius: 6,
+                      color: 'var(--accent-primary)', fontSize: 11, fontWeight: 700, cursor: 'pointer',
                       transition: 'all 0.15s ease'
                     }}
                   >
@@ -624,9 +624,9 @@ export default function ClientDashboard() {
                     onClick={() => handleRequestAudit('full')}
                     disabled={running}
                     style={{
-                      flex: 1, padding: '8px 0', background: '#00E5FF',
+                      flex: 1, padding: '8px 0', background: 'var(--accent-primary)',
                       border: 'none', borderRadius: 6,
-                      color: '#0A1E3F', fontSize: 11, fontWeight: 700, cursor: 'pointer',
+                      color: 'var(--bg-primary)', fontSize: 11, fontWeight: 700, cursor: 'pointer',
                       transition: 'all 0.15s ease'
                     }}
                   >
@@ -637,7 +637,7 @@ export default function ClientDashboard() {
             )}
 
             {reports.length > 0 && (
-              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, borderTop: '1px solid rgba(0, 229, 255, 0.15)', paddingTop: 14 }}>
+              <div style={{ display: 'flex', flexDirection: 'column', gap: 8, borderTop: '1px solid rgba(250, 204, 21, 0.15)', paddingTop: 14 }}>
                 <p style={{ fontSize: 10, fontWeight: 600, color: '#4A6080', textTransform: 'uppercase', letterSpacing: '0.05em' }}>Your Reports</p>
                 {reports.slice(0, 3).map(rep => (
                   <div key={rep.id} style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
@@ -647,13 +647,13 @@ export default function ClientDashboard() {
                     <div style={{ display: 'flex', gap: 6 }}>
                       <button
                         onClick={() => setViewingReport(rep)}
-                        style={{ background: 'none', border: 'none', color: '#00E5FF', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}
+                        style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}
                       >
                         View
                       </button>
                       <button
                         onClick={() => handleDownloadPDF(rep)}
-                        style={{ background: 'none', border: 'none', color: '#00E5FF', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}
+                        style={{ background: 'none', border: 'none', color: 'var(--accent-primary)', fontSize: 11, fontWeight: 600, cursor: 'pointer' }}
                       >
                         PDF
                       </button>
@@ -666,10 +666,10 @@ export default function ClientDashboard() {
 
           {/* AI Agency Process */}
           <div style={{
-            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            background: 'var(--bg-secondary)', border: '1px solid rgba(250, 204, 21, 0.15)',
             borderRadius: 12, padding: '28px 32px',
           }}>
-            <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 20 }}>
+            <p style={{ fontSize: 10, fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-primary)', marginBottom: 20 }}>
               AI Agency Process
             </p>
             <ProcessStep
@@ -692,8 +692,8 @@ export default function ClientDashboard() {
 
           {/* Custom Automation CTA */}
           <div style={{
-            background: '#0A1E3F',
-            border: '1px dashed rgba(0, 229, 255, 0.25)',
+            background: 'var(--bg-primary)',
+            border: '1px dashed rgba(250, 204, 21, 0.25)',
             borderRadius: 12, padding: '28px 32px',
           }}>
             <p style={{ fontSize: 13, fontWeight: 700, color: '#FFFFFF', marginBottom: 10 }}>
@@ -705,7 +705,7 @@ export default function ClientDashboard() {
             <a
               href="mailto:support@trendtacticsdigital.com"
               style={{
-                fontSize: 12, fontWeight: 700, color: '#00E5FF',
+                fontSize: 12, fontWeight: 700, color: 'var(--accent-primary)',
                 textDecoration: 'none', display: 'inline-flex',
                 alignItems: 'center', gap: 5,
               }}
@@ -725,13 +725,13 @@ export default function ClientDashboard() {
           display: 'flex', alignItems: 'center', justifyContent: 'center', zIndex: 9999, padding: 16
         }}>
           <div style={{
-            background: '#0D2347', border: '1px solid rgba(0, 229, 255, 0.15)',
+            background: 'var(--bg-secondary)', border: '1px solid rgba(250, 204, 21, 0.15)',
             borderRadius: 12, width: '100%', maxWidth: 800, maxHeight: '85vh',
             display: 'flex', flexDirection: 'column', overflow: 'hidden'
           }}>
             <div style={{
-              padding: '20px 24px', borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
-              display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: '#0A1E3F'
+              padding: '20px 24px', borderBottom: '1px solid rgba(250, 204, 21, 0.15)',
+              display: 'flex', justifyContent: 'space-between', alignItems: 'center', background: 'var(--bg-primary)'
             }}>
               <div>
                 <h3 style={{ fontSize: 16, fontWeight: 700, color: '#FFFFFF', margin: 0 }}>
@@ -749,10 +749,10 @@ export default function ClientDashboard() {
               </button>
             </div>
             
-            <div className="custom-scrollbar" style={{ padding: 32, overflowY: 'auto', flex: 1, background: '#0D2347', color: '#FFFFFF' }}>
-              <div style={{ marginBottom: 24, padding: 16, background: 'rgba(0, 229, 255, 0.08)', border: '1px solid rgba(0, 229, 255, 0.15)', borderRadius: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
+            <div className="custom-scrollbar" style={{ padding: 32, overflowY: 'auto', flex: 1, background: 'var(--bg-secondary)', color: '#FFFFFF' }}>
+              <div style={{ marginBottom: 24, padding: 16, background: 'rgba(250, 204, 21, 0.08)', border: '1px solid rgba(250, 204, 21, 0.15)', borderRadius: 8, display: 'flex', justifyContent: 'space-between', alignItems: 'center' }}>
                 <span style={{ fontSize: 12, fontWeight: 600, color: '#FFFFFF' }}>Evaluation Score:</span>
-                <span style={{ fontSize: 20, fontWeight: 900, color: '#00E5FF' }}>
+                <span style={{ fontSize: 20, fontWeight: 900, color: 'var(--accent-primary)' }}>
                   {viewingReport.score_overall ? `${viewingReport.score_overall}/100` : 'N/A'}
                 </span>
               </div>
@@ -762,14 +762,14 @@ export default function ClientDashboard() {
             </div>
 
             <div style={{
-              padding: '20px 24px', borderTop: '1px solid rgba(0, 229, 255, 0.15)',
-              display: 'flex', justifyContent: 'flex-end', gap: 12, background: '#0A1E3F'
+              padding: '20px 24px', borderTop: '1px solid rgba(250, 204, 21, 0.15)',
+              display: 'flex', justifyContent: 'flex-end', gap: 12, background: 'var(--bg-primary)'
             }}>
               <button
                 onClick={() => handleDownloadPDF(viewingReport)}
                 style={{
                   display: 'flex', alignItems: 'center', gap: 6,
-                  background: '#00E5FF', color: '#0A1E3F', border: 'none',
+                  background: 'var(--accent-primary)', color: 'var(--bg-primary)', border: 'none',
                   borderRadius: 6, padding: '8px 16px', fontSize: 12, fontWeight: 700, cursor: 'pointer'
                 }}
               >
@@ -778,7 +778,7 @@ export default function ClientDashboard() {
               <button
                 onClick={() => setViewingReport(null)}
                 style={{
-                  background: 'none', border: '1px solid rgba(0, 229, 255, 0.25)',
+                  background: 'none', border: '1px solid rgba(250, 204, 21, 0.25)',
                   borderRadius: 6, padding: '8px 16px', fontSize: 12, fontWeight: 700, color: '#A0B4CC', cursor: 'pointer'
                 }}
               >

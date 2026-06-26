@@ -31,65 +31,108 @@
 
   --color-white: var(--white-bg-val);
   --color-navy-900: var(--navy-900-val);
-  --color-cyan-500: var(--accent-primary);
-  --color-cyan-600: var(--accent-hover);
-
+  
   --color-accent-yellow: var(--accent-yellow);
   --color-accent-yellow-light: var(--accent-yellow-light);
+  
+  --color-royal-blue: var(--accent-royal-blue);
+  --color-royal-blue-hover: var(--accent-royal-blue-hover);
+  --color-royal-blue-light: var(--accent-royal-blue-light);
+
+  /* Map brand colors to current active theme values */
+  --color-brand-navy: var(--bg-primary);
+  --color-brand-navy-dark: var(--sidebar-bg);
+  --color-brand-card: var(--bg-secondary);
+  --color-brand-card-hover: var(--bg-tertiary);
+  --color-brand-cyan: var(--accent-primary);
+  --color-brand-cyan-soft: var(--accent-light);
+
+  /* Override standard cyan colors to use yellow theme tones */
+  --color-cyan-50: rgba(250, 204, 21, 0.05);
+  --color-cyan-100: rgba(250, 204, 21, 0.1);
+  --color-cyan-200: rgba(250, 204, 21, 0.2);
+  --color-cyan-300: rgba(250, 204, 21, 0.35);
+  --color-cyan-400: #fde047;
+  --color-cyan-500: #facc15;
+  --color-cyan-600: #eab308;
+  --color-cyan-700: #ca8a04;
+  --color-cyan-800: #a16207;
+  --color-cyan-900: #854d0e;
+
+  /* Override standard navy colors to use neutral charcoal tones */
+  --color-navy-50: #fafafa;
+  --color-navy-100: #f5f5f5;
+  --color-navy-200: #e5e5e5;
+  --color-navy-300: #d4d4d4;
+  --color-navy-400: #a3a3a3;
+  --color-navy-500: #737373;
+  --color-navy-600: #525252;
+  --color-navy-700: #404040;
+  --color-navy-800: #262626;
+  --color-navy-900: #171717;
+  --color-navy-950: #0a0a0a;
 }
 
 /* ─── LIGHT MODE TOKENS ─────────────────────────────────── */
 :root {
-  --bg-primary: #0A1E3F;
-  --bg-secondary: #0D2347;
-  --bg-tertiary: #112B55;
-  --border-color: rgba(0, 229, 255, 0.15);
+  --bg-primary: #f3f4f6;
+  --bg-secondary: #ffffff;
+  --bg-tertiary: #f9fafb;
+  --border-color: #e5e7eb;
   
-  --text-primary: #FFFFFF;
-  --text-secondary: #A0B4CC;
-  --text-muted: #4A6080;
+  --text-primary: #111827;
+  --text-secondary: #4b5563;
+  --text-muted: #9ca3af;
 
-  --accent-primary: #00E5FF;
-  --accent-hover: #00CFEA;
-  --accent-light: rgba(0, 229, 255, 0.12);
+  --accent-primary: #facc15;
+  --accent-hover: #eab308;
+  --accent-light: rgba(250, 204, 21, 0.12);
 
-  --accent-yellow: #00E5FF;
-  --accent-yellow-light: rgba(0, 229, 255, 0.12);
+  --accent-yellow: #facc15;
+  --accent-yellow-light: rgba(250, 204, 21, 0.1);
   
-  --sidebar-bg: #071629;
-  --sidebar-text-active: #00E5FF;
-  --sidebar-text-inactive: #4A6080;
-  --sidebar-item-hover: #112B55;
+  --accent-royal-blue: #2563eb;
+  --accent-royal-blue-hover: #1d4ed8;
+  --accent-royal-blue-light: rgba(37, 99, 235, 0.1);
 
-  --white-bg-val: #0D2347;
-  --navy-900-val: #0A1E3F;
+  --sidebar-bg: #0d0d0d;
+  --sidebar-text-active: #facc15;
+  --sidebar-text-inactive: #555555;
+  --sidebar-item-hover: #1a1a1a;
+
+  --white-bg-val: #ffffff;
+  --navy-900-val: #0f172a;
 }
 
-/* ─── DARK MODE TOKENS — Premium Navy + Cyan ────────── */
+/* ─── DARK MODE TOKENS — Premium Charcoal + Gold ────────── */
 .dark {
-  --bg-primary: #0A1E3F;
-  --bg-secondary: #0D2347;
-  --bg-tertiary: #112B55;
-  --border-color: rgba(0, 229, 255, 0.15);
+  --bg-primary: #111111;
+  --bg-secondary: #1a1a1a;
+  --bg-tertiary: #161616;
+  --border-color: #2a2a2a;
 
-  --text-primary: #FFFFFF;
-  --text-secondary: #A0B4CC;
-  --text-muted: #4A6080;
+  --text-primary: #f5f5f5;
+  --text-secondary: #888888;
+  --text-muted: #555555;
 
-  --accent-primary: #00E5FF;
-  --accent-hover: #00CFEA;
-  --accent-light: rgba(0, 229, 255, 0.12);
+  --accent-primary: #facc15;
+  --accent-hover: #eab308;
+  --accent-light: rgba(250, 204, 21, 0.12);
 
-  --accent-yellow: #00E5FF;
-  --accent-yellow-light: rgba(0, 229, 255, 0.12);
+  --accent-yellow: #facc15;
+  --accent-yellow-light: rgba(250, 204, 21, 0.12);
 
-  --sidebar-bg: #071629;
-  --sidebar-text-active: #00E5FF;
-  --sidebar-text-inactive: #4A6080;
-  --sidebar-item-hover: #112B55;
+  --accent-royal-blue: #2563eb;
+  --accent-royal-blue-hover: #1d4ed8;
+  --accent-royal-blue-light: rgba(37, 99, 235, 0.15);
 
-  --white-bg-val: #0D2347;
-  --navy-900-val: #0A1E3F;
+  --sidebar-bg: #0d0d0d;
+  --sidebar-text-active: #facc15;
+  --sidebar-text-inactive: #555555;
+  --sidebar-item-hover: #1a1a1a;
+
+  --white-bg-val: #1a1a1a;
+  --navy-900-val: #f5f5f5;
 }
 
 /* ─── RESET ─────────────────────────────────────────────── */
@@ -101,7 +144,7 @@
 }
 
 *:focus-visible {
-  outline: 2px solid rgba(0, 229, 255, 0.5);
+  outline: 2px solid rgba(250, 204, 21, 0.5);
   outline-offset: 2px;
 }
 
@@ -124,9 +167,9 @@ h1, h2, h3, h4, h5, h6 {
 
 /* ─── GLOBAL DARK SCROLLBARS ────────────────────────────── */
 ::-webkit-scrollbar { width: 4px; height: 4px; }
-::-webkit-scrollbar-track { background: #071629; }
-::-webkit-scrollbar-thumb { background: #1A3A5C; border-radius: 4px; }
-::-webkit-scrollbar-thumb:hover { background: #00E5FF; }
+::-webkit-scrollbar-track { background: #0d0d0d; }
+::-webkit-scrollbar-thumb { background: #2a2a2a; border-radius: 4px; }
+::-webkit-scrollbar-thumb:hover { background: #facc15; }
 
 /* ─── PAGE TRANSITIONS ──────────────────────────────────── */
 .page-enter {
@@ -149,7 +192,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crm-card:hover {
-  border-color: rgba(0, 229, 255, 0.5);
+  border-color: rgba(250, 204, 21, 0.35);
   background-color: var(--bg-tertiary);
 }
 
@@ -216,15 +259,15 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crm-btn-primary {
-  background-color: #00E5FF;
-  color: #0A1E3F;
-  border-color: #00E5FF;
+  background-color: #facc15;
+  color: #111111;
+  border-color: #facc15;
   font-weight: 700;
 }
 
 .crm-btn-primary:hover {
-  background-color: #00CFEA;
-  border-color: #00CFEA;
+  background-color: #eab308;
+  border-color: #eab308;
 }
 
 .crm-btn-secondary {
@@ -234,7 +277,7 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .crm-btn-secondary:hover {
-  border-color: rgba(0, 229, 255, 0.6);
+  border-color: rgba(250, 204, 21, 0.4);
   background-color: var(--bg-tertiary);
 }
 
@@ -260,9 +303,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge-success {
-  background-color: rgba(0, 229, 255, 0.1);
-  color: #00E5FF;
-  border: 1px solid rgba(0, 229, 255, 0.2);
+  background-color: rgba(29, 158, 117, 0.1);
+  color: #1D9E75;
+  border: 1px solid rgba(29, 158, 117, 0.2);
 }
 
 .badge-warning {
@@ -284,9 +327,9 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .badge-yellow {
-  background-color: rgba(0, 229, 255, 0.08);
-  color: #00E5FF;
-  border: 1px solid rgba(0, 229, 255, 0.2);
+  background-color: rgba(250, 204, 21, 0.1);
+  color: #facc15;
+  border: 1px solid rgba(250, 204, 21, 0.2);
 }
 
 /* ─── GRID ───────────────────────────────────────────────── */
@@ -318,8 +361,8 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .nav-item.active {
-  color: #00E5FF;
-  background-color: rgba(0, 229, 255, 0.10);
+  color: #facc15;
+  background-color: rgba(250, 204, 21, 0.08);
   font-weight: 600;
 }
 
@@ -347,16 +390,16 @@ h1, h2, h3, h4, h5, h6 {
 }
 
 .custom-scrollbar::-webkit-scrollbar-track {
-  background: #071629;
+  background: #0d0d0d;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb {
-  background: #1A3A5C;
+  background: #2a2a2a;
   border-radius: 4px;
 }
 
 .custom-scrollbar::-webkit-scrollbar-thumb:hover {
-  background: #00E5FF;
+  background: #facc15;
 }
 
 /* ─── ANIMATIONS ─────────────────────────────────────────── */

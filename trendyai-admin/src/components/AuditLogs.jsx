@@ -6,24 +6,24 @@ import {
 import { useToast } from './Toast';
 
 const SEVERITY_COLOR = {
-  Info:    '#00E5FF',
+  Info:    'var(--accent-primary)',
   Warning: '#FFB020',
   Error:   '#FF4D4D',
 };
 
 const SEVERITY_BG = {
-  Info:    'rgba(0, 229, 255, 0.10)',
+  Info:    'rgba(250, 204, 21, 0.10)',
   Warning: 'rgba(255, 176, 32, 0.10)',
   Error:   'rgba(255, 77, 77, 0.10)',
 };
 
 const STATUS_COLOR = {
-  Success: '#00E5FF',
+  Success: 'var(--accent-primary)',
   Failed:  '#FF4D4D',
 };
 
 const STATUS_BG = {
-  Success: 'rgba(0, 229, 255, 0.10)',
+  Success: 'rgba(250, 204, 21, 0.10)',
   Failed:  'rgba(255, 77, 77, 0.10)',
 };
 
@@ -165,8 +165,8 @@ const AuditLogs = () => {
   /* ── shared styles ── */
   const inputStyle = (key) => ({
     width: '100%',
-    background: '#0D2347',
-    border: `1px solid ${focusedInput === key ? '#00E5FF' : 'rgba(0, 229, 255, 0.2)'}`,
+    background: 'var(--bg-secondary)',
+    border: `1px solid ${focusedInput === key ? 'var(--accent-primary)' : 'rgba(250, 204, 21, 0.2)'}`,
     borderRadius: '8px',
     padding: '9px 14px',
     fontSize: '12px',
@@ -204,7 +204,7 @@ const AuditLogs = () => {
       {/* ── Header ── */}
       <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'flex-start', marginBottom: '36px' }}>
         <div>
-          <p style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', marginBottom: '8px' }}>
+          <p style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-primary)', marginBottom: '8px' }}>
             Audit Logs
           </p>
           <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#FFFFFF', margin: 0, lineHeight: 1.3 }}>
@@ -221,21 +221,21 @@ const AuditLogs = () => {
             display: 'flex',
             alignItems: 'center',
             gap: '8px',
-            background: '#00E5FF',
+            background: 'var(--accent-primary)',
             border: 'none',
             borderRadius: '8px',
             padding: '10px 20px',
             fontSize: '12px',
             fontWeight: 700,
-            color: '#0A1E3F',
+            color: 'var(--bg-primary)',
             cursor: 'pointer',
             letterSpacing: '0.04em',
             flexShrink: 0,
             marginTop: '4px',
             transition: 'background 0.15s ease',
           }}
-          onMouseEnter={e => e.currentTarget.style.background = '#00CFEA'}
-          onMouseLeave={e => e.currentTarget.style.background = '#00E5FF'}
+          onMouseEnter={e => e.currentTarget.style.background = 'var(--accent-hover)'}
+          onMouseLeave={e => e.currentTarget.style.background = 'var(--accent-primary)'}
         >
           <FiDownload size={13} />
           Export Logs to CSV
@@ -244,8 +244,8 @@ const AuditLogs = () => {
 
       {/* ── Filter Bar ── */}
       <div style={{
-        background: '#0D2347',
-        border: '1px solid rgba(0, 229, 255, 0.15)',
+        background: 'var(--bg-secondary)',
+        border: '1px solid rgba(250, 204, 21, 0.15)',
         borderRadius: '12px',
         padding: '24px 28px',
         marginBottom: '24px',
@@ -328,8 +328,8 @@ const AuditLogs = () => {
 
         {filteredLogs.length === 0 ? (
           <div style={{
-            background: '#0D2347',
-            border: '1px solid rgba(0, 229, 255, 0.15)',
+            background: 'var(--bg-secondary)',
+            border: '1px solid rgba(250, 204, 21, 0.15)',
             borderRadius: '12px',
             padding: '48px 32px',
             textAlign: 'center',
@@ -342,8 +342,8 @@ const AuditLogs = () => {
             <div
               key={log.id}
               style={{
-                background: '#0D2347',
-                border: '1px solid rgba(0, 229, 255, 0.15)',
+                background: 'var(--bg-secondary)',
+                border: '1px solid rgba(250, 204, 21, 0.15)',
                 borderRadius: '10px',
                 padding: '20px 24px',
                 marginBottom: '8px',
@@ -368,11 +368,11 @@ const AuditLogs = () => {
               {/* Row 2: user + IP */}
               <div style={{ display: 'flex', alignItems: 'center', gap: '16px', marginBottom: '8px' }}>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#A0B4CC' }}>
-                  <FiUser size={10} style={{ color: '#00E5FF' }} />
+                  <FiUser size={10} style={{ color: 'var(--accent-primary)' }} />
                   {log.user}
                 </span>
                 <span style={{ display: 'flex', alignItems: 'center', gap: '5px', fontSize: '11px', color: '#A0B4CC' }}>
-                  <FiGlobe size={10} style={{ color: '#00E5FF' }} />
+                  <FiGlobe size={10} style={{ color: 'var(--accent-primary)' }} />
                   {log.ipAddress}
                 </span>
               </div>

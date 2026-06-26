@@ -5,20 +5,20 @@ import {
 import { useToast } from './Toast';
 
 const STATUS_COLORS = {
-  Active:      '#00E5FF',
+  Active:      'var(--accent-primary)',
   Idle:        '#FFB020',
   Offline:     '#4A6080',
   Maintenance: '#FFB020',
 };
 
 const STATUS_BG = {
-  Active:      'rgba(0, 229, 255, 0.10)',
+  Active:      'rgba(250, 204, 21, 0.10)',
   Idle:        'rgba(255, 176, 32, 0.10)',
   Offline:     'rgba(74, 96, 128, 0.10)',
   Maintenance: 'rgba(255, 176, 32, 0.10)',
 };
 
-const AVATAR_COLOR = '#00E5FF';
+const AVATAR_COLOR = 'var(--accent-primary)';
 
 const AgentStatus = () => {
   const { showSuccess } = useToast();
@@ -107,7 +107,7 @@ const AgentStatus = () => {
   };
 
   const getPerformanceColor = (p) => {
-    if (p >= 90) return '#00E5FF';
+    if (p >= 90) return 'var(--accent-primary)';
     if (p >= 75) return '#FFB020';
     return '#FF4D4D';
   };
@@ -119,14 +119,14 @@ const AgentStatus = () => {
 
   const metricCards = [
     { label: 'Total Workers',      value: totalAgents,   color: '#FFFFFF' },
-    { label: 'Active Running',     value: activeAgents,  color: '#00E5FF' },
+    { label: 'Active Running',     value: activeAgents,  color: 'var(--accent-primary)' },
     { label: 'Idle Waiting',       value: idleAgents,    color: '#FFFFFF' },
     { label: 'Offline / Suspended',value: offlineAgents, color: '#FFFFFF' },
   ];
 
   const cardStyle = {
-    background: '#0D2347',
-    border: '1px solid rgba(0, 229, 255, 0.15)',
+    background: 'var(--bg-secondary)',
+    border: '1px solid rgba(250, 204, 21, 0.15)',
     borderRadius: '12px',
     padding: '28px 32px',
   };
@@ -149,7 +149,7 @@ const AgentStatus = () => {
     justifyContent: 'space-between',
     alignItems: 'center',
     padding: '10px 0',
-    borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
+    borderBottom: '1px solid rgba(250, 204, 21, 0.15)',
   };
 
   const labelStyle = {
@@ -179,8 +179,8 @@ const AgentStatus = () => {
   });
 
   const monoBlockStyle = {
-    background: '#0A1E3F',
-    border: '1px solid rgba(0, 229, 255, 0.15)',
+    background: 'var(--bg-primary)',
+    border: '1px solid rgba(250, 204, 21, 0.15)',
     borderRadius: '8px',
     padding: '10px 14px',
     fontSize: '11px',
@@ -197,13 +197,13 @@ const AgentStatus = () => {
 
   const getBtnStyle = (key, disabled) => ({
     background: 'transparent',
-    border: '1px solid rgba(0, 229, 255, 0.25)',
+    border: '1px solid rgba(250, 204, 21, 0.25)',
     borderRadius: '6px',
     padding: '6px 14px',
     fontSize: '11px',
     cursor: disabled ? 'not-allowed' : 'pointer',
-    color: hoveredBtn === key && !disabled ? '#00E5FF' : '#4A6080',
-    borderColor: hoveredBtn === key && !disabled ? '#00E5FF' : 'rgba(0, 229, 255, 0.25)',
+    color: hoveredBtn === key && !disabled ? 'var(--accent-primary)' : '#4A6080',
+    borderColor: hoveredBtn === key && !disabled ? 'var(--accent-primary)' : 'rgba(250, 204, 21, 0.25)',
     opacity: disabled ? 0.3 : 1,
     transition: 'color 0.15s, border-color 0.15s',
   });
@@ -213,7 +213,7 @@ const AgentStatus = () => {
 
       {/* ── Header ── */}
       <div style={{ marginBottom: '36px' }}>
-        <p style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: '#00E5FF', marginBottom: '8px' }}>
+        <p style={{ fontSize: '10px', fontWeight: 600, textTransform: 'uppercase', letterSpacing: '0.1em', color: 'var(--accent-primary)', marginBottom: '8px' }}>
           Agent Status
         </p>
         <h1 style={{ fontSize: '24px', fontWeight: 700, color: '#FFFFFF', margin: 0, lineHeight: 1.3 }}>
@@ -249,8 +249,8 @@ const AgentStatus = () => {
                 {/* Avatar circle */}
                 <div style={{
                   width: '36px', height: '36px', borderRadius: '50%',
-                  background: 'rgba(0, 229, 255, 0.12)',
-                  border: '1px solid rgba(0, 229, 255, 0.25)',
+                  background: 'rgba(250, 204, 21, 0.12)',
+                  border: '1px solid rgba(250, 204, 21, 0.25)',
                   display: 'flex', alignItems: 'center', justifyContent: 'center',
                   color: AVATAR_COLOR,
                   fontSize: '15px', fontWeight: 700, flexShrink: 0,
@@ -268,7 +268,7 @@ const AgentStatus = () => {
                 <span style={{
                   width: '6px', height: '6px', borderRadius: '50%',
                   background: STATUS_COLORS[agent.status] || '#4A6080', display: 'inline-block',
-                  boxShadow: agent.status === 'Active' ? '0 0 6px rgba(0, 229, 255, 0.5)' : 'none'
+                  boxShadow: agent.status === 'Active' ? '0 0 6px rgba(250, 204, 21, 0.5)' : 'none'
                 }} />
                 {agent.status}
               </span>
@@ -311,7 +311,7 @@ const AgentStatus = () => {
             </div>
 
             {/* Footer buttons */}
-            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingTop: '16px', borderTop: '1px solid rgba(0, 229, 255, 0.15)' }}>
+            <div style={{ display: 'flex', justifyContent: 'flex-end', gap: '8px', paddingTop: '16px', borderTop: '1px solid rgba(250, 204, 21, 0.15)' }}>
               {[
                 { label: 'Resume', targetStatus: 'Active',  icon: <FiPlay size={10} />,   disabledStatus: 'Active'  },
                 { label: 'Pause',  targetStatus: 'Idle',    icon: <FiPause size={10} />,  disabledStatus: 'Idle'    },

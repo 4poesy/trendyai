@@ -176,8 +176,8 @@ const Audits = () => {
           <title>${report.skill_type.toUpperCase()} Report - ${report.url_audited}</title>
           <style>
             body { font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif; padding: 40px; color: #333; line-height: 1.6; }
-            h1, h2, h3 { color: #0A1E3F; }
-            h1 { border-bottom: 2px solid #00E5FF; padding-bottom: 10px; }
+            h1, h2, h3 { color: var(--bg-primary); }
+            h1 { border-bottom: 2px solid var(--accent-primary); padding-bottom: 10px; }
             pre { background: #f4f4f4; padding: 15px; border-radius: 5px; overflow-x: auto; }
             code { font-family: monospace; }
             .meta { margin-bottom: 30px; font-size: 0.9em; color: #666; }
@@ -188,7 +188,7 @@ const Audits = () => {
           </style>
         </head>
         <body>
-          <button onclick="window.print()" style="padding: 10px 20px; background: #00E5FF; border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 20px;">Print / Save as PDF</button>
+          <button onclick="window.print()" style="padding: 10px 20px; background: var(--accent-primary); border: none; border-radius: 5px; cursor: pointer; font-weight: bold; margin-bottom: 20px;">Print / Save as PDF</button>
           <h1>AI Audit Report: ${report.skill_type.toUpperCase()}</h1>
           <div class="meta">
             <strong>Audited URL:</strong> ${report.url_audited}<br/>

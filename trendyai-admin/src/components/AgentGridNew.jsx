@@ -16,8 +16,8 @@ const agentGroups = [
         id: 'trendyai-core',
         name: 'TrendyAI Core',
         description: 'Central orchestrator — decomposes tasks, routes to agents, manages approvals.',
-        iconBg: 'rgba(0, 229, 255, 0.10)',
-        iconColor: '#00E5FF',
+        iconBg: 'rgba(250, 204, 21, 0.10)',
+        iconColor: '#facc15',
         Icon: FiCpu,
         tags: ['Smart Routing', 'PM', 'State Sync'],
         capabilities: [
@@ -32,8 +32,8 @@ const agentGroups = [
         id: 'clientflow',
         name: 'ClientFlow',
         description: 'Acquires leads, qualifies briefs, and manages CRM pipelines end-to-end.',
-        iconBg: 'rgba(0, 229, 255, 0.10)',
-        iconColor: '#00E5FF',
+        iconBg: 'rgba(37, 99, 235, 0.10)',
+        iconColor: '#2563eb',
         Icon: FiUsers,
         tags: ['CRM', 'Onboarding', 'Retention'],
         capabilities: [
@@ -53,8 +53,8 @@ const agentGroups = [
         id: 'stratoboss',
         name: 'StratoBoss',
         description: 'Market analysis, competitor sweeps, SEO audits, and keyword mapping.',
-        iconBg: 'rgba(0, 229, 255, 0.10)',
-        iconColor: '#00E5FF',
+        iconBg: 'rgba(250, 204, 21, 0.10)',
+        iconColor: '#facc15',
         Icon: FiTarget,
         tags: ['SEO Audit', 'SWOT', 'Forecasting'],
         capabilities: [
@@ -69,8 +69,8 @@ const agentGroups = [
         id: 'pulsepilot',
         name: 'PulsePilot',
         description: 'Deploys paid ads, schedules social posts, tracks ad budgets in real time.',
-        iconBg: 'rgba(0, 229, 255, 0.10)',
-        iconColor: '#00E5FF',
+        iconBg: 'rgba(37, 99, 235, 0.10)',
+        iconColor: '#2563eb',
         Icon: FiBarChart2,
         tags: ['Meta/Google Ads', 'Spend', 'Publishing'],
         capabilities: [
@@ -90,8 +90,8 @@ const agentGroups = [
         id: 'contentsmith',
         name: 'ContentSmith',
         description: 'Blogs, ad copy, emails, books, spoken word, and course scripts — all in one.',
-        iconBg: 'rgba(0, 229, 255, 0.10)',
-        iconColor: '#00E5FF',
+        iconBg: 'rgba(250, 204, 21, 0.10)',
+        iconColor: '#facc15',
         Icon: FiPenTool,
         tags: ['Copywriting', 'Blogging', 'Ghostwriting'],
         capabilities: [
@@ -106,8 +106,8 @@ const agentGroups = [
         id: 'pixeldex',
         name: 'PixelDex',
         description: 'Visual designer — logos, brand guides, social templates, ebook covers.',
-        iconBg: 'rgba(0, 229, 255, 0.10)',
-        iconColor: '#00E5FF',
+        iconBg: 'rgba(37, 99, 235, 0.10)',
+        iconColor: '#2563eb',
         Icon: FiImage,
         tags: ['Branding', 'Social Design', 'Ebooks'],
         capabilities: [
@@ -127,8 +127,8 @@ const agentGroups = [
         id: 'webwiz',
         name: 'WebWiz',
         description: 'Builds React/HTML sites, integrates Paystack, monitors uptime alerts.',
-        iconBg: 'rgba(0, 229, 255, 0.10)',
-        iconColor: '#00E5FF',
+        iconBg: 'rgba(250, 204, 21, 0.10)',
+        iconColor: '#facc15',
         Icon: FiCode,
         tags: ['Next.js', 'Paystack', 'CMS'],
         capabilities: [
@@ -143,8 +143,8 @@ const agentGroups = [
         id: 'mediawiz',
         name: 'MediaWiz',
         description: 'Full video pipeline — scripts, editing direction, voiceovers, and music.',
-        iconBg: 'rgba(0, 229, 255, 0.10)',
-        iconColor: '#00E5FF',
+        iconBg: 'rgba(37, 99, 235, 0.10)',
+        iconColor: '#2563eb',
         Icon: FiVideo,
         tags: ['Reels', 'Voiceover', 'Afrobeats'],
         capabilities: [
@@ -175,8 +175,8 @@ const AgentCard = ({ agent, onSelect }) => {
       onKeyDown={e => e.key === 'Enter' && onSelect(agent.id)}
       aria-label={`Open ${agent.name} playground`}
       style={{
-        background: hovered ? '#112B55' : '#0D2347',
-        border: `1px solid ${hovered ? 'rgba(0, 229, 255, 0.5)' : 'rgba(0, 229, 255, 0.15)'}`,
+        background: hovered ? '#222222' : '#1a1a1a',
+        border: `1px solid ${hovered ? (agent.iconColor === '#facc15' ? 'rgba(250, 204, 21, 0.5)' : 'rgba(37, 99, 235, 0.5)') : '#2a2a2a'}`,
         borderRadius: 12,
         padding: '32px 28px',
         cursor: 'pointer',
@@ -201,8 +201,8 @@ const AgentCard = ({ agent, onSelect }) => {
         {/* Status dot */}
         <span style={{
           width: 7, height: 7, borderRadius: '50%',
-          background: '#00E5FF',
-          boxShadow: '0 0 6px rgba(0, 229, 255, 0.5)',
+          background: '#22c55e',
+          boxShadow: '0 0 6px rgba(34, 197, 94, 0.5)',
           marginTop: 4,
           flexShrink: 0,
         }} />
@@ -215,7 +215,7 @@ const AgentCard = ({ agent, onSelect }) => {
 
       {/* ── Description ── */}
       <p style={{
-        fontSize: 13, color: '#A0B4CC', lineHeight: 1.7,
+        fontSize: 13, color: '#888888', lineHeight: 1.7,
         marginBottom: 18,
       }}>
         {agent.description}
@@ -225,8 +225,10 @@ const AgentCard = ({ agent, onSelect }) => {
       <div style={{ display: 'flex', flexWrap: 'wrap', gap: 6, marginBottom: 24 }}>
         {agent.tags.slice(0, 3).map(tag => (
           <span key={tag} style={{
-            fontSize: 10, background: 'rgba(0, 229, 255, 0.08)', color: '#00E5FF',
-            border: '1px solid rgba(0, 229, 255, 0.2)',
+            fontSize: 10,
+            background: agent.iconColor === '#facc15' ? 'rgba(250, 204, 21, 0.08)' : 'rgba(37, 99, 235, 0.08)',
+            color: agent.iconColor,
+            border: `1px solid ${agent.iconColor === '#facc15' ? 'rgba(250, 204, 21, 0.2)' : 'rgba(37, 99, 235, 0.2)'}`,
             borderRadius: 4, padding: '2px 8px', lineHeight: '16px',
           }}>
             {tag}
@@ -235,7 +237,7 @@ const AgentCard = ({ agent, onSelect }) => {
       </div>
 
       {/* ── Divider ── */}
-      <div style={{ borderTop: '1px solid rgba(0, 229, 255, 0.15)', marginBottom: 18 }} />
+      <div style={{ borderTop: '1px solid #2a2a2a', marginBottom: 18 }} />
 
       {/* ── Footer: Launch link ── */}
       <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'space-between' }}>
@@ -243,14 +245,14 @@ const AgentCard = ({ agent, onSelect }) => {
           onMouseEnter={() => setHoveredLink(true)}
           onMouseLeave={() => setHoveredLink(false)}
           style={{
-            fontSize: 11, fontWeight: 500, color: hoveredLink ? '#FFFFFF' : '#00E5FF',
+            fontSize: 11, fontWeight: 500, color: hoveredLink ? '#FFFFFF' : agent.iconColor,
             display: 'flex', alignItems: 'center', gap: 4,
             transition: 'color 0.15s ease',
           }}
         >
           Launch Playground <span style={{ fontSize: 13 }}>→</span>
         </span>
-        <span style={{ fontSize: 10, color: '#4A6080' }}>
+        <span style={{ fontSize: 10, color: '#555555' }}>
           — tasks
         </span>
       </div>
@@ -297,24 +299,24 @@ const AgentGridNew = () => {
         <div>
           <p style={{
             fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-            letterSpacing: '0.1em', color: '#00E5FF', marginBottom: 6,
+            letterSpacing: '0.1em', color: '#facc15', marginBottom: 6,
           }}>
             AI Agents
           </p>
           <h1 style={{ fontSize: 22, fontWeight: 600, color: '#FFFFFF', marginBottom: 6, lineHeight: 1.2 }}>
             Agent Grid
           </h1>
-          <p style={{ fontSize: 13, color: '#A0B4CC', lineHeight: 1.5 }}>
+          <p style={{ fontSize: 13, color: '#888888', lineHeight: 1.5 }}>
             8 specialists working across marketing, SEO, and content.
           </p>
 
           {/* Workflow breadcrumb */}
           <div style={{
             display: 'flex', alignItems: 'center', gap: 8,
-            marginTop: 12, fontSize: 11, color: '#4A6080',
+            marginTop: 12, fontSize: 11, color: '#555555',
             fontFamily: 'monospace',
           }}>
-            <span style={{ color: '#00E5FF', fontWeight: 600 }}>TrendyAI Core</span>
+            <span style={{ color: '#facc15', fontWeight: 600 }}>TrendyAI Core</span>
             <span>→</span>
             <span>Complexity Analysis</span>
             <span>→</span>
@@ -330,7 +332,7 @@ const AgentGridNew = () => {
           onMouseEnter={() => setHoveredOrchBtn(true)}
           onMouseLeave={() => setHoveredOrchBtn(false)}
           style={{
-            background: hoveredOrchBtn ? '#00CFEA' : '#00E5FF', color: '#0A1E3F', fontSize: 13,
+            background: hoveredOrchBtn ? '#eab308' : '#facc15', color: '#111111', fontSize: 13,
             fontWeight: 700, border: 'none', borderRadius: 8,
             padding: '10px 20px', cursor: 'pointer',
             transition: 'background 0.15s ease',
@@ -348,7 +350,7 @@ const AgentGridNew = () => {
           size={14}
           style={{
             position: 'absolute', left: 12, top: '50%',
-            transform: 'translateY(-50%)', color: '#4A6080',
+            transform: 'translateY(-50%)', color: '#555555',
             pointerEvents: 'none',
           }}
         />
@@ -360,7 +362,7 @@ const AgentGridNew = () => {
           style={{
             width: '100%',
             paddingLeft: 36, paddingRight: 14, paddingTop: 9, paddingBottom: 9,
-            background: '#0D2347', border: focusedSearch ? '1px solid rgba(0, 229, 255, 0.6)' : '1px solid rgba(0, 229, 255, 0.2)', borderRadius: 8,
+            background: '#1a1a1a', border: focusedSearch ? '1px solid #2563eb' : '1px solid #2a2a2a', borderRadius: 8,
             color: '#FFFFFF', fontSize: 13, outline: 'none',
             transition: 'border-color 0.15s ease',
           }}
@@ -371,13 +373,13 @@ const AgentGridNew = () => {
 
       {/* ── Agent groups ── */}
       {filtered.length === 0 ? (
-        <div style={{ textAlign: 'center', padding: '48px 0', color: '#4A6080' }}>
+        <div style={{ textAlign: 'center', padding: '48px 0', color: '#555555' }}>
           <p style={{ fontSize: 14, marginBottom: 12 }}>No agents match "{searchTerm}"</p>
           <button
             onClick={() => setSearchTerm('')}
             style={{
               background: 'none', border: 'none',
-              color: '#00E5FF', fontSize: 12, fontWeight: 600, cursor: 'pointer',
+              color: '#facc15', fontSize: 12, fontWeight: 600, cursor: 'pointer',
             }}
           >
             Clear Search
@@ -390,12 +392,12 @@ const AgentGridNew = () => {
               {/* Suite section label */}
               <div style={{
                 paddingBottom: 12,
-                borderBottom: '1px solid rgba(0, 229, 255, 0.15)',
+                borderBottom: '1px solid #2a2a2a',
                 marginBottom: 20,
               }}>
                 <span style={{
                   fontSize: 10, fontWeight: 600, textTransform: 'uppercase',
-                  letterSpacing: '0.1em', color: '#00E5FF',
+                  letterSpacing: '0.1em', color: '#facc15',
                 }}>
                   {group.label}
                 </span>
