@@ -103,28 +103,26 @@ const Sidebar = ({ mobileOpen, setMobileOpen, role, pendingCount }) => {
         <Link
           to={role === 'client' ? '/client' : '/'}
           style={{
-            padding: '20px 16px 16px',
+            padding: '16px 12px 14px',
             borderBottom: '1px solid #2a2a2a',
-            display: 'block',
+            display: 'flex',
+            alignItems: 'center',
+            justifyContent: 'center',
             textDecoration: 'none',
             cursor: 'pointer'
           }}
           className="sidebar-brand-link"
         >
-          <div style={{ display: 'flex', alignItems: 'center', gap: 8, marginBottom: 2 }}>
-            <svg width="18" height="18" viewBox="0 0 24 24" fill="none" style={{ flexShrink: 0 }}>
-              <rect x="3" y="14" width="4" height="6" rx="1" fill="#facc15" />
-              <rect x="10" y="8" width="4" height="12" rx="1" fill="#facc15" />
-              <rect x="17" y="3" width="4" height="17" rx="1" fill="#2563eb" />
-            </svg>
-            <span style={{ fontSize: 13, fontWeight: 700, letterSpacing: '0.05em', textTransform: 'uppercase' }}>
-              <span style={{ color: '#facc15' }}>Trendtactics</span>{' '}
-              <span style={{ color: '#2563eb' }}>Digital</span>
-            </span>
-          </div>
-          <p style={{ color: '#888888', fontSize: 10, paddingLeft: 26, margin: 0, fontWeight: 600 }}>
-            TrendyAI Platform
-          </p>
+          <img
+            src="/logo.jpg"
+            alt="TrendTactics Digital"
+            style={{
+              width: '100%',
+              maxWidth: 180,
+              height: 'auto',
+              objectFit: 'contain',
+            }}
+          />
         </Link>
 
         {/* ── Nav ── */}
@@ -486,7 +484,10 @@ const Layout = () => {
 
             {/* Theme toggle */}
             <button
-              onClick={toggleTheme}
+              onClick={() => {
+                toggleTheme();
+                showInfo(`Theme set to ${theme === 'dark' ? 'Light' : 'Dark'} mode`);
+              }}
               onMouseEnter={() => setHoveredThemeBtn(true)}
               onMouseLeave={() => setHoveredThemeBtn(false)}
               style={{
@@ -496,6 +497,7 @@ const Layout = () => {
                 transition: 'color 0.15s ease, border-color 0.15s ease',
               }}
               aria-label="Toggle theme"
+              title={`Switch to ${theme === 'dark' ? 'light' : 'dark'} mode`}
             >
               {theme === 'dark' ? <FiSun size={14} /> : <FiMoon size={14} />}
             </button>
