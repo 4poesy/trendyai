@@ -206,13 +206,12 @@ const UnifiedLogin = () => {
       <div className="max-w-md w-full">
         {/* Header */}
         <div className="text-center mb-8">
-          <div className="flex items-center justify-center mb-4 gap-3">
-            <div className="w-10 h-10 rounded-xl bg-primary text-black flex items-center justify-center font-black text-xl shadow-[0_0_15px_rgba(251,191,36,0.5)]">
-              T
-            </div>
-            <h1 className="text-3xl font-extrabold text-white tracking-tight font-heading">
-              Trendy<span className="text-primary">AI</span>
-            </h1>
+          <div className="flex justify-center mb-4">
+            <img
+              src="/logo.jpg"
+              alt="TrendTactics Digital Logo"
+              className="h-16 w-auto object-contain"
+            />
           </div>
           <p className="text-gray-400 text-sm font-medium">{domainInfo.description}</p>
           <div className="mt-2 text-xs text-gray-500 font-mono">

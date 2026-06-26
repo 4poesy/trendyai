@@ -103,7 +103,7 @@ export class LinkChecker {
       
       // Asset links
       { url: '/assets/trendyai-og.webp', context: 'OG image' },
-      { url: '/favicon.ico', context: 'Favicon' },
+      { url: '/favicon.png', context: 'Favicon' },
       { url: '/robots.txt', context: 'Robots file' },
       { url: '/sitemap.xml', context: 'Sitemap' },
       { url: '/sw.js', context: 'Service worker' }

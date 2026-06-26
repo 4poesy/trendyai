@@ -8,7 +8,7 @@ const urlsToCache = [
   '/src/index.css',
   '/src/App.css',
   '/assets/trendyai-og.webp',
-  '/favicon.ico'
+  '/favicon.png'
 ];
 
 // Install event - cache resources
