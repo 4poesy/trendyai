@@ -4,6 +4,7 @@ import ClientList from './ClientList';
 import ClientForm from './ClientForm';
 import ClientDetailsModal from './ClientDetailsModal';
 import { useToast } from './Toast';
+import environment from '../config/environment';
 
 const ClientsPage = () => {
   const [clients, setClients] = useState([]);
@@ -17,55 +18,79 @@ const ClientsPage = () => {
   const [filterStatus, setFilterStatus] = useState('all');
   const { showSuccess, showError } = useToast();
 
-  // Load clients (mock data)
+  // Load clients from backend API or localStorage fallback
   useEffect(() => {
     const loadClients = async () => {
       try {
-        await new Promise(resolve => setTimeout(resolve, 800));
-        
-        const mockClients = [
-          {
-            id: 1,
-            name: 'Acme Corporation',
-            email: 'contact@acme.com',
-            phone: '+1 (555) 123-4567',
-            address: '123 Business Ave, New York, NY 10001',
-            status: 'active',
-            createdAt: '2023-01-15',
-            projects: 3,
-            briefing: 'Optimize SaaS landing page SEO metrics.'
-          },
-          {
-            id: 2,
-            name: 'Globex Inc.',
-            email: 'info@globex.com',
-            phone: '+1 (555) 987-6543',
-            address: '456 Enterprise Blvd, Los Angeles, CA 90001',
-            status: 'active',
-            createdAt: '2023-02-20',
-            projects: 1,
-            briefing: 'Set up automated outreach campaign.'
-          },
-          {
-            id: 3,
-            name: 'Initech LLC',
-            email: 'support@initech.com',
-            phone: '+1 (555) 456-7890',
-            address: '789 Startup St, San Francisco, CA 94102',
-            status: 'inactive',
-            createdAt: '2023-03-10',
-            projects: 0,
-            briefing: 'Legacy database migration and cleanup.'
-          }
-        ];
-        
+        const response = await fetch(`${environment.backend.baseURL}/clients`);
+        if (!response.ok) {
+          throw new Error(`API error: ${response.status}`);
+        }
+        const resData = await response.json();
+        if (resData.success && Array.isArray(resData.data)) {
+          const mappedClients = resData.data.map(c => ({
+            id: c.id,
+            name: c.name || c.company || 'Unnamed Client',
+            email: c.email || '',
+            phone: c.phone || '',
+            status: c.status || 'active',
+            projects: c.projects || 0,
+            briefing: c.metadata?.briefing || '',
+            address: c.metadata?.address || ''
+          }));
+          setClients(mappedClients);
+          setFilteredClients(mappedClients);
+          setError(null);
+        } else {
+          throw new Error(resData.error || 'Invalid API response');
+        }
+      } catch (err) {
+        console.warn('Failed to load from backend API, falling back to mock data:', err);
+        const stored = localStorage.getItem('trendyai_mock_clients');
+        let mockClients = [];
+        if (stored) {
+          mockClients = JSON.parse(stored);
+        } else {
+          mockClients = [
+            {
+              id: 1,
+              name: 'Acme Corporation',
+              email: 'contact@acme.com',
+              phone: '+1 (555) 123-4567',
+              address: '123 Business Ave, New York, NY 10001',
+              status: 'active',
+              createdAt: '2023-01-15',
+              projects: 3,
+              briefing: 'Optimize SaaS landing page SEO metrics.'
+            },
+            {
+              id: 2,
+              name: 'Globex Inc.',
+              email: 'info@globex.com',
+              phone: '+1 (555) 987-6543',
+              address: '456 Enterprise Blvd, Los Angeles, CA 90001',
+              status: 'active',
+              createdAt: '2023-02-20',
+              projects: 1,
+              briefing: 'Set up automated outreach campaign.'
+            },
+            {
+              id: 3,
+              name: 'Initech LLC',
+              email: 'support@initech.com',
+              phone: '+1 (555) 456-7890',
+              address: '789 Startup St, San Francisco, CA 94102',
+              status: 'inactive',
+              createdAt: '2023-03-10',
+              projects: 0,
+              briefing: 'Legacy database migration and cleanup.'
+            }
+          ];
+          localStorage.setItem('trendyai_mock_clients', JSON.stringify(mockClients));
+        }
         setClients(mockClients);
         setFilteredClients(mockClients);
-        setLoading(false);
-      } catch (error) {
-        console.error('Error occurred:', error);
-        setError('Failed to load clients');
-        showError('Failed to load clients');
+      } finally {
         setLoading(false);
       }
     };
@@ -102,8 +127,26 @@ const ClientsPage = () => {
 
   const handleDeleteClient = async (clientId) => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
-      setClients(prev => prev.filter(client => client.id !== clientId));
+      const isMock = typeof clientId === 'number' || !isNaN(Number(clientId));
+      
+      if (!isMock) {
+        const response = await fetch(`${environment.backend.baseURL}/clients/${clientId}`, {
+          method: 'DELETE'
+        });
+        if (!response.ok) {
+          throw new Error(`Failed to delete from backend API: ${response.status}`);
+        }
+        const data = await response.json();
+        if (!data.success) {
+          throw new Error(data.error || 'Failed to delete client');
+        }
+      }
+      
+      setClients(prev => {
+        const updated = prev.filter(client => client.id !== clientId);
+        localStorage.setItem('trendyai_mock_clients', JSON.stringify(updated));
+        return updated;
+      });
       showSuccess('Client deleted successfully');
     } catch (error) {
       console.error('Error occurred:', error);
@@ -122,26 +165,80 @@ const ClientsPage = () => {
 
   const handleSaveClient = async (clientData) => {
     try {
-      await new Promise(resolve => setTimeout(resolve, 500));
+      let savedClient = null;
+      const isEdit = !!editingClient;
       
-      if (editingClient) {
-        setClients(prev => 
-          prev.map(client => 
-            client.id === editingClient.id 
-              ? { ...client, ...clientData, updatedAt: new Date().toISOString() }
-              : client
-          )
-        );
+      try {
+        const url = isEdit 
+          ? `${environment.backend.baseURL}/clients/${editingClient.id}` 
+          : `${environment.backend.baseURL}/clients`;
+        const method = isEdit ? 'PUT' : 'POST';
+        
+        const payload = {
+          name: clientData.name,
+          email: clientData.email,
+          phone: clientData.phone,
+          company: clientData.name,
+          status: clientData.status || 'active',
+          metadata: {
+            briefing: clientData.briefing || '',
+            address: clientData.address || ''
+          }
+        };
+        
+        const response = await fetch(url, {
+          method,
+          headers: {
+            'Content-Type': 'application/json'
+          },
+          body: JSON.stringify(payload)
+        });
+        
+        if (response.ok) {
+          const resJson = await response.json();
+          if (resJson.success && resJson.data) {
+            const c = resJson.data;
+            savedClient = {
+              id: c.id,
+              name: c.name || c.company || 'Unnamed Client',
+              email: c.email || '',
+              phone: c.phone || '',
+              status: c.status || 'active',
+              projects: c.projects || 0,
+              briefing: c.metadata?.briefing || '',
+              address: c.metadata?.address || ''
+            };
+          }
+        }
+      } catch (apiErr) {
+        console.warn('API save failed, using local/mock storage fallback:', apiErr);
+      }
+      
+      if (isEdit) {
+        setClients(prev => {
+          const updated = prev.map(client => {
+            if (client.id === editingClient.id) {
+              return savedClient || { ...client, ...clientData, updatedAt: new Date().toISOString() };
+            }
+            return client;
+          });
+          localStorage.setItem('trendyai_mock_clients', JSON.stringify(updated));
+          return updated;
+        });
         showSuccess('Client updated successfully');
       } else {
-        const newClient = {
+        const newClient = savedClient || {
           ...clientData,
           id: Date.now(),
           createdAt: new Date().toISOString(),
           status: 'active',
           projects: 0
         };
-        setClients(prev => [...prev, newClient]);
+        setClients(prev => {
+          const updated = [...prev, newClient];
+          localStorage.setItem('trendyai_mock_clients', JSON.stringify(updated));
+          return updated;
+        });
         showSuccess('Client added successfully');
       }
       

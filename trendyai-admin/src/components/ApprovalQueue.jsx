@@ -13,6 +13,7 @@ const ApprovalQueue = () => {
   const [approvals, setApprovals] = useState([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
+  const [errorDetails, setErrorDetails] = useState(null);
   
   // Revision notes inputs state
   const [activeRevisionId, setActiveRevisionId] = useState(null);
@@ -24,19 +25,35 @@ const ApprovalQueue = () => {
   const [searchTerm, setSearchTerm] = useState('');
 
   const fetchApprovals = async () => {
+    setLoading(true);
+    let currentUrl = `${environment.backend.baseURL}/tasks/approvals`;
     try {
-      const response = await fetch(`${environment.backend.baseURL}/tasks/approvals`);
-      if (!response.ok) throw new Error(`Server returned status ${response.status}`);
-      const data = await response.json();
-      if (data.success) {
-        setApprovals(data.approvals);
-        setError(null);
-      } else {
-        throw new Error(data.error || 'Failed to fetch approvals');
+      const response = await fetch(currentUrl);
+      if (!response.ok) {
+        const errorText = await response.text();
+        throw new Error(`Server returned status ${response.status}: ${errorText.substring(0, 100)}`);
+      }
+      
+      const text = await response.text();
+      try {
+        const data = JSON.parse(text);
+        if (data.success) {
+          setApprovals(data.approvals || data.data || []);
+          setError(null);
+          setErrorDetails(null);
+        } else {
+          throw new Error(data.error || 'Failed to fetch approvals');
+        }
+      } catch (jsonErr) {
+        throw new Error(`Invalid JSON response: ${text.substring(0, 150)}`);
       }
     } catch (err) {
       console.error('Fetch approvals failed:', err);
       setError(err.message);
+      setErrorDetails({
+        url: currentUrl,
+        message: err.message
+      });
     } finally {
       setLoading(false);
     }
@@ -249,6 +266,12 @@ const ApprovalQueue = () => {
           <FaExclamationCircle className="text-3xl" />
           <p className="font-semibold text-sm">Failed to connect to the Railway backend API</p>
           <p className="text-xs text-text-sub font-mono">{error}</p>
+          {errorDetails && (
+            <div className="text-[10px] text-text-sub mt-2 text-left bg-bg-panel p-3 rounded border border-border-main max-w-full overflow-x-auto w-full font-mono space-y-1">
+              <div><strong>Attempted URL:</strong> {errorDetails.url}</div>
+              <div><strong>Diagnostic Info:</strong> {errorDetails.message}</div>
+            </div>
+          )}
           <button onClick={fetchApprovals} className="crm-btn crm-btn-secondary py-1 px-3 text-xs mt-2">Try Again</button>
         </div>
       )}
