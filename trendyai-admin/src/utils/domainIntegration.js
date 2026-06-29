@@ -3,7 +3,9 @@
 
 const DOMAINS = {
   TRENDTACTICS: 'https://trendtacticsdigital.com',
-  TRENDYAI: 'https://trendyai.com', // Internal AI workspace - ADMIN ONLY
+  TRENDYAI: (typeof window !== 'undefined' && window.location.hostname.includes('vercel.app'))
+    ? 'https://trendyai365.vercel.app'
+    : 'https://trendyai.com', // Internal AI workspace - ADMIN ONLY
   LOCALHOST: 'http://localhost:5173'
 };
 
@@ -37,6 +39,30 @@ export class CrossDomainAuth {
     this.storageKey = 'trendtactics_auth_token';
     this.userKey = 'trendtactics_user_data';
     this.sessionKey = 'trendtactics_session';
+    this.checkSSO();
+  }
+
+  // Check and consume incoming SSO tokens from URL params
+  checkSSO() {
+    if (typeof window === 'undefined') return;
+    try {
+      const params = new URLSearchParams(window.location.search);
+      const ssoToken = params.get('sso_token');
+      const ssoUser = params.get('sso_user');
+      
+      if (ssoToken && ssoUser) {
+        const userData = JSON.parse(ssoUser);
+        this.setAuth(ssoToken, userData);
+        
+        // Clean URL parameters to keep address bar tidy
+        const url = new URL(window.location.href);
+        url.searchParams.delete('sso_token');
+        url.searchParams.delete('sso_user');
+        window.history.replaceState({}, document.title, url.pathname + url.search);
+      }
+    } catch (e) {
+      console.error('SSO consumption failed:', e);
+    }
   }
 
   // Set authentication data across domains
@@ -162,8 +188,19 @@ export class CrossDomainAuth {
 export const domainNavigation = {
   // Navigate to Trendtactics Digital
   goToTrendtactics(path = '') {
-    const url = `${DOMAINS.TRENDTACTICS}${path}`;
-    window.location.href = url;
+    let target = `${DOMAINS.TRENDTACTICS}${path}`;
+    if (crossDomainAuth.isAuthenticated()) {
+      const auth = crossDomainAuth.getAuth();
+      try {
+        const urlObj = new URL(target);
+        urlObj.searchParams.set('sso_token', auth.token);
+        urlObj.searchParams.set('sso_user', JSON.stringify(auth.user));
+        target = urlObj.toString();
+      } catch (err) {
+        console.error('SSO navigation error:', err);
+      }
+    }
+    window.location.href = target;
   },
 
   // Navigate to TrendyAI (admin only)
@@ -172,8 +209,19 @@ export const domainNavigation = {
       alert('Access Denied: TrendyAI is restricted to administrators only.');
       return;
     }
-    const url = `${DOMAINS.TRENDYAI}${path}`;
-    window.location.href = url;
+    let target = `${DOMAINS.TRENDYAI}${path}`;
+    if (crossDomainAuth.isAuthenticated()) {
+      const auth = crossDomainAuth.getAuth();
+      try {
+        const urlObj = new URL(target);
+        urlObj.searchParams.set('sso_token', auth.token);
+        urlObj.searchParams.set('sso_user', JSON.stringify(auth.user));
+        target = urlObj.toString();
+      } catch (err) {
+        console.error('SSO navigation error:', err);
+      }
+    }
+    window.location.href = target;
   },
 
   // Open in new tab

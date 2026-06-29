@@ -30,7 +30,9 @@ const DomainSwitcher = ({ className = '' }) => {
     },
     {
       name: 'TrendyAI Admin',
-      url: 'https://trendyai365.vercel.app',
+      url: (typeof window !== 'undefined' && window.location.hostname.includes('vercel.app'))
+        ? 'https://trendyai365.vercel.app'
+        : 'https://trendyai.com',
       icon: <FaRocket />,
       description: 'Internal AI Workspace (Admin Only)',
       isCurrent: currentDomain.includes('trendyai'),
@@ -50,15 +52,25 @@ const DomainSwitcher = ({ className = '' }) => {
       return;
     }
 
+    let targetUrl = domain.url;
     if (crossDomainAuth.isAuthenticated()) {
       const auth = crossDomainAuth.getAuth();
       showInfo(`Switching to ${domain.name}...`);
       localStorage.setItem('trendtactics_switch_domain', 'true');
       localStorage.setItem('trendtactics_auth_data', JSON.stringify(auth));
+      
+      try {
+        const urlObj = new URL(targetUrl);
+        urlObj.searchParams.set('sso_token', auth.token);
+        urlObj.searchParams.set('sso_user', JSON.stringify(auth.user));
+        targetUrl = urlObj.toString();
+      } catch (err) {
+        console.error('SSO URL construction error:', err);
+      }
     }
 
     setTimeout(() => {
-      window.location.href = domain.url;
+      window.location.href = targetUrl;
     }, 1000);
   };
 

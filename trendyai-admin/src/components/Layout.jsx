@@ -276,6 +276,13 @@ const Layout = () => {
   const [role, setRole] = useState(() => {
     const saved = localStorage.getItem('trendyai_dev_role');
     if (saved) return saved;
+    
+    // Automatically default to client role if accessed via the client domain,
+    // otherwise fallback to the user's role or admin.
+    if (typeof window !== 'undefined' && window.location.hostname.includes('trendtacticsdigital')) {
+      return 'client';
+    }
+    
     const auth = crossDomainAuth.getAuth();
     return auth?.user?.role || 'admin';
   });
@@ -427,57 +434,59 @@ const Layout = () => {
           {/* Right */}
           <div style={{ display: 'flex', alignItems: 'center', gap: 12 }}>
 
-            {/* Role switcher */}
-            <div style={{ position: 'relative' }}>
-              <button
-                onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
-                onMouseEnter={() => setHoveredRoleBtn(true)}
-                onMouseLeave={() => setHoveredRoleBtn(false)}
-                style={{
-                  display: 'flex', alignItems: 'center', gap: 6,
-                  padding: '5px 12px',
-                  background: '#1a1a1a', border: hoveredRoleBtn ? '1px solid #2563eb' : '1px solid #2a2a2a',
-                  borderRadius: 7, color: hoveredRoleBtn ? '#FFFFFF' : '#888888', fontSize: 11,
-                  fontWeight: 600, cursor: 'pointer',
-                  transition: 'all 0.15s ease',
-                }}
-              >
-                View: {role === 'admin' ? 'Admin' : 'Client'}
-                <FiChevronDown size={12} style={{ transform: roleDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
-              </button>
-              {roleDropdownOpen && (
-                <div style={{
-                  position: 'absolute', right: 0, top: '110%',
-                  background: '#1a1a1a', border: '1px solid #2a2a2a',
-                  borderRadius: 8, overflow: 'hidden', zIndex: 50, minWidth: 140,
-                }}>
-                  {['admin', 'client'].map(r => (
-                      <button
-                        key={r}
-                        onClick={() => { handleRoleChange(r); setRoleDropdownOpen(false); }}
-                        onMouseEnter={e => {
-                          e.currentTarget.style.background = '#222222';
-                          if (role !== r) e.currentTarget.style.color = '#FFFFFF';
-                        }}
-                        onMouseLeave={e => {
-                          e.currentTarget.style.background = 'none';
-                          if (role !== r) e.currentTarget.style.color = '#888888';
-                        }}
-                        style={{
-                          display: 'block', width: '100%', textAlign: 'left',
-                          padding: '8px 14px', background: 'none',
-                          border: 'none', fontSize: 12, fontWeight: 600,
-                          color: role === r ? '#facc15' : '#888888',
-                          cursor: 'pointer',
-                          transition: 'all 0.15s ease',
-                        }}
-                      >
-                        {r === 'admin' ? 'Admin Portal' : 'Client Portal'}
-                      </button>
-                    ))}
-                </div>
-              )}
-            </div>
+            {/* Role switcher - Guarded for admin-privileged accounts */}
+            {crossDomainAuth.canAccessTrendyAI() && (
+              <div style={{ position: 'relative' }}>
+                <button
+                  onClick={() => setRoleDropdownOpen(!roleDropdownOpen)}
+                  onMouseEnter={() => setHoveredRoleBtn(true)}
+                  onMouseLeave={() => setHoveredRoleBtn(false)}
+                  style={{
+                    display: 'flex', alignItems: 'center', gap: 6,
+                    padding: '5px 12px',
+                    background: '#1a1a1a', border: hoveredRoleBtn ? '1px solid #2563eb' : '1px solid #2a2a2a',
+                    borderRadius: 7, color: hoveredRoleBtn ? '#FFFFFF' : '#888888', fontSize: 11,
+                    fontWeight: 600, cursor: 'pointer',
+                    transition: 'all 0.15s ease',
+                  }}
+                >
+                  View: {role === 'admin' ? 'Admin' : 'Client'}
+                  <FiChevronDown size={12} style={{ transform: roleDropdownOpen ? 'rotate(180deg)' : 'none', transition: 'transform 0.15s' }} />
+                </button>
+                {roleDropdownOpen && (
+                  <div style={{
+                    position: 'absolute', right: 0, top: '110%',
+                    background: '#1a1a1a', border: '1px solid #2a2a2a',
+                    borderRadius: 8, overflow: 'hidden', zIndex: 50, minWidth: 140,
+                  }}>
+                    {['admin', 'client'].map(r => (
+                        <button
+                          key={r}
+                          onClick={() => { handleRoleChange(r); setRoleDropdownOpen(false); }}
+                          onMouseEnter={e => {
+                            e.currentTarget.style.background = '#222222';
+                            if (role !== r) e.currentTarget.style.color = '#FFFFFF';
+                          }}
+                          onMouseLeave={e => {
+                            e.currentTarget.style.background = 'none';
+                            if (role !== r) e.currentTarget.style.color = '#888888';
+                          }}
+                          style={{
+                            display: 'block', width: '100%', textAlign: 'left',
+                            padding: '8px 14px', background: 'none',
+                            border: 'none', fontSize: 12, fontWeight: 600,
+                            color: role === r ? '#facc15' : '#888888',
+                            cursor: 'pointer',
+                            transition: 'all 0.15s ease',
+                          }}
+                        >
+                          {r === 'admin' ? 'Admin Portal' : 'Client Portal'}
+                        </button>
+                      ))}
+                  </div>
+                )}
+              </div>
+            )}
 
             {/* Domain Switcher */}
             <DomainSwitcher />
